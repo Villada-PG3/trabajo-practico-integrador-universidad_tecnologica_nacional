@@ -1,0 +1,140 @@
+erDiagram
+    CARRERA {
+        int id_carrera PK
+        string nombre
+        string sigla
+    }
+
+    ALUMNO {
+        int id_alumno PK
+        int id_carrera FK
+        string nombreCompleto
+        int documento
+        string email
+    }
+
+    MATERIA {
+        int id_materia PK
+        int id_carrera FK
+        string nombre
+        string sigla
+        int nivel
+    }
+
+    TURNO {
+        int id_turno PK
+        string nombre
+        string descripcion
+    }
+
+    CURSO {
+        int id_curso PK
+        int id_carrera FK
+        int id_turno FK
+        string nombre
+        int nivel
+    }
+
+    CICLO_LECTIVO {
+        int id_ciclo_lectivo PK
+        int anio
+        string descripcion
+        date fechaInicio
+        date fechaFin
+    }
+
+    DICTADO_MATERIA {
+        int id_dictado_materia PK
+        int id_materia FK
+        int id_curso FK
+        int id_ciclo_lectivo FK
+    }
+
+    HORARIO {
+        int id_horario PK
+        int id_dictado_materia FK
+        string dia
+    }
+
+    MODULO {
+        int id_modulo PK
+        int numero
+        time horaInicio
+        time horaFin
+    }
+
+    HORARIO_MODULO {
+        int id_horario FK
+        int id_modulo FK
+    }
+
+    INSCRIPCION {
+        int id_inscripcion PK
+        int id_alumno FK
+        int id_dictado_materia FK
+        string codigoInscripcion
+        date fechaInscripcion
+    }
+
+    CONDICION {
+        int id_condicion PK
+        string nombre
+        string descripcion
+        boolean esCondicionFinal
+    }
+
+    DOCENTE {
+        int id_docente PK
+        string legajo
+        string nombre
+        string apellido
+    }
+
+    CAMBIO_CONDICION {
+        int id_cambio_condicion PK
+        int id_inscripcion FK
+        int id_condicion FK
+        int id_docente FK "nullable"
+        datetime fechaHora
+    }
+
+    TIPO_EVALUACION {
+        int id_tipo_evaluacion PK
+        string nombre
+        string descripcion
+    }
+
+    EVALUACION {
+        int id_evaluacion PK
+        int id_inscripcion FK
+        int id_tipo_evaluacion FK
+        int id_docente FK
+        float valor
+        date fechaEvaluacion
+    }
+    
+    CARRERA ||--o{ ALUMNO : "posee"
+    CARRERA ||--o{ MATERIA : "contiene"
+    CARRERA ||--o{ CURSO : "agrupa"
+    
+    TURNO ||--o{ CURSO : "asigna"
+    
+    MATERIA ||--o{ DICTADO_MATERIA : "se dicta en"
+    CURSO ||--o{ DICTADO_MATERIA : "participa en"
+    CICLO_LECTIVO ||--o{ DICTADO_MATERIA : "corresponde a"
+    
+    ALUMNO ||--o{ INSCRIPCION : "realiza"
+    DICTADO_MATERIA ||--o{ INSCRIPCION : "recibe"
+    
+    INSCRIPCION ||--o{ CAMBIO_CONDICION : "registra historial"
+    CONDICION ||--o{ CAMBIO_CONDICION : "define"
+    DOCENTE |o--o{ CAMBIO_CONDICION : "autoriza"
+    
+    INSCRIPCION ||--o{ EVALUACION : "contiene"
+    TIPO_EVALUACION ||--o{ EVALUACION : "clasifica"
+    DOCENTE ||--o{ EVALUACION : "califica"
+    
+    DICTADO_MATERIA ||--o{ HORARIO : "tiene asignado"
+    HORARIO }|--|{ MODULO : "compone"
+    HORARIO ||--o{ HORARIO_MODULO : "incluye"
+    MODULO ||--o{ HORARIO_MODULO : "pertenece a"
