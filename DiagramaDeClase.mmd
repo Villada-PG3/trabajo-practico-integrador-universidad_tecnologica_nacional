@@ -1,0 +1,125 @@
+classDiagram
+Alumno --> "1" Carrera
+Alumno --> "0..*" Inscripcion
+
+Carrera "1" <-- "*" Materia
+Carrera "1" <-- "*" Curso
+
+Materia --> "1..*" DictadoMateria
+Curso --> "1..*" DictadoMateria
+Curso --> "1" Turno
+DictadoMateria --> "1" CicloLectivo
+DictadoMateria --> "1..*" Horario
+Horario --> "1..*" Modulo
+
+Inscripcion --> "1" DictadoMateria
+Inscripcion o-- "1..*" CambioCondicion
+CambioCondicion --> "1" Condicion
+CambioCondicion --> "0..1" Docente
+Inscripcion --> "0..*" Evaluacion
+Evaluacion --> "1" TipoEvaluacion
+Evaluacion --> "1" Docente
+
+class Alumno{
+  -String nombreCompleto
+  -Int documento
+  -String email
+  +inscribirseAMateria()
+  +buscarCursos(materia, turno)
+  +consultarNotas()
+  +consultarCondicionFinal()
+  +generarReporteMateriasRegulares()
+}
+
+class Carrera{
+  -String nombre
+  -String sigla
+}
+
+class Materia{
+  -String nombre
+  -String sigla
+  -Int nivel
+  +mostrarCursosDisponibles()
+}
+
+class Curso{
+  -String nombre
+  -Int nivel
+  +mostrarHorarios()
+}
+
+class Turno{
+  -String nombre
+  -String descripcion
+}
+
+class CicloLectivo{
+  -Int anio
+  -String descripcion
+  -Date fechaInicio
+  -Date fechaFin
+}
+
+class DictadoMateria{
+  -Materia materia
+  -Curso curso
+  -CicloLectivo ciclo
+  -Horario[] listaHorarios
+  +mostrarHorarios()
+  +mostrarCursos()
+}
+
+class Horario{
+  -String dia
+  -Modulo[] listaModulos
+}
+
+class Modulo{
+  -Int numero
+  -Time horaInicio
+  -Time horaFin
+}
+
+class Inscripcion{
+  -String codigoInscripcion
+  -Date fechaInscripcion
+  -DictadoMateria dictado
+  -CambioCondicion[] historialCondicion
+  +generarCodigoInscripcion()
+  +registrarCambioCondicion()
+  +obtenerCondicionActual()
+  +esRegular()
+}
+
+class CambioCondicion{
+  -DateTime fechaHora
+  -Condicion condicion
+  -Docente cargadoPor
+}
+
+class Condicion{
+  -String nombre
+  -String descripcion
+  -Boolean esCondicionFinal
+}
+
+class Evaluacion{
+  -TipoEvaluacion tipo
+  -Float valor
+  -Date fechaEvaluacion
+  +cargarNota()
+}
+
+class TipoEvaluacion{
+  -String nombre
+  -String descripcion
+}
+
+class Docente{
+  -String nombre
+  -String apellido
+  -String legajo
+  +cargarNota()
+  +cargarCondicionFinal()
+}
