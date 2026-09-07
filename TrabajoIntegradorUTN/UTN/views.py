@@ -20,7 +20,7 @@ def inicio(request):
         
     html += "</ul>"
     
-    return HttpResponse(html)
+    return render(request, 'UTN/utn.html', {'alumnos': alumnos})
 
 # --- 2. PANEL DEL ALUMNO ---
 def panel_alumno(request, alumno_id):
