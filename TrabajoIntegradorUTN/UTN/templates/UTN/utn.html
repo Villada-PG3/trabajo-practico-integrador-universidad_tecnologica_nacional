@@ -1,69 +1,36 @@
 {% extends 'UTN/base.html' %}
 
-{% block title %}Inicio - Sistema UTN{% endblock %}
+{% block title %}Inicio - Autogestión UTN{% endblock %}
 
 {% block content %}
-<div class="p-5 mb-4 bg-white rounded-3 shadow-sm border">
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm border text-center">
     <div class="container-fluid py-2">
-        <h1 class="display-5 fw-bold text-primary">Bienvenido al Sistema de Gestión</h1>
-        <p class="col-md-8 fs-4">Trabajo Integrador: Base de Datos y Telecomunicaciones.</p>
+        <h1 class="display-5 fw-bold text-primary">Autogestión Alumnos</h1>
+        <p class="fs-4">Facultad Regional Córdoba - UTN</p>
         <hr>
+        <h4 class="mt-4 mb-4">Selecciona un alumno para ingresar al sistema:</h4>
         
-        <h3 class="mt-4 mb-3">Alumnos Registrados</h3>
-        
-        <!-- Input para el buscador con JavaScript -->
-        <input type="text" id="buscadorAlumnos" class="form-control mb-3" placeholder="Buscar alumno por nombre o apellido...">
-
-        <div class="row" id="listaAlumnos">
+        <div class="row justify-content-center" id="listaAlumnos">
             {% if alumnos %}
                 {% for alumno in alumnos %}
-                <div class="col-md-4 mb-3 alumno-card">
-                    <div class="card h-100 border-primary">
+                <div class="col-md-5 mb-3">
+                    <div class="card h-100 border-primary shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title alumno-nombre">{{ alumno.nombre }} {{ alumno.apellido }}</h5>
-                            <p class="card-text text-muted">ID de sistema: {{ alumno.id }}</p>
-                            <a href="{% url 'panel_alumno' alumno.id %}" class="btn btn-outline-primary w-100">
-                                Ver Panel del Alumno
+                            <h5 class="card-title"><i class="bi bi-person-circle"></i> {{ alumno.nombre_completo }}</h5>
+                            <p class="card-text text-muted">Legajo/DNI: {{ alumno.documento }} <br> {{ alumno.carrera.nombre }}</p>
+                            <a href="{% url 'panel_alumno' alumno.id %}" class="btn btn-primary w-100">
+                                Ingresar a Autogestión
                             </a>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="col-12">
-                    <div class="alert alert-warning" role="alert">
-                        <i class="bi bi-exclamation-triangle"></i> No hay alumnos cargados en la base de datos todavía. 
-                        Ve al <a href="/admin/" class="alert-link">Panel Admin</a> para crear uno.
-                    </div>
+                <div class="alert alert-warning" role="alert">
+                    No hay alumnos registrados. Ingresa al panel de administración para crear uno.
                 </div>
             {% endif %}
         </div>
     </div>
 </div>
-{% endblock content %}
-
-{% block scripts %}
-<script>
-    // --- Código JavaScript para filtrar alumnos en tiempo real ---
-    document.addEventListener("DOMContentLoaded", function() {
-        const buscador = document.getElementById("buscadorAlumnos");
-        const tarjetas = document.querySelectorAll(".alumno-card");
-
-        buscador.addEventListener("keyup", function() {
-            let filtro = buscador.value.toLowerCase();
-
-            tarjetas.forEach(function(tarjeta) {
-                // Buscamos el texto dentro del título (nombre del alumno)
-                let nombre = tarjeta.querySelector(".alumno-nombre").innerText.toLowerCase();
-                
-                // Si el nombre incluye lo que escribimos, lo mostramos, si no, lo ocultamos
-                if (nombre.includes(filtro)) {
-                    tarjeta.style.display = "block";
-                } else {
-                    tarjeta.style.display = "none";
-                }
-            });
-        });
-    });
-</script>
-{% endblock scripts %}
+{% endblock %}
