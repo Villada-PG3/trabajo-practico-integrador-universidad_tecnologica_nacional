@@ -5,23 +5,10 @@ from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condic
 
 # --- 1. VISTA DE INICIO ---
 def inicio(request):
-    # Buscamos todos los alumnos para crear un menú rápido de pruebas
+    # Buscamos todos los alumnos en la base de datos
     alumnos = Alumno.objects.all()
     
-    # Armamos un HTML básico directamente desde Python
-    html = "<h1>Bienvenido al Sistema UTN</h1>"
-    html += "<h3>Selecciona un alumno para probar el sistema:</h3><ul>"
-    
-    if alumnos.exists():
-        for alumno in alumnos:
-            html += f"<li><a href='/alumno/{alumno.id}/'>{alumno.nombre} {alumno.apellido} (ID: {alumno.id})</a></li>"
-    else:
-        html += "<li>No hay alumnos cargados en la base de datos todavía. Ve al panel de <a href='/admin/'>/admin/</a> para agregar uno.</li>"
-        
-    html += "</ul>"
-    
     return render(request, 'UTN/utn.html', {'alumnos': alumnos})
-
 # --- 2. PANEL DEL ALUMNO ---
 def panel_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
