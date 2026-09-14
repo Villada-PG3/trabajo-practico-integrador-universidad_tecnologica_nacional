@@ -1,0 +1,66 @@
+{% extends 'UTN/base.html' %}
+
+{% block title %}Reporte de Regulares{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'panel_alumno' alumno.id %}" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left"></i> Volver a Autogestión
+    </a>
+</div>
+
+<div class="card border-primary shadow mb-5">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0"><i class="bi bi-journal-bookmark-fill"></i> Reporte de Materias Regulares</h4>
+        <button class="btn btn-light btn-sm" onclick="window.print()">
+            <i class="bi bi-printer"></i> Imprimir Reporte
+        </button>
+    </div>
+    <div class="card-body p-4">
+        
+        <!-- Encabezado del documento impreso -->
+        <div class="text-center mb-5">
+            <h5 class="fw-bold">UNIVERSIDAD TECNOLÓGICA NACIONAL</h5>
+            <h6>Facultad Regional Córdoba</h6>
+            <hr class="w-50 mx-auto">
+            <div class="text-start mt-4">
+                <p class="mb-1"><strong>Alumno:</strong> {{ alumno.nombre_completo }}</p>
+                <p class="mb-1"><strong>Documento/Legajo:</strong> {{ alumno.documento }}</p>
+                <p class="mb-1"><strong>Carrera:</strong> {{ alumno.carrera.nombre }}</p>
+                <p class="mb-1"><strong>Fecha de emisión:</strong> {% now "d/m/Y H:i" %}</p>
+            </div>
+        </div>
+
+        <table class="table table-bordered border-dark">
+            <thead class="table-light border-dark">
+                <tr>
+                    <th>Materia</th>
+                    <th>Curso</th>
+                    <th>Condición Obtenida</th>
+                    <th>Fecha de Regularización</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in regulares %}
+                <tr>
+                    <td>{{ reg.materia }}</td>
+                    <td>{{ reg.curso }}</td>
+                    <td class="text-success fw-bold">{{ reg.condicion }}</td>
+                    <td>{{ reg.fecha_regularizacion|date:"d/m/Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-3 text-muted">
+                        Aún no tienes materias en condición de Regular.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="text-center mt-5 pt-3">
+            <p class="text-muted small">--- Fin del reporte ---</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
