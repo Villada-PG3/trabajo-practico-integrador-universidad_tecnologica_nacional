@@ -1,0 +1,70 @@
+{% extends 'UTN/base.html' %}
+
+{% block title %}Panel de {{ alumno.nombre_completo }}{% endblock %}
+
+{% block content %}
+<!-- Alertas de éxito (Ej: Cuando se inscribe) -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2 class="text-primary"><i class="bi bi-person-vcard"></i> Autogestión: {{ alumno.nombre_completo }}</h2>
+        <p class="text-secondary fw-bold">{{ alumno.carrera.nombre }}</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <!-- Opciones solicitadas en el caso -->
+        <a href="{% url 'inscribir_materia' alumno.id %}" class="btn btn-success mb-2 w-100 shadow-sm">
+            <i class="bi bi-plus-circle"></i> Inscribir a Materia
+        </a>
+        <a href="{% url 'reporte_regulares' alumno.id %}" class="btn btn-outline-primary w-100 shadow-sm">
+            <i class="bi bi-file-earmark-text"></i> Reporte Materias Regulares
+        </a>
+    </div>
+</div>
+
+<h4 class="mb-3">Mis Materias y Evaluaciones</h4>
+<div class="row">
+    {% for inscripcion in inscripciones %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-top-0 border-end-0 border-bottom-0 border-start border-primary border-4">
+            <div class="card-header bg-white">
+                <h5 class="mb-0 text-primary">{{ inscripcion.dictado_materia.materia.nombre }} ({{ inscripcion.dictado_materia.materia.sigla }})</h5>
+                <small class="text-muted">Curso: {{ inscripcion.dictado_materia.curso.nombre }} | Ciclo: {{ inscripcion.dictado_materia.ciclo_lectivo.anio }}</small>
+            </div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Condición:</strong> <span class="badge bg-info text-dark">{{ inscripcion.obtener_condicion_actual }}</span></p>
+                <p class="mb-3 text-muted" style="font-size: 0.85em;">Código Inscripción: {{ inscripcion.codigo_inscripcion }}</p>
+                
+                <h6 class="border-bottom pb-1">Evaluaciones (Notas):</h6>
+                {% if inscripcion.evaluaciones.all %}
+                    <ul class="list-group list-group-flush" style="font-size: 0.9em;">
+                    {% for evaluacion in inscripcion.evaluaciones.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            <div>
+                                <strong>{{ evaluacion.tipo_evaluacion.nombre }}</strong>
+                                <br><small class="text-muted"><i class="bi bi-calendar3"></i> {{ evaluacion.fecha_evaluacion|date:"d/m/Y" }}</small>
+                            </div>
+                            <span class="badge bg-secondary rounded-pill fs-6">{{ evaluacion.valor }}</span>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted small italic">No hay notas registradas todavía.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-secondary shadow-sm">No estás inscripto a ninguna materia en este ciclo lectivo.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
