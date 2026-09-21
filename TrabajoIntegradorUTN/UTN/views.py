@@ -1,15 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse # Importante para la página de inicio
+from django.http import HttpResponse 
 from django.contrib import messages
 from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condicion
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from django.urls import reverse
 
 # --- 1. VISTA DE INICIO ---
 def inicio(request):
-    # Buscamos todos los alumnos en la base de datos
     alumnos = Alumno.objects.all()
     
     return render(request, 'UTN/utn.html', {'alumnos': alumnos})
+
 # --- 2. PANEL DEL ALUMNO ---
+@login_required
 def panel_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
     inscripciones = Inscripcion.objects.filter(alumno=alumno).prefetch_related('evaluaciones', 'historial_condiciones')
@@ -21,8 +25,6 @@ def panel_alumno(request, alumno_id):
 # --- 3. INSCRIBIR MATERIA ---
 def inscribir_materia(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
-    
-    # Oferta académica disponible para la carrera del alumno
     dictados_disponibles = DictadoMateria.objects.filter(
         materia__carrera=alumno.carrera
     ).select_related('materia', 'curso', 'curso__turno', 'ciclo_lectivo').prefetch_related('horarios__modulos')
@@ -30,11 +32,7 @@ def inscribir_materia(request, alumno_id):
     if request.method == 'POST':
         dictado_id = request.POST.get('dictado_id')
         dictado = get_object_or_404(DictadoMateria, id=dictado_id)
-        
-        # 1. Crear la inscripción
         inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
-        
-        # 2. Registrar condición inicial "Inscripto"
         condicion_inscripto, _ = Condicion.objects.get_or_create(nombre="Inscripto", defaults={'es_condicion_final': False})
         CambioCondicion.objects.create(inscripcion=inscripcion, condicion=condicion_inscripto)
         
@@ -66,3 +64,26 @@ def reporte_regulares(request, alumno_id):
         'alumno': alumno,
         'regulares': regulares
     })
+    
+
+def notas(request, alumno_id):
+    alumno = get_object_or_404(Alumno, id=alumno_id)
+    inscripciones = Inscripcion.objects.filter(alumno=alumno)
+    
+    return render(request, 'UTN/notas.html', {
+        'alumno': alumno,
+        'inscripciones': inscripciones
+    })
+
+
+
+    
+class LoginAlumnoView(LoginView):
+    template_name = 'UTN/login.html'
+
+    def get_success_url(self):
+        alumno = getattr(self.request.user, 'alumno', None)
+        if alumno:
+            return reverse('panel_alumno', args=[alumno.id])
+        return '/admin/'
+

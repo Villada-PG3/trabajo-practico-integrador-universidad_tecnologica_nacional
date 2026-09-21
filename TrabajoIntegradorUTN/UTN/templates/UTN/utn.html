@@ -18,7 +18,7 @@
                         <div class="card-body">
                             <h5 class="card-title"><i class="bi bi-person-circle"></i> {{ alumno.nombre_completo }}</h5>
                             <p class="card-text text-muted">Legajo/DNI: {{ alumno.documento }} <br> {{ alumno.carrera.nombre }}</p>
-                            <a href="{% url 'panel_alumno' alumno.id %}" class="btn btn-primary w-100">
+                            <a href="{% url 'login' %}" class="btn btn-primary w-100">
                                 Ingresar a Autogestión
                             </a>
                         </div>

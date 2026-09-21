@@ -1,6 +1,7 @@
 import uuid
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 class Carrera(models.Model):
     nombre = models.CharField(max_length=100)
@@ -13,6 +14,7 @@ class Carrera(models.Model):
 class Alumno(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, related_name="alumnos")
     nombre_completo = models.CharField(max_length=100)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     documento = models.IntegerField(unique=True)
     email = models.EmailField(max_length=100)
 
