@@ -3,7 +3,7 @@
 {% block title %}Panel de {{ alumno.nombre_completo }}{% endblock %}
 
 {% block content %}
-<!-- Alertas de éxito (Ej: Cuando se inscribe) -->
+
 {% if messages %}
     {% for message in messages %}
         <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
@@ -19,17 +19,20 @@
         <p class="text-secondary fw-bold">{{ alumno.carrera.nombre }}</p>
     </div>
     <div class="col-md-4 text-end">
-        <!-- Opciones solicitadas en el caso -->
         <a href="{% url 'inscribir_materia' alumno.id %}" class="btn btn-success mb-2 w-100 shadow-sm">
             <i class="bi bi-plus-circle"></i> Inscribir a Materia
         </a>
+        <button class="btn btn-primary mb-2 w-100 shadow-sm" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotas" aria-controls="offcanvasNotas">
+            <i class="bi bi-journal-text"></i> Ver todas mis notas
+        </button>
         <a href="{% url 'reporte_regulares' alumno.id %}" class="btn btn-outline-primary w-100 shadow-sm">
             <i class="bi bi-file-earmark-text"></i> Reporte Materias Regulares
         </a>
     </div>
 </div>
 
-<h4 class="mb-3">Mis Materias y Evaluaciones</h4>
+<h4 class="mb-3">Mis Materias</h4>
 <div class="row">
     {% for inscripcion in inscripciones %}
     <div class="col-md-6 mb-4">
@@ -38,26 +41,17 @@
                 <h5 class="mb-0 text-primary">{{ inscripcion.dictado_materia.materia.nombre }} ({{ inscripcion.dictado_materia.materia.sigla }})</h5>
                 <small class="text-muted">Curso: {{ inscripcion.dictado_materia.curso.nombre }} | Ciclo: {{ inscripcion.dictado_materia.ciclo_lectivo.anio }}</small>
             </div>
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
                 <p class="mb-1"><strong>Condición:</strong> <span class="badge bg-info text-dark">{{ inscripcion.obtener_condicion_actual }}</span></p>
                 <p class="mb-3 text-muted" style="font-size: 0.85em;">Código Inscripción: {{ inscripcion.codigo_inscripcion }}</p>
-                
-                <h6 class="border-bottom pb-1">Evaluaciones (Notas):</h6>
-                {% if inscripcion.evaluaciones.all %}
-                    <ul class="list-group list-group-flush" style="font-size: 0.9em;">
-                    {% for evaluacion in inscripcion.evaluaciones.all %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                            <div>
-                                <strong>{{ evaluacion.tipo_evaluacion.nombre }}</strong>
-                                <br><small class="text-muted"><i class="bi bi-calendar3"></i> {{ evaluacion.fecha_evaluacion|date:"d/m/Y" }}</small>
-                            </div>
-                            <span class="badge bg-secondary rounded-pill fs-6">{{ evaluacion.valor }}</span>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% else %}
-                    <p class="text-muted small italic">No hay notas registradas todavía.</p>
-                {% endif %}
+
+                <button class="btn btn-outline-primary btn-sm mt-auto align-self-start" type="button"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotas"
+                        aria-controls="offcanvasNotas"
+                        data-materia="collapse-{{ inscripcion.id }}">
+                    <i class="bi bi-list-check"></i> Ver notas
+                    <span class="badge bg-primary ms-1">{{ inscripcion.evaluaciones.all|length }}</span>
+                </button>
             </div>
         </div>
     </div>
@@ -67,4 +61,22 @@
     </div>
     {% endfor %}
 </div>
+
+
+{% include 'UTN/notas.html' %}
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const panel = document.getElementById('offcanvasNotas');
+        panel.addEventListener('shown.bs.offcanvas', function (event) {
+            const trigger = event.relatedTarget;
+            const id = trigger && trigger.dataset.materia;
+            if (id) {
+                const el = document.getElementById(id);
+                if (el) bootstrap.Collapse.getOrCreateInstance(el, { toggle: false }).show();
+            }
+        });
+    });
+</script>
 {% endblock %}
