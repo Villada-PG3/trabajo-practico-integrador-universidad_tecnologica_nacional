@@ -2,13 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse 
 from django.contrib import messages
 from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condicion
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from django.urls import reverse
 
 # --- 1. VISTA DE INICIO ---
 def inicio(request):
     alumnos = Alumno.objects.all()
     
     return render(request, 'UTN/utn.html', {'alumnos': alumnos})
+
 # --- 2. PANEL DEL ALUMNO ---
+@login_required
 def panel_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
     inscripciones = Inscripcion.objects.filter(alumno=alumno).prefetch_related('evaluaciones', 'historial_condiciones')
@@ -60,6 +65,7 @@ def reporte_regulares(request, alumno_id):
         'regulares': regulares
     })
     
+
 def notas(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
     inscripciones = Inscripcion.objects.filter(alumno=alumno)
@@ -68,3 +74,16 @@ def notas(request, alumno_id):
         'alumno': alumno,
         'inscripciones': inscripciones
     })
+
+
+
+    
+class LoginAlumnoView(LoginView):
+    template_name = 'UTN/login.html'
+
+    def get_success_url(self):
+        alumno = getattr(self.request.user, 'alumno', None)
+        if alumno:
+            return reverse('panel_alumno', args=[alumno.id])
+        return '/admin/'
+
