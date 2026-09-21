@@ -13,51 +13,76 @@
     {% endfor %}
 {% endif %}
 
-<div class="row mb-4">
-    <div class="col-md-8">
-        <h2 class="text-primary"><i class="bi bi-person-vcard"></i> Autogestión: {{ alumno.nombre_completo }}</h2>
-        <p class="text-secondary fw-bold">{{ alumno.carrera.nombre }}</p>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5">
+    <div>
+        <h2 class="text-primary-modern display-6 fw-bold mb-1">Tu perfil académico</h2>
+        <p class="text-secondary fs-5 mb-0">{{ alumno.carrera.nombre }} | {{ alumno.nombre_completo }}</p>
     </div>
-    <div class="col-md-4 text-end">
-        <a href="{% url 'inscribir_materia' alumno.id %}" class="btn btn-success mb-2 w-100 shadow-sm">
-            <i class="bi bi-plus-circle"></i> Inscribir a Materia
-        </a>
-        <button class="btn btn-primary mb-2 w-100 shadow-sm" type="button"
+    <div class="mt-4 mt-md-0 d-flex flex-column flex-md-row gap-2">
+        <button class="btn btn-modern btn-modern-ghost" type="button"
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotas" aria-controls="offcanvasNotas">
-            <i class="bi bi-journal-text"></i> Ver todas mis notas
+            <i class="bi bi-journal-text me-1"></i> Historial de notas
         </button>
-        <a href="{% url 'reporte_regulares' alumno.id %}" class="btn btn-outline-primary w-100 shadow-sm">
-            <i class="bi bi-file-earmark-text"></i> Reporte Materias Regulares
+        <a href="{% url 'reporte_regulares' alumno.id %}" class="btn btn-modern btn-modern-ghost">
+            <i class="bi bi-file-earmark-text me-1"></i> Certificado de regularidad
+        </a>
+        <a href="{% url 'inscribir_materia' alumno.id %}" class="btn btn-modern btn-modern-primary ms-md-2 shadow-soft">
+            <i class="bi bi-plus-circle me-1"></i> Nueva Inscripción
         </a>
     </div>
 </div>
 
-<h4 class="mb-3">Mis Materias</h4>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold m-0">Inscripciones activas</h4>
+    <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">{{ inscripciones|length }} materias</span>
+</div>
+
 <div class="row">
     {% for inscripcion in inscripciones %}
-    <div class="col-md-6 mb-4">
-        <div class="card shadow-sm h-100 border-top-0 border-end-0 border-bottom-0 border-start border-primary border-4">
-            <div class="card-header bg-white">
-                <h5 class="mb-0 text-primary">{{ inscripcion.dictado_materia.materia.nombre }} ({{ inscripcion.dictado_materia.materia.sigla }})</h5>
-                <small class="text-muted">Curso: {{ inscripcion.dictado_materia.curso.nombre }} | Ciclo: {{ inscripcion.dictado_materia.ciclo_lectivo.anio }}</small>
-            </div>
-            <div class="card-body d-flex flex-column">
-                <p class="mb-1"><strong>Condición:</strong> <span class="badge bg-info text-dark">{{ inscripcion.obtener_condicion_actual }}</span></p>
-                <p class="mb-3 text-muted" style="font-size: 0.85em;">Código Inscripción: {{ inscripcion.codigo_inscripcion }}</p>
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow-soft shadow-hover border-0 rounded-organic-sm h-100 p-3 materia-card {% if inscripcion.condicion_actual == 'Regular' %}regular{% elif inscripcion.condicion_actual == 'Inscripto' %}inscripto{% endif %}">
+            <div class="card-body d-flex flex-column p-1">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="fw-bold text-dark mb-0">{{ inscripcion.dictado_materia.materia.nombre }}</h5>
+                    <span class="badge {% if inscripcion.condicion_actual == 'Regular' %}bg-success{% elif inscripcion.condicion_actual == 'Inscripto' %}bg-primary{% else %}bg-secondary{% endif %} bg-opacity-10 text-dark border">
+                        {{ inscripcion.condicion_actual }}
+                    </span>
+                </div>
+                <p class="text-muted small mb-3">
+                    <i class="bi bi-mortarboard"></i> {{ inscripcion.dictado_materia.curso.nombre }} ({{ inscripcion.dictado_materia.ciclo_lectivo.anio }}) 
+                    <span class="mx-1">&middot;</span> Ref: {{ inscripcion.codigo_inscripcion }}
+                </p>
 
-                <button class="btn btn-outline-primary btn-sm mt-auto align-self-start" type="button"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotas"
-                        aria-controls="offcanvasNotas"
-                        data-materia="collapse-{{ inscripcion.id }}">
-                    <i class="bi bi-list-check"></i> Ver notas
-                    <span class="badge bg-primary ms-1">{{ inscripcion.evaluaciones.all|length }}</span>
-                </button>
+                <div class="mt-auto d-flex justify-content-between align-items-center bg-light rounded-3 p-2 px-3">
+                    <span class="small text-secondary fw-medium">
+                        {% if inscripcion.evaluaciones.all %}
+                            {{ inscripcion.evaluaciones.all|length }} evaluaciones registradas
+                        {% else %}
+                            Sin evaluaciones
+                        {% endif %}
+                    </span>
+                    <button class="btn btn-sm btn-link text-primary-modern text-decoration-none fw-bold p-0" type="button"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotas"
+                            aria-controls="offcanvasNotas"
+                            data-materia="collapse-{{ inscripcion.id }}">
+                        Ver detalle <i class="bi bi-arrow-right-short"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     {% empty %}
     <div class="col-12">
-        <div class="alert alert-secondary shadow-sm">No estás inscripto a ninguna materia en este ciclo lectivo.</div>
+        <div class="alert bg-white shadow-soft border-0 rounded-organic p-5 text-center d-flex flex-column align-items-center justify-content-center">
+            <div class="bg-light rounded-circle p-4 mb-3 text-muted">
+                <i class="bi bi-journal-x fs-1"></i>
+            </div>
+            <h5 class="fw-bold">No hay inscripciones</h5>
+            <p class="text-secondary mb-4">No estás cursando ninguna materia en este ciclo lectivo.</p>
+            <a href="{% url 'inscribir_materia' alumno.id %}" class="btn btn-modern btn-modern-primary">
+                Comenzar una inscripción
+            </a>
+        </div>
     </div>
     {% endfor %}
 </div>

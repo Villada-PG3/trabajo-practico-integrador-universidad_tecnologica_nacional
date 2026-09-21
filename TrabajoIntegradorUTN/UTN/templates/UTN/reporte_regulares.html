@@ -3,64 +3,80 @@
 {% block title %}Reporte de Regulares{% endblock %}
 
 {% block content %}
-<div class="mb-4">
-    <a href="{% url 'panel_alumno' alumno.id %}" class="btn btn-outline-secondary btn-sm mb-3">
+<div class="mb-4 no-print d-flex justify-content-between align-items-center">
+    <a href="{% url 'panel_alumno' alumno.id %}" class="btn btn-link text-decoration-none text-secondary p-0 fs-6">
         <i class="bi bi-arrow-left"></i> Volver a Autogestión
     </a>
+    <button class="btn btn-modern btn-modern-primary shadow-soft" onclick="window.print()">
+        <i class="bi bi-printer me-1"></i> Imprimir Reporte
+    </button>
 </div>
 
-<div class="card border-primary shadow mb-5">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <h4 class="mb-0"><i class="bi bi-journal-bookmark-fill"></i> Reporte de Materias Regulares</h4>
-        <button class="btn btn-light btn-sm" onclick="window.print()">
-            <i class="bi bi-printer"></i> Imprimir Reporte
-        </button>
-    </div>
-    <div class="card-body p-4">
+<div class="card border-0 shadow-sm rounded-organic print-document bg-white mx-auto mb-5" style="max-width: 800px;">
+    <div class="card-body p-5">
         
-        <!-- Encabezado del documento impreso -->
-        <div class="text-center mb-5">
-            <h5 class="fw-bold">UNIVERSIDAD TECNOLÓGICA NACIONAL</h5>
-            <h6>Facultad Regional Córdoba</h6>
-            <hr class="w-50 mx-auto">
-            <div class="text-start mt-4">
-                <p class="mb-1"><strong>Alumno:</strong> {{ alumno.nombre_completo }}</p>
-                <p class="mb-1"><strong>Documento/Legajo:</strong> {{ alumno.documento }}</p>
-                <p class="mb-1"><strong>Carrera:</strong> {{ alumno.carrera.nombre }}</p>
-                <p class="mb-1"><strong>Fecha de emisión:</strong> {% now "d/m/Y H:i" %}</p>
+        <!-- Encabezado del documento -->
+        <div class="text-center mb-5 pb-3 border-bottom border-2 border-dark">
+            <h3 class="fw-bold text-uppercase tracking-wide" style="font-family: 'Outfit', sans-serif; letter-spacing: 2px;">Universidad Tecnológica Nacional</h3>
+            <h5 class="text-secondary fw-normal">Facultad Regional Córdoba</h5>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-sm-8">
+                <h6 class="text-muted text-uppercase mb-1 small fw-bold">Certificado de Alumno</h6>
+                <p class="fs-5 fw-bold text-dark mb-0">{{ alumno.nombre_completo }}</p>
+                <p class="text-muted mb-1">DNI / Legajo: {{ alumno.documento }}</p>
+                <p class="text-muted">{{ alumno.carrera.nombre }}</p>
+            </div>
+            <div class="col-sm-4 text-sm-end mt-4 mt-sm-0">
+                <h6 class="text-muted text-uppercase mb-1 small fw-bold">Fecha de Emisión</h6>
+                <p class="fw-medium text-dark">{% now "d/m/Y H:i" %}</p>
             </div>
         </div>
 
-        <table class="table table-bordered border-dark">
-            <thead class="table-light border-dark">
-                <tr>
-                    <th>Materia</th>
-                    <th>Curso</th>
-                    <th>Condición Obtenida</th>
-                    <th>Fecha de Regularización</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for reg in regulares %}
-                <tr>
-                    <td>{{ reg.materia }}</td>
-                    <td>{{ reg.curso }}</td>
-                    <td class="text-success fw-bold">{{ reg.condicion }}</td>
-                    <td>{{ reg.fecha_regularizacion|date:"d/m/Y" }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="text-center py-3 text-muted">
-                        Aún no tienes materias en condición de Regular.
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-        <div class="text-center mt-5 pt-3">
-            <p class="text-muted small">--- Fin del reporte ---</p>
+        <div class="mb-4">
+            <h5 class="fw-bold text-dark mb-3">Detalle de materias regularizadas</h5>
+            
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="py-3 text-secondary small text-uppercase">Materia</th>
+                            <th class="py-3 text-secondary small text-uppercase">Curso</th>
+                            <th class="py-3 text-secondary small text-uppercase">Condición</th>
+                            <th class="py-3 text-secondary small text-uppercase text-end">Regularizado el</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+                        {% for reg in regulares %}
+                        <tr>
+                            <td class="py-3 fw-medium text-dark">{{ reg.materia }}</td>
+                            <td class="py-3 text-muted">{{ reg.curso }}</td>
+                            <td class="py-3">
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">{{ reg.condicion }}</span>
+                            </td>
+                            <td class="py-3 text-end text-muted">{{ reg.fecha_regularizacion|date:"d/m/Y" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center py-5 text-muted fst-italic">
+                                Aún no posees materias en condición de Regular registradas en el sistema.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
+        
+        <div class="mt-5 pt-5 border-top d-flex justify-content-between align-items-center">
+            <p class="text-muted small mb-0">Documento generado a través del Sistema de Autogestión Académica.</p>
+            <div class="text-center" style="width: 200px;">
+                <hr class="border-dark opacity-50 mb-1">
+                <small class="text-muted">Sello / Firma Autorizada</small>
+            </div>
+        </div>
+        
     </div>
 </div>
 {% endblock %}
