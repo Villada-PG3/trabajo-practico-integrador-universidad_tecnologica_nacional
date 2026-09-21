@@ -6,13 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
 
-# --- 1. VISTA DE INICIO ---
 def inicio(request):
-    alumnos = Alumno.objects.all()
-    
-    return render(request, 'UTN/utn.html', {'alumnos': alumnos})
+    return render(request, 'UTN/utn.html', {'alumnos': Alumno.objects.all()})
 
-# --- 2. PANEL DEL ALUMNO ---
 @login_required
 def panel_alumno(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
@@ -22,49 +18,47 @@ def panel_alumno(request, alumno_id):
         'inscripciones': inscripciones
     })
 
-# --- 3. INSCRIBIR MATERIA ---
 def inscribir_materia(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
-    dictados_disponibles = DictadoMateria.objects.filter(
+    dictados = DictadoMateria.objects.filter(
         materia__carrera=alumno.carrera
     ).select_related('materia', 'curso', 'curso__turno', 'ciclo_lectivo').prefetch_related('horarios__modulos')
 
-    if request.method == 'POST':
-        dictado_id = request.POST.get('dictado_id')
-        dictado = get_object_or_404(DictadoMateria, id=dictado_id)
-        inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
-        condicion_inscripto, _ = Condicion.objects.get_or_create(nombre="Inscripto", defaults={'es_condicion_final': False})
-        CambioCondicion.objects.create(inscripcion=inscripcion, condicion=condicion_inscripto)
-        
-        messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
-        return redirect('panel_alumno', alumno_id=alumno.id)
+    if request.method != 'POST':
+        return render(request, 'UTN/inscribir.html', {'alumno': alumno, 'dictados': dictados})
 
-    return render(request, 'UTN/inscribir.html', {
-        'alumno': alumno,
-        'dictados': dictados_disponibles
-    })
+    dictado = get_object_or_404(DictadoMateria, id=request.POST.get('dictado_id'))
+    inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
+    condicion, _ = Condicion.objects.get_or_create(nombre="Inscripto", defaults={'es_condicion_final': False})
+    CambioCondicion.objects.create(inscripcion=inscripcion, condicion=condicion)
+    
+    messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
+    return redirect('panel_alumno', alumno_id=alumno.id)
 
-# --- 4. REPORTE DE REGULARES ---
 def reporte_regulares(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
-    inscripciones = Inscripcion.objects.filter(alumno=alumno)
+    inscripciones = Inscripcion.objects.filter(alumno=alumno).prefetch_related(
+        'historial_condiciones__condicion',
+        'dictado_materia__materia',
+        'dictado_materia__curso'
+    )
     
     regulares = []
     for insc in inscripciones:
-        ultimo_cambio = insc.historial_condiciones.order_by('-fecha_hora').first()
-        if ultimo_cambio and ultimo_cambio.condicion.nombre == "Regular":
+        historial = list(insc.historial_condiciones.all())
+        if not historial:
+            continue
+            
+        ultimo_cambio = sorted(historial, key=lambda c: c.fecha_hora, reverse=True)[0]
+        if ultimo_cambio.condicion.nombre == "Regular":
             regulares.append({
                 'materia': insc.dictado_materia.materia.nombre,
                 'curso': insc.dictado_materia.curso.nombre,
-                'condicion': ultimo_cambio.condicion.nombre,
+                'condicion': "Regular",
                 'fecha_regularizacion': ultimo_cambio.fecha_hora
             })
             
-    return render(request, 'UTN/reporte_regulares.html', {
-        'alumno': alumno,
-        'regulares': regulares
-    })
-    
+    return render(request, 'UTN/reporte_regulares.html', {'alumno': alumno, 'regulares': regulares})
 
 def notas(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
