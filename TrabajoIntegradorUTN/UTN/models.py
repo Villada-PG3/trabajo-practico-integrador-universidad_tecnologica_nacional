@@ -33,7 +33,7 @@ class Materia(models.Model):
 
 
 class Turno(models.Model):
-    nombre = models.CharField(max_length=50) # Mañana, Tarde, Noche
+    nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
@@ -43,7 +43,7 @@ class Turno(models.Model):
 class Curso(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, related_name="cursos")
     turno = models.ForeignKey(Turno, on_delete=models.PROTECT, related_name="cursos")
-    nombre = models.CharField(max_length=50) # Ej: 2K7, 2K9
+    nombre = models.CharField(max_length=50)
     nivel = models.IntegerField()
 
     def __str__(self):
@@ -80,7 +80,7 @@ class Modulo(models.Model):
 
 class Horario(models.Model):
     dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="horarios")
-    dia = models.CharField(max_length=20) # Lunes, Martes, etc.
+    dia = models.CharField(max_length=20)
     modulos = models.ManyToManyField(Modulo, related_name="horarios")
 
     def __str__(self):
@@ -97,7 +97,7 @@ class Docente(models.Model):
 
 
 class Condicion(models.Model):
-    nombre = models.CharField(max_length=50) # Inscripto, Regular, Libre, Aprobación directa, Promoción Práctica
+    nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=150, blank=True, null=True)
     es_condicion_final = models.BooleanField(default=False)
 
@@ -106,30 +106,30 @@ class Condicion(models.Model):
 
 
 class TipoEvaluacion(models.Model):
-    nombre = models.CharField(max_length=50) # Parcial Teórico, Práctico, TP
+    nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=150, blank=True, null=True)
 
     def __str__(self):
         return self.nombre
 
 
+def _generar_codigo():
+    return f"INS-{uuid.uuid4().hex[:8].upper()}"
+
 class Inscripcion(models.Model):
     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE, related_name="inscripciones")
     dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="inscripciones")
-    codigo_inscripcion = models.CharField(max_length=30, unique=True, editable=False)
+    codigo_inscripcion = models.CharField(max_length=30, unique=True, default=_generar_codigo, editable=False)
     fecha_inscripcion = models.DateField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        if not self.codigo_inscripcion:
-            self.codigo_inscripcion = f"INS-{uuid.uuid4().hex[:8].upper()}"
-        super().save(*args, **kwargs)
-
-    def obtener_condicion_actual(self):
+    @property
+    def condicion_actual(self):
         ultimo_cambio = self.historial_condiciones.order_by('-fecha_hora').first()
         return ultimo_cambio.condicion.nombre if ultimo_cambio else "Sin Condición"
 
+    @property
     def es_regular(self):
-        return self.obtener_condicion_actual() == "Regular"
+        return self.condicion_actual == "Regular"
 
     def __str__(self):
         return f"{self.alumno.nombre_completo} - {self.dictado_materia} [{self.codigo_inscripcion}]"
