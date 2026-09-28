@@ -1,6 +1,29 @@
-venv/
-.venv/
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.db
+
+# Django
 db.sqlite3
-vpintegrador
+db.sqlite3-journal
+media/
+staticfiles/
+local_settings.py
+
+# Ambientes virtuales
+venv/
+.venv/
+env/
+ENV/
+
+# Variables de entorno / Secretos
+.env
+
+# Editores de código y Sistema Operativo
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+vpintegrador    
