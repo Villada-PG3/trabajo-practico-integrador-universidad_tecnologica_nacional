@@ -5,6 +5,7 @@ from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condic
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
+from django.db import transaction, IntegrityError
 
 # --- 1. VISTA DE INICIO ---
 def inicio(request):
@@ -23,6 +24,8 @@ def panel_alumno(request, alumno_id):
     })
 
 # --- 3. INSCRIBIR MATERIA ---
+
+
 def inscribir_materia(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
     dictados_disponibles = DictadoMateria.objects.filter(
@@ -31,11 +34,23 @@ def inscribir_materia(request, alumno_id):
 
     if request.method == 'POST':
         dictado_id = request.POST.get('dictado_id')
-        dictado = get_object_or_404(DictadoMateria, id=dictado_id)
-        inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
-        condicion_inscripto, _ = Condicion.objects.get_or_create(nombre="Inscripto", defaults={'es_condicion_final': False})
-        CambioCondicion.objects.create(inscripcion=inscripcion, condicion=condicion_inscripto)
-        
+        dictado = get_object_or_404(dictados_disponibles, id=dictado_id)
+
+        if Inscripcion.objects.filter(alumno=alumno, dictado_materia=dictado).exists():
+            messages.warning(request, "Ya estás inscripto en esta materia.")
+            return redirect('inscribir_materia', alumno_id=alumno.id)
+
+        try:
+            with transaction.atomic():
+                inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
+                condicion_inscripto, _ = Condicion.objects.get_or_create(
+                    nombre="Inscripto", defaults={'es_condicion_final': False}
+                )
+                CambioCondicion.objects.create(inscripcion=inscripcion, condicion=condicion_inscripto)
+        except IntegrityError:
+            messages.warning(request, "Ya estás inscripto en esta materia.")
+            return redirect('inscribir_materia', alumno_id=alumno.id)
+
         messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
         return redirect('panel_alumno', alumno_id=alumno.id)
 
