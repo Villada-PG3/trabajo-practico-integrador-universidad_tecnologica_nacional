@@ -121,6 +121,14 @@ class Inscripcion(models.Model):
     dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="inscripciones")
     codigo_inscripcion = models.CharField(max_length=30, unique=True, default=_generar_codigo, editable=False)
     fecha_inscripcion = models.DateField(auto_now_add=True)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["alumno", "dictado_materia"],
+                name="inscripcion_unica_alumno_dictado",
+            )
+        ]
 
     @property
     def condicion_actual(self):
