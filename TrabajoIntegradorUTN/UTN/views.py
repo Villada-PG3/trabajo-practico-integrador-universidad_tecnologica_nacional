@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse 
 from django.contrib import messages
-from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condicion
+from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condicion, Carrera
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
@@ -19,19 +19,16 @@ def panel_alumno(request, alumno_id):
         'inscripciones': inscripciones
     })
 
-<<<<<<< HEAD
-# --- 3. INSCRIBIR MATERIA ---
 
 
-=======
->>>>>>> origin/develop
+
 def inscribir_materia(request, alumno_id):
     alumno = get_object_or_404(Alumno, id=alumno_id)
     dictados = DictadoMateria.objects.filter(
         materia__carrera=alumno.carrera
     ).select_related('materia', 'curso', 'curso__turno', 'ciclo_lectivo').prefetch_related('horarios__modulos')
 
-<<<<<<< HEAD
+
     if request.method == 'POST':
         dictado_id = request.POST.get('dictado_id')
         dictado = get_object_or_404(dictados_disponibles, id=dictado_id)
@@ -53,10 +50,10 @@ def inscribir_materia(request, alumno_id):
 
         messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
         return redirect('panel_alumno', alumno_id=alumno.id)
-=======
+
     if request.method != 'POST':
         return render(request, 'UTN/inscribir.html', {'alumno': alumno, 'dictados': dictados})
->>>>>>> origin/develop
+
 
     dictado = get_object_or_404(DictadoMateria, id=request.POST.get('dictado_id'))
     inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
@@ -111,4 +108,37 @@ class LoginAlumnoView(LoginView):
         if alumno:
             return reverse('panel_alumno', args=[alumno.id])
         return '/admin/'
+    
+    
+    
+    
+def landing(request):
+    carreras = []
+    for carrera in Carrera.objects.all():
+        carreras.append({
+            "nombre": carrera.nombre
+        })
+    fotos = [
+        {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBs5zALy7bHbwEEZsIhmb9i5f21WzYBQ6MZJGj6Xc1TwnSzE7rZ3LpkXw&s=10", "alt": "Edificio central"},
+        {"url": "https://fra.utn.edu.ar/wp-content/uploads/2024/08/1-23.jpg", "alt": "Laboratorios"},
+        {"url": "https://www.academia.frc.utn.edu.ar/pub/image/IMG_20130311_191734.jpg", "alt": "Aulas"},
+        {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2RUdpeXiPMmSXxtQ9h1UFbWLNPHloJ0he6mTBYxiCGu-vmVasVK9umAHk&s=10", "alt": "Ciudad Universitaria"},
+    ]
+    noticias = [
+        {"categoria": "Ingreso", "titulo": "Ingreso a Ingenierías 2027",
+         "resumen": "Requisitos, fechas y clases grabadas de apoyo para el Ciclo Introductorio.",
+         "link": "https://www.frc.utn.edu.ar/ingreso-ingenierias-2027/"},
+        {"categoria": "Investigación", "titulo": "Sombras y Sonidos - VR",
+         "resumen": "Aplicación de realidad virtual desarrollada en el Centro de Investigación y Transferencia en Acústica de la FRC.",
+         "link": "https://www.frc.utn.edu.ar/"},
+        {"categoria": "Comunidad", "titulo": "Radio FM 94.3",
+         "resumen": "La radio de la Facultad, con contenidos de la comunidad universitaria.",
+         "link": "https://www.frc.utn.edu.ar/"},
+    ]
+    context = {
+        "carreras": carreras,
+        "fotos": fotos,
+        "noticias": noticias,
+    }
+    return render(request, "UTN/landing.html", context)
 
