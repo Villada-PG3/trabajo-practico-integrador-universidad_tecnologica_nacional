@@ -1,0 +1,2371 @@
+[
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2026-09-14T18:01:48.012Z",
+        "user": 2,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Ingenieria en Sistemas de Informacion (ISI)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2026-09-14T18:02:06.346Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Lucciano Malap - DNI: 48599962",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2026-09-14T18:59:35.793Z",
+        "user": 2,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "Ingeniería Industrial (IND)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2026-09-14T19:00:08.624Z",
+        "user": 2,
+        "content_type": 9,
+        "object_id": "3",
+        "object_repr": "Ingeniería Electrónica (IEL)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2026-09-14T19:00:21.838Z",
+        "user": 2,
+        "content_type": 9,
+        "object_id": "4",
+        "object_repr": "Ingeniería Mecánica (IME)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2026-09-14T19:00:25.073Z",
+        "user": 2,
+        "content_type": 9,
+        "object_id": "5",
+        "object_repr": "Ingeniería Mecánica (IME)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2026-09-14T19:00:45.251Z",
+        "user": 2,
+        "content_type": 9,
+        "object_id": "6",
+        "object_repr": "Ingeniería Química (IQU)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2026-09-14T19:01:10.124Z",
+        "user": 2,
+        "content_type": 21,
+        "object_id": "1",
+        "object_repr": "Mañana",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2026-09-14T19:01:22.121Z",
+        "user": 2,
+        "content_type": 21,
+        "object_id": "2",
+        "object_repr": "Tarde",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2026-09-14T19:01:47.627Z",
+        "user": 2,
+        "content_type": 21,
+        "object_id": "3",
+        "object_repr": "Noche",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2026-09-14T19:01:54.681Z",
+        "user": 2,
+        "content_type": 21,
+        "object_id": "4",
+        "object_repr": "Intensivo Verano",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2026-09-14T19:02:06.386Z",
+        "user": 2,
+        "content_type": 21,
+        "object_id": "5",
+        "object_repr": "Fines de Semana",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2026-09-14T19:02:41.348Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "Ciclo Lectivo 2024 (2024)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2026-09-14T19:03:25.473Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Ciclo Lectivo 2025 (2025)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2026-09-14T19:04:02.750Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "3",
+        "object_repr": "Ciclo Lectivo 2026 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2026-09-14T19:04:22.231Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "4",
+        "object_repr": "Curso de Verano 2026 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2026-09-14T19:04:49.888Z",
+        "user": 2,
+        "content_type": 10,
+        "object_id": "5",
+        "object_repr": "Ciclo Lectivo 2027 (2027)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+        "action_time": "2026-09-14T19:05:21.338Z",
+        "user": 2,
+        "content_type": 14,
+        "object_id": "1",
+        "object_repr": "Pérez, Roberto (Legajo: D-1001)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+        "action_time": "2026-09-14T19:05:37.213Z",
+        "user": 2,
+        "content_type": 14,
+        "object_id": "2",
+        "object_repr": "Domínguez, María (Legajo: D-1002)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+        "action_time": "2026-09-14T19:05:50.574Z",
+        "user": 2,
+        "content_type": 14,
+        "object_id": "3",
+        "object_repr": "Sánchez, Carlos (Legajo: D-1003)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+        "action_time": "2026-09-14T19:06:05.593Z",
+        "user": 2,
+        "content_type": 14,
+        "object_id": "4",
+        "object_repr": "Gómez, Laura (Legajo: D-1004)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+        "action_time": "2026-09-14T19:06:22.620Z",
+        "user": 2,
+        "content_type": 14,
+        "object_id": "5",
+        "object_repr": "Torres, Fernando (Legajo: D-1005)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+        "action_time": "2026-09-14T19:06:58.830Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "1",
+        "object_repr": "Análisis de Sistemas (ASI) - Nivel 2",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+        "action_time": "2026-09-14T19:07:25.242Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "2",
+        "object_repr": "Gestión de la Mejora de Procesos (GMP) - Nivel 3",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 25,
+    "fields": {
+        "action_time": "2026-09-14T19:07:37.370Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "3",
+        "object_repr": "Algoritmos y Estructuras de Datos (AED) - Nivel 1",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 26,
+    "fields": {
+        "action_time": "2026-09-14T19:08:02.635Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "4",
+        "object_repr": "Diseño de Sistemas (DSI) - Nivel 3",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 27,
+    "fields": {
+        "action_time": "2026-09-14T19:08:17.177Z",
+        "user": 2,
+        "content_type": 18,
+        "object_id": "5",
+        "object_repr": "Redes de Información (RDI) - Nivel 4",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 28,
+    "fields": {
+        "action_time": "2026-09-14T19:08:45.622Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "1",
+        "object_repr": "2K7 (Tarde)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 29,
+    "fields": {
+        "action_time": "2026-09-14T19:09:02.420Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "2",
+        "object_repr": "2K9 (Noche)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 30,
+    "fields": {
+        "action_time": "2026-09-14T19:09:17.621Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "3",
+        "object_repr": "3K17 (Noche)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+        "action_time": "2026-09-14T19:09:29.608Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "4",
+        "object_repr": "1K1 (Mañana)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 32,
+    "fields": {
+        "action_time": "2026-09-14T19:09:41.598Z",
+        "user": 2,
+        "content_type": 12,
+        "object_id": "5",
+        "object_repr": "4K3 (Noche)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 33,
+    "fields": {
+        "action_time": "2026-09-14T19:11:33.623Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "1",
+        "object_repr": "ASI - 2K7 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 34,
+    "fields": {
+        "action_time": "2026-09-14T19:11:52.971Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "2",
+        "object_repr": "ASI - 2K9 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 35,
+    "fields": {
+        "action_time": "2026-09-14T19:12:09.027Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "3",
+        "object_repr": "GMP - 3K17 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 36,
+    "fields": {
+        "action_time": "2026-09-14T19:12:21.047Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "4",
+        "object_repr": "AED - 1K1 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 37,
+    "fields": {
+        "action_time": "2026-09-14T19:12:32.024Z",
+        "user": 2,
+        "content_type": 13,
+        "object_id": "5",
+        "object_repr": "RDI - 4K3 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 38,
+    "fields": {
+        "action_time": "2026-09-14T19:13:26.992Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "1",
+        "object_repr": "Módulo 1 (08:00 a 08:45)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 39,
+    "fields": {
+        "action_time": "2026-09-14T19:13:40.688Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "2",
+        "object_repr": "Módulo 2 (08:00 a 09:30)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 40,
+    "fields": {
+        "action_time": "2026-09-14T19:13:54.535Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "3",
+        "object_repr": "Módulo 4 (13:30 a 14:15)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 41,
+    "fields": {
+        "action_time": "2026-09-14T19:14:13.283Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "4",
+        "object_repr": "Módulo 5 (14:15 a 15:00)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 42,
+    "fields": {
+        "action_time": "2026-09-14T19:14:56.285Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "5",
+        "object_repr": "Módulo 6 (15:15 a 16:00)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 43,
+    "fields": {
+        "action_time": "2026-09-14T19:16:01.675Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "1",
+        "object_repr": "Miércoles - ASI - 2K7 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 44,
+    "fields": {
+        "action_time": "2026-09-14T19:16:19.673Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "1",
+        "object_repr": "Miércoles - ASI - 2K7 (2026)",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 45,
+    "fields": {
+        "action_time": "2026-09-14T19:16:42.492Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "2",
+        "object_repr": "Viernes - ASI - 2K7 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 46,
+    "fields": {
+        "action_time": "2026-09-14T19:16:52.567Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "3",
+        "object_repr": "Lunes - ASI - 2K9 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 47,
+    "fields": {
+        "action_time": "2026-09-14T19:17:01.646Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "4",
+        "object_repr": "Lunes - ASI - 2K9 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 48,
+    "fields": {
+        "action_time": "2026-09-14T19:17:23.182Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "5",
+        "object_repr": "Jueves - ASI - 2K9 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 49,
+    "fields": {
+        "action_time": "2026-09-14T19:18:02.631Z",
+        "user": 2,
+        "content_type": 16,
+        "object_id": "6",
+        "object_repr": "Jueves - GMP - 3K17 (2026)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 50,
+    "fields": {
+        "action_time": "2026-09-14T19:18:34.410Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "Lucas Martínez - DNI: 42123456",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 51,
+    "fields": {
+        "action_time": "2026-09-14T19:18:58.233Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "Mateo Silva - DNI: 41234567",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 52,
+    "fields": {
+        "action_time": "2026-09-14T19:19:21.700Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "4",
+        "object_repr": "Valentina López - DNI: 44111222",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 53,
+    "fields": {
+        "action_time": "2026-09-14T19:19:54.421Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "5",
+        "object_repr": "Joaquín Fernández - DNI: 40987654",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 54,
+    "fields": {
+        "action_time": "2026-09-14T19:23:54.662Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "Inscripto",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 55,
+    "fields": {
+        "action_time": "2026-09-14T19:24:11.718Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "Regular",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 56,
+    "fields": {
+        "action_time": "2026-09-14T19:24:23.072Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "3",
+        "object_repr": "Libre",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 57,
+    "fields": {
+        "action_time": "2026-09-14T19:24:47.295Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "4",
+        "object_repr": "Aprobación directa",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 58,
+    "fields": {
+        "action_time": "2026-09-14T19:25:07.335Z",
+        "user": 2,
+        "content_type": 11,
+        "object_id": "5",
+        "object_repr": "Promoción Práctica",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 59,
+    "fields": {
+        "action_time": "2026-09-14T19:26:41.365Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "6",
+        "object_repr": "Módulo 0 (18:15 a 19:00)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 60,
+    "fields": {
+        "action_time": "2026-09-14T19:27:56.808Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "7",
+        "object_repr": "Módulo 1 (19:00 a 19:45)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 61,
+    "fields": {
+        "action_time": "2026-09-14T19:28:13.885Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "8",
+        "object_repr": "Módulo 2 (19:45 a 20:30)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 62,
+    "fields": {
+        "action_time": "2026-09-14T19:28:34.056Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "9",
+        "object_repr": "Módulo 3 (20:45 a 21:30)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 63,
+    "fields": {
+        "action_time": "2026-09-14T19:28:45.832Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "10",
+        "object_repr": "Módulo 4 (21:30 a 22:15)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 64,
+    "fields": {
+        "action_time": "2026-09-14T19:28:59.079Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "11",
+        "object_repr": "Módulo 5 (22:15 a 23:00)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 65,
+    "fields": {
+        "action_time": "2026-09-14T19:29:12.133Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "12",
+        "object_repr": "Módulo 6 (23:00 a 23:45)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 66,
+    "fields": {
+        "action_time": "2026-09-14T19:30:44.540Z",
+        "user": 2,
+        "content_type": 19,
+        "object_id": "13",
+        "object_repr": "Módulo 3 (09:40 a 10:25)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 67,
+    "fields": {
+        "action_time": "2026-09-14T19:31:12.201Z",
+        "user": 2,
+        "content_type": 20,
+        "object_id": "1",
+        "object_repr": "Parcial Teórico",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 68,
+    "fields": {
+        "action_time": "2026-09-14T20:56:05.491Z",
+        "user": 2,
+        "content_type": 20,
+        "object_id": "1",
+        "object_repr": "Parcial Teórico",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 69,
+    "fields": {
+        "action_time": "2026-09-14T20:56:14.541Z",
+        "user": 2,
+        "content_type": 20,
+        "object_id": "1",
+        "object_repr": "Parcial Teórico",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 70,
+    "fields": {
+        "action_time": "2026-09-14T20:56:32.431Z",
+        "user": 2,
+        "content_type": 20,
+        "object_id": "2",
+        "object_repr": "Parcial Práctico",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 71,
+    "fields": {
+        "action_time": "2026-09-14T20:56:43.024Z",
+        "user": 2,
+        "content_type": 20,
+        "object_id": "3",
+        "object_repr": "Trabajo Práctico (TP)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 72,
+    "fields": {
+        "action_time": "2026-09-14T20:56:57.934Z",
+        "user": 2,
+        "content_type": 20,
+        "object_id": "4",
+        "object_repr": "Recuperatorio Teórico",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 73,
+    "fields": {
+        "action_time": "2026-09-14T20:57:13.946Z",
+        "user": 2,
+        "content_type": 20,
+        "object_id": "5",
+        "object_repr": "Recuperatorio Práctico",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 74,
+    "fields": {
+        "action_time": "2026-09-14T20:58:47.049Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "1",
+        "object_repr": "Lucciano Malap - ASI - 2K7 (2026) [INS-AA8ECC47]",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 75,
+    "fields": {
+        "action_time": "2026-09-14T20:58:54.023Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "2",
+        "object_repr": "Lucas Martínez - ASI - 2K7 (2026) [INS-31E46967]",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 76,
+    "fields": {
+        "action_time": "2026-09-14T20:59:21.081Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "3",
+        "object_repr": "Mateo Silva - AED - 1K1 (2026) [INS-481F43C9]",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 77,
+    "fields": {
+        "action_time": "2026-09-14T20:59:29.471Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "4",
+        "object_repr": "Joaquín Fernández - RDI - 4K3 (2026) [INS-654A476B]",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 78,
+    "fields": {
+        "action_time": "2026-09-14T21:00:02.958Z",
+        "user": 2,
+        "content_type": 17,
+        "object_id": "5",
+        "object_repr": "Valentina López - ASI - 2K9 (2026) [INS-AB15B57E]",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 79,
+    "fields": {
+        "action_time": "2026-09-14T21:00:38.518Z",
+        "user": 2,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "Lucas Martínez -> Inscripto",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 80,
+    "fields": {
+        "action_time": "2026-09-14T21:01:05.046Z",
+        "user": 2,
+        "content_type": 8,
+        "object_id": "2",
+        "object_repr": "Lucas Martínez -> Regular",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 81,
+    "fields": {
+        "action_time": "2026-09-14T21:01:17.051Z",
+        "user": 2,
+        "content_type": 8,
+        "object_id": "3",
+        "object_repr": "Valentina López -> Inscripto",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 82,
+    "fields": {
+        "action_time": "2026-09-14T21:01:48.597Z",
+        "user": 2,
+        "content_type": 8,
+        "object_id": "4",
+        "object_repr": "Valentina López -> Promoción Práctica",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 83,
+    "fields": {
+        "action_time": "2026-09-14T21:02:29.547Z",
+        "user": 2,
+        "content_type": 8,
+        "object_id": "5",
+        "object_repr": "Mateo Silva -> Libre",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 84,
+    "fields": {
+        "action_time": "2026-09-14T21:03:20.617Z",
+        "user": 2,
+        "content_type": 15,
+        "object_id": "1",
+        "object_repr": "Parcial Teórico: 6 (Lucas Martínez)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 85,
+    "fields": {
+        "action_time": "2026-09-14T21:03:40.719Z",
+        "user": 2,
+        "content_type": 15,
+        "object_id": "2",
+        "object_repr": "Parcial Práctico: 7.5 (Lucas Martínez)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 86,
+    "fields": {
+        "action_time": "2026-09-14T21:04:08.906Z",
+        "user": 2,
+        "content_type": 15,
+        "object_id": "3",
+        "object_repr": "Parcial Teórico: 8.50 (Valentina López)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 87,
+    "fields": {
+        "action_time": "2026-09-14T21:04:33.285Z",
+        "user": 2,
+        "content_type": 15,
+        "object_id": "4",
+        "object_repr": "Parcial Práctico: 9 (Valentina López)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 88,
+    "fields": {
+        "action_time": "2026-09-14T21:04:54.365Z",
+        "user": 2,
+        "content_type": 15,
+        "object_id": "5",
+        "object_repr": "Trabajo Práctico (TP): 4 (Mateo Silva)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 89,
+    "fields": {
+        "action_time": "2026-09-14T21:11:33.157Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "1",
+        "object_repr": "Admin",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 90,
+    "fields": {
+        "action_time": "2026-09-21T13:12:26.202Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "3",
+        "object_repr": "LucciMalap",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 91,
+    "fields": {
+        "action_time": "2026-09-21T13:12:45.891Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Lucciano Malap - DNI: 48599962",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 92,
+    "fields": {
+        "action_time": "2026-10-05T11:56:33.603Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "4",
+        "object_repr": "LucasMartinez",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 93,
+    "fields": {
+        "action_time": "2026-10-05T12:43:31.660Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "Lucas Martínez - DNI: 42123456",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 94,
+    "fields": {
+        "action_time": "2026-10-05T12:52:45.091Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "5",
+        "object_repr": "MateoSilva",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 95,
+    "fields": {
+        "action_time": "2026-10-05T12:53:06.966Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "6",
+        "object_repr": "ValentinaLopez",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 96,
+    "fields": {
+        "action_time": "2026-10-05T12:53:50.346Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "7",
+        "object_repr": "JoaquinFernandez",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 97,
+    "fields": {
+        "action_time": "2026-10-05T12:54:26.468Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "5",
+        "object_repr": "Joaquín Fernández - DNI: 40987654",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 98,
+    "fields": {
+        "action_time": "2026-10-05T12:54:30.588Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "4",
+        "object_repr": "Valentina López - DNI: 44111222",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 99,
+    "fields": {
+        "action_time": "2026-10-05T12:59:15.452Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "Mateo Silva - DNI: 41234567",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 100,
+    "fields": {
+        "action_time": "2026-10-05T12:59:19.701Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "4",
+        "object_repr": "Valentina López - DNI: 44111222",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 101,
+    "fields": {
+        "action_time": "2026-10-05T12:59:21.430Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "5",
+        "object_repr": "Joaquín Fernández - DNI: 40987654",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 102,
+    "fields": {
+        "action_time": "2026-10-05T12:59:23.188Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "Mateo Silva - DNI: 41234567",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 103,
+    "fields": {
+        "action_time": "2026-10-05T12:59:24.873Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "Lucas Martínez - DNI: 42123456",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 104,
+    "fields": {
+        "action_time": "2026-10-05T12:59:26.445Z",
+        "user": 2,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Lucciano Malap - DNI: 48599962",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$N6cbDbZi9hT35C3VWoMOFJ$rxzUjaRPSWyyigu6wlaHiIdM3ihun6FrcxT5yPQhBF0=",
+        "last_login": "2026-10-05T13:10:09.991Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@admin.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-09-14T18:00:24.597Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$UdGAAnhERUBUVPFN5Pw8VX$QW1WvL+TXvUI2x7e8ayTWznQ36tVU/AeKgNKZWrIqJM=",
+        "last_login": "2026-10-05T11:57:28.652Z",
+        "is_superuser": false,
+        "username": "LucciMalap",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-09-21T13:12:25.129Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$5z1ZcYrZCAVkUquCT2hNsd$+l/MpnMlnWhyigYfoE9zxclMirUIulfPaSAEV6z5kOc=",
+        "last_login": "2026-10-05T13:03:14.821Z",
+        "is_superuser": false,
+        "username": "LucasMartinez",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-05T11:56:31.747Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$IDSIbZfGQhy8hCDhbDQKAh$0rDCQqGan5Zjf6b9U2fq8wtaxiXKgrwLBslyGntpFpw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "MateoSilva",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-05T12:52:44.295Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$ZWsf46VAzT1qvwYSRwaVIA$8eOUkPx7/7lnitAjbSr6Q43wLxB3BQF3KB2TKHSJiy4=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "ValentinaLopez",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-05T12:53:06.194Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$Ewe4D3mZkkbN0FGen2YcZR$sI3e+ZgFFNbw/0nztHg6OKQII4Iybe1KF4oGwzeC9lU=",
+        "last_login": "2026-10-05T12:59:39.139Z",
+        "is_superuser": false,
+        "username": "JoaquinFernandez",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-05T12:53:49.557Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "4ilwwr6dw6z49ovloq0pjqcy3rju0hhh",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGln-xhYlPWewdtdrHEC2FCcV4u4QKQW0b2beSyTY1pq2wUuaszgLLU6_GwI9uO0g36HduqTe1mVGuSvyoENee-bn5XD_DiqM-q19MByyhmIhOjJBBR2LipNBb0grysYhxilSQfLMGNFlZ4ti64LTxYr3B97SN_g:1x3ZGd:SUKcx6LXq16WhEs7ih4TrAicNhy_T4EYd2oPYFr1dq8",
+        "expire_date": "2026-09-21T13:20:11.435Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "5cexhjfx8v62ajjp8jip1epuh3j960gb",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hClTAdcuvcMZIAZqRqalHZlvLuSdKHb_977LxVoW0vYGi9hyuqsBnX43SKlB9cO8p3qbdZprusyRd0VvdOmr3Pm52V3_w4KtfKthSkCkPgR7NGxWD555zAJjtnzgAazYaEck7GCIh7YeoDuASJ69f4ABzo4dQ:1x8eEw:k6Mtmn3w1PRTZILOAkbPsriC7vSU4_sAO5wDI5ePycw",
+        "expire_date": "2026-10-05T13:39:26.479Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "9p3zroppoast2sljq6yj03kshed74s9w",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hClTAdcuvcMZIAZqRqalHZlvLuSdKHb_977LxVoW0vYGi9hyuqsBnX43SKlB9cO8p3qbdZprusyRd0VvdOmr3Pm52V3_w4KtfKthSkCkPgR7NGxWD555zAJjtnzgAazYaEck7GCIh7YeoDuASJ69f4ABzo4dQ:1xDhHf:5WM99XA6w0QG_T1_glri-XVfUpA3bu8tFZ5Vfz9_KCI",
+        "expire_date": "2026-10-19T11:55:07.769Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "b8hfgyi0ec0pieatv27ilk82fxb8wm0s",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2hClTAdcuvcMZIAZqRqalHZlvLuSdKHb_977LxVoW0vYGi9hyuqsBnX43SKlB9cO8p3qbdZprusyRd0VvdOmr3Pm52V3_w4KtfKthSkCkPgR7NGxWD555zAJjtnzgAazYaEck7GCIh7YeoDuASJ69f4ABzo4dQ:1xBCfl:vx59jgEvn2zXCbRjvN-oisuajTnmg_Zuw2KZlGiR7OU",
+        "expire_date": "2026-10-12T14:49:41.398Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "bkgwvsiqg9qzfqfzewz2m1ydp6p5faw2",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xDiSH:uHo3eOmvu1VX46zTPCSq3Z2akrVhEC5hmhNkLaRvdMQ",
+        "expire_date": "2026-10-19T13:10:09.999Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "d244lox3q7vhjvwoll4ovf2hg7i20c9y",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1x6Ayk:U7ifbJSbw3UL64-74G9xGXbVVF6kXCeAWrYdwW0FU7M",
+        "expire_date": "2026-09-28T18:00:30.141Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "pcdg9ld1o550pugpw2w08z16n7hx0hl2",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xDhRR:cf2K6uAk34b1-ZOdcCA89gOhDz8GbzZGpMhzXvHzIOs",
+        "expire_date": "2026-10-19T12:05:13.186Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "qt970f85nidmo1scung3aax6pf2y0c7a",
+    "fields": {
+        "session_data": "e30:1x8duG:nl6hYuZpSew4Rys8TA1emhfOpHUWHbes5sKq1SHkThs",
+        "expire_date": "2026-10-05T13:18:04.974Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "uoql57h1lp1adbv8sc5d7a9wbqvv3bkp",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xDhIC:0hMPFM16y4UndgAIci_LfwZ1QZYJDIc5EKvXDG-58RY",
+        "expire_date": "2026-10-19T11:55:40.037Z"
+    }
+},
+{
+    "model": "UTN.carrera",
+    "pk": 1,
+    "fields": {
+        "nombre": "Ingenieria en Sistemas de Informacion",
+        "sigla": "ISI"
+    }
+},
+{
+    "model": "UTN.carrera",
+    "pk": 2,
+    "fields": {
+        "nombre": "Ingeniería Industrial",
+        "sigla": "IND"
+    }
+},
+{
+    "model": "UTN.carrera",
+    "pk": 3,
+    "fields": {
+        "nombre": "Ingeniería Electrónica",
+        "sigla": "IEL"
+    }
+},
+{
+    "model": "UTN.carrera",
+    "pk": 4,
+    "fields": {
+        "nombre": "Ingeniería Mecánica",
+        "sigla": "IME"
+    }
+},
+{
+    "model": "UTN.carrera",
+    "pk": 5,
+    "fields": {
+        "nombre": "Ingeniería Mecánica",
+        "sigla": "IME"
+    }
+},
+{
+    "model": "UTN.carrera",
+    "pk": 6,
+    "fields": {
+        "nombre": "Ingeniería Química",
+        "sigla": "IQU"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 1,
+    "fields": {
+        "carrera": 1,
+        "nombre_completo": "Lucciano Malap",
+        "usuario": 3,
+        "documento": 48599962,
+        "email": "luccianomalap@gmail.com"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 2,
+    "fields": {
+        "carrera": 1,
+        "nombre_completo": "Lucas Martínez",
+        "usuario": 4,
+        "documento": 42123456,
+        "email": "Lucas@gmail.com"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 3,
+    "fields": {
+        "carrera": 2,
+        "nombre_completo": "Mateo Silva",
+        "usuario": 5,
+        "documento": 41234567,
+        "email": "Mateo@gmail.com"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 4,
+    "fields": {
+        "carrera": 3,
+        "nombre_completo": "Valentina López",
+        "usuario": 6,
+        "documento": 44111222,
+        "email": "Valen@gmail.com"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 5,
+    "fields": {
+        "carrera": 4,
+        "nombre_completo": "Joaquín Fernández",
+        "usuario": 7,
+        "documento": 40987654,
+        "email": "Joaco@gmail.com"
+    }
+},
+{
+    "model": "UTN.materia",
+    "pk": 1,
+    "fields": {
+        "carrera": 1,
+        "nombre": "Análisis de Sistemas",
+        "sigla": "ASI",
+        "nivel": 2
+    }
+},
+{
+    "model": "UTN.materia",
+    "pk": 2,
+    "fields": {
+        "carrera": 1,
+        "nombre": "Gestión de la Mejora de Procesos",
+        "sigla": "GMP",
+        "nivel": 3
+    }
+},
+{
+    "model": "UTN.materia",
+    "pk": 3,
+    "fields": {
+        "carrera": 1,
+        "nombre": "Algoritmos y Estructuras de Datos",
+        "sigla": "AED",
+        "nivel": 1
+    }
+},
+{
+    "model": "UTN.materia",
+    "pk": 4,
+    "fields": {
+        "carrera": 1,
+        "nombre": "Diseño de Sistemas",
+        "sigla": "DSI",
+        "nivel": 3
+    }
+},
+{
+    "model": "UTN.materia",
+    "pk": 5,
+    "fields": {
+        "carrera": 1,
+        "nombre": "Redes de Información",
+        "sigla": "RDI",
+        "nivel": 4
+    }
+},
+{
+    "model": "UTN.turno",
+    "pk": 1,
+    "fields": {
+        "nombre": "Mañana",
+        "descripcion": "08:00 a 13:15 hs"
+    }
+},
+{
+    "model": "UTN.turno",
+    "pk": 2,
+    "fields": {
+        "nombre": "Tarde",
+        "descripcion": "13:30 a 18:45 hs"
+    }
+},
+{
+    "model": "UTN.turno",
+    "pk": 3,
+    "fields": {
+        "nombre": "Noche",
+        "descripcion": "19:00 a 23:30 hs"
+    }
+},
+{
+    "model": "UTN.turno",
+    "pk": 4,
+    "fields": {
+        "nombre": "Intensivo Verano",
+        "descripcion": "Cursado en Enero/Febrero"
+    }
+},
+{
+    "model": "UTN.turno",
+    "pk": 5,
+    "fields": {
+        "nombre": "Fines de Semana",
+        "descripcion": "Sábados por la mañana"
+    }
+},
+{
+    "model": "UTN.curso",
+    "pk": 1,
+    "fields": {
+        "carrera": 1,
+        "turno": 2,
+        "nombre": "2K7",
+        "nivel": 2
+    }
+},
+{
+    "model": "UTN.curso",
+    "pk": 2,
+    "fields": {
+        "carrera": 1,
+        "turno": 3,
+        "nombre": "2K9",
+        "nivel": 2
+    }
+},
+{
+    "model": "UTN.curso",
+    "pk": 3,
+    "fields": {
+        "carrera": 1,
+        "turno": 3,
+        "nombre": "3K17",
+        "nivel": 3
+    }
+},
+{
+    "model": "UTN.curso",
+    "pk": 4,
+    "fields": {
+        "carrera": 1,
+        "turno": 1,
+        "nombre": "1K1",
+        "nivel": 1
+    }
+},
+{
+    "model": "UTN.curso",
+    "pk": 5,
+    "fields": {
+        "carrera": 1,
+        "turno": 3,
+        "nombre": "4K3",
+        "nivel": 4
+    }
+},
+{
+    "model": "UTN.ciclolectivo",
+    "pk": 1,
+    "fields": {
+        "anio": 2024,
+        "descripcion": "Ciclo Lectivo 2024",
+        "fecha_inicio": "2024-03-11",
+        "fecha_fin": "2024-11-25"
+    }
+},
+{
+    "model": "UTN.ciclolectivo",
+    "pk": 2,
+    "fields": {
+        "anio": 2025,
+        "descripcion": "Ciclo Lectivo 2025",
+        "fecha_inicio": "2025-03-10",
+        "fecha_fin": "2025-11-24"
+    }
+},
+{
+    "model": "UTN.ciclolectivo",
+    "pk": 3,
+    "fields": {
+        "anio": 2026,
+        "descripcion": "Ciclo Lectivo 2026",
+        "fecha_inicio": "2026-03-09",
+        "fecha_fin": "2026-11-28"
+    }
+},
+{
+    "model": "UTN.ciclolectivo",
+    "pk": 4,
+    "fields": {
+        "anio": 2026,
+        "descripcion": "Curso de Verano 2026",
+        "fecha_inicio": "2026-01-20",
+        "fecha_fin": "2026-02-28"
+    }
+},
+{
+    "model": "UTN.ciclolectivo",
+    "pk": 5,
+    "fields": {
+        "anio": 2027,
+        "descripcion": "Ciclo Lectivo 2027",
+        "fecha_inicio": "2027-03-08",
+        "fecha_fin": "2027-11-26"
+    }
+},
+{
+    "model": "UTN.dictadomateria",
+    "pk": 1,
+    "fields": {
+        "materia": 1,
+        "curso": 1,
+        "ciclo_lectivo": 3
+    }
+},
+{
+    "model": "UTN.dictadomateria",
+    "pk": 2,
+    "fields": {
+        "materia": 1,
+        "curso": 2,
+        "ciclo_lectivo": 3
+    }
+},
+{
+    "model": "UTN.dictadomateria",
+    "pk": 3,
+    "fields": {
+        "materia": 2,
+        "curso": 3,
+        "ciclo_lectivo": 3
+    }
+},
+{
+    "model": "UTN.dictadomateria",
+    "pk": 4,
+    "fields": {
+        "materia": 3,
+        "curso": 4,
+        "ciclo_lectivo": 3
+    }
+},
+{
+    "model": "UTN.dictadomateria",
+    "pk": 5,
+    "fields": {
+        "materia": 5,
+        "curso": 5,
+        "ciclo_lectivo": 3
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 1,
+    "fields": {
+        "numero": 1,
+        "hora_inicio": "08:00:00",
+        "hora_fin": "08:45:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 2,
+    "fields": {
+        "numero": 2,
+        "hora_inicio": "08:00:00",
+        "hora_fin": "09:30:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 3,
+    "fields": {
+        "numero": 4,
+        "hora_inicio": "13:30:00",
+        "hora_fin": "14:15:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 4,
+    "fields": {
+        "numero": 5,
+        "hora_inicio": "14:15:00",
+        "hora_fin": "15:00:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 5,
+    "fields": {
+        "numero": 6,
+        "hora_inicio": "15:15:00",
+        "hora_fin": "16:00:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 6,
+    "fields": {
+        "numero": 0,
+        "hora_inicio": "18:15:00",
+        "hora_fin": "19:00:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 7,
+    "fields": {
+        "numero": 1,
+        "hora_inicio": "19:00:00",
+        "hora_fin": "19:45:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 8,
+    "fields": {
+        "numero": 2,
+        "hora_inicio": "19:45:00",
+        "hora_fin": "20:30:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 9,
+    "fields": {
+        "numero": 3,
+        "hora_inicio": "20:45:00",
+        "hora_fin": "21:30:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 10,
+    "fields": {
+        "numero": 4,
+        "hora_inicio": "21:30:00",
+        "hora_fin": "22:15:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 11,
+    "fields": {
+        "numero": 5,
+        "hora_inicio": "22:15:00",
+        "hora_fin": "23:00:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 12,
+    "fields": {
+        "numero": 6,
+        "hora_inicio": "23:00:00",
+        "hora_fin": "23:45:00"
+    }
+},
+{
+    "model": "UTN.modulo",
+    "pk": 13,
+    "fields": {
+        "numero": 3,
+        "hora_inicio": "09:40:00",
+        "hora_fin": "10:25:00"
+    }
+},
+{
+    "model": "UTN.horario",
+    "pk": 1,
+    "fields": {
+        "dictado_materia": 1,
+        "dia": "Miércoles",
+        "modulos": [
+            3,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "UTN.horario",
+    "pk": 2,
+    "fields": {
+        "dictado_materia": 1,
+        "dia": "Viernes",
+        "modulos": [
+            3,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "UTN.horario",
+    "pk": 3,
+    "fields": {
+        "dictado_materia": 2,
+        "dia": "Lunes",
+        "modulos": [
+            3,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "UTN.horario",
+    "pk": 4,
+    "fields": {
+        "dictado_materia": 2,
+        "dia": "Lunes",
+        "modulos": [
+            3,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "UTN.horario",
+    "pk": 5,
+    "fields": {
+        "dictado_materia": 2,
+        "dia": "Jueves",
+        "modulos": [
+            3,
+            4,
+            5
+        ]
+    }
+},
+{
+    "model": "UTN.horario",
+    "pk": 6,
+    "fields": {
+        "dictado_materia": 3,
+        "dia": "Jueves",
+        "modulos": [
+            1,
+            2
+        ]
+    }
+},
+{
+    "model": "UTN.docente",
+    "pk": 1,
+    "fields": {
+        "legajo": "D-1001",
+        "nombre": "Roberto",
+        "apellido": "Pérez"
+    }
+},
+{
+    "model": "UTN.docente",
+    "pk": 2,
+    "fields": {
+        "legajo": "D-1002",
+        "nombre": "María",
+        "apellido": "Domínguez"
+    }
+},
+{
+    "model": "UTN.docente",
+    "pk": 3,
+    "fields": {
+        "legajo": "D-1003",
+        "nombre": "Carlos",
+        "apellido": "Sánchez"
+    }
+},
+{
+    "model": "UTN.docente",
+    "pk": 4,
+    "fields": {
+        "legajo": "D-1004",
+        "nombre": "Laura",
+        "apellido": "Gómez"
+    }
+},
+{
+    "model": "UTN.docente",
+    "pk": 5,
+    "fields": {
+        "legajo": "D-1005",
+        "nombre": "Fernando",
+        "apellido": "Torres"
+    }
+},
+{
+    "model": "UTN.condicion",
+    "pk": 1,
+    "fields": {
+        "nombre": "Inscripto",
+        "descripcion": "Alumno registrado en el curso que se encuentra cursando actualmente.",
+        "es_condicion_final": false
+    }
+},
+{
+    "model": "UTN.condicion",
+    "pk": 2,
+    "fields": {
+        "nombre": "Regular",
+        "descripcion": "El alumno cumplió con los requisitos mínimos de parciales y asistencia para rendir examen final.",
+        "es_condicion_final": true
+    }
+},
+{
+    "model": "UTN.condicion",
+    "pk": 3,
+    "fields": {
+        "nombre": "Libre",
+        "descripcion": "El alumno no alcanzó las notas mínimas o quedó libre por inasistencias.",
+        "es_condicion_final": true
+    }
+},
+{
+    "model": "UTN.condicion",
+    "pk": 4,
+    "fields": {
+        "nombre": "Aprobación directa",
+        "descripcion": "El alumno aprobó la materia de forma completa gracias a altas notas durante el cursado.",
+        "es_condicion_final": true
+    }
+},
+{
+    "model": "UTN.condicion",
+    "pk": 5,
+    "fields": {
+        "nombre": "Promoción Práctica",
+        "descripcion": "El alumno aprobó la parte práctica y solo debe rendir un examen final teórico.",
+        "es_condicion_final": true
+    }
+},
+{
+    "model": "UTN.tipoevaluacion",
+    "pk": 1,
+    "fields": {
+        "nombre": "Parcial Teórico",
+        "descripcion": "Evaluación escrita individual sobre los conceptos teóricos de la materia."
+    }
+},
+{
+    "model": "UTN.tipoevaluacion",
+    "pk": 2,
+    "fields": {
+        "nombre": "Parcial Práctico",
+        "descripcion": "Evaluación enfocada en la resolución de problemas y ejercicios prácticos en máquina o papel."
+    }
+},
+{
+    "model": "UTN.tipoevaluacion",
+    "pk": 3,
+    "fields": {
+        "nombre": "Trabajo Práctico (TP)",
+        "descripcion": "Actividad grupal o individual de desarrollo entregada durante el cursado."
+    }
+},
+{
+    "model": "UTN.tipoevaluacion",
+    "pk": 4,
+    "fields": {
+        "nombre": "Recuperatorio Teórico",
+        "descripcion": "Instancia para recuperar o levantar la nota de un parcial teórico reprobado o ausente."
+    }
+},
+{
+    "model": "UTN.tipoevaluacion",
+    "pk": 5,
+    "fields": {
+        "nombre": "Recuperatorio Práctico",
+        "descripcion": "Instancia para recuperar o levantar la nota de un parcial práctico."
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 1,
+    "fields": {
+        "alumno": 1,
+        "dictado_materia": 1,
+        "codigo_inscripcion": "INS-AA8ECC47",
+        "fecha_inscripcion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 2,
+    "fields": {
+        "alumno": 2,
+        "dictado_materia": 1,
+        "codigo_inscripcion": "INS-31E46967",
+        "fecha_inscripcion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 3,
+    "fields": {
+        "alumno": 3,
+        "dictado_materia": 4,
+        "codigo_inscripcion": "INS-481F43C9",
+        "fecha_inscripcion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 4,
+    "fields": {
+        "alumno": 5,
+        "dictado_materia": 5,
+        "codigo_inscripcion": "INS-654A476B",
+        "fecha_inscripcion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 5,
+    "fields": {
+        "alumno": 4,
+        "dictado_materia": 2,
+        "codigo_inscripcion": "INS-AB15B57E",
+        "fecha_inscripcion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 6,
+    "fields": {
+        "alumno": 1,
+        "dictado_materia": 1,
+        "codigo_inscripcion": "INS-F1F7D4AB",
+        "fecha_inscripcion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 1,
+    "fields": {
+        "inscripcion": 2,
+        "condicion": 1,
+        "docente": 1,
+        "fecha_hora": "2026-09-14T21:00:16Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 2,
+    "fields": {
+        "inscripcion": 2,
+        "condicion": 2,
+        "docente": 1,
+        "fecha_hora": "2026-09-14T21:00:38Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 3,
+    "fields": {
+        "inscripcion": 5,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-09-14T21:01:05Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 4,
+    "fields": {
+        "inscripcion": 5,
+        "condicion": 5,
+        "docente": 1,
+        "fecha_hora": "2026-09-14T21:01:17Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 5,
+    "fields": {
+        "inscripcion": 3,
+        "condicion": 3,
+        "docente": 2,
+        "fecha_hora": "2026-09-14T21:01:48Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 6,
+    "fields": {
+        "inscripcion": 6,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-09-14T21:05:25.661Z"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 1,
+    "fields": {
+        "inscripcion": 2,
+        "tipo_evaluacion": 1,
+        "docente": 1,
+        "valor": "6.00",
+        "fecha_evaluacion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 2,
+    "fields": {
+        "inscripcion": 2,
+        "tipo_evaluacion": 2,
+        "docente": 1,
+        "valor": "7.50",
+        "fecha_evaluacion": "2026-09-14"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 3,
+    "fields": {
+        "inscripcion": 5,
+        "tipo_evaluacion": 1,
+        "docente": 1,
+        "valor": "8.50",
+        "fecha_evaluacion": "2026-09-18"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 4,
+    "fields": {
+        "inscripcion": 5,
+        "tipo_evaluacion": 2,
+        "docente": 1,
+        "valor": "9.00",
+        "fecha_evaluacion": "2026-09-18"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 5,
+    "fields": {
+        "inscripcion": 3,
+        "tipo_evaluacion": 3,
+        "docente": 2,
+        "valor": "4.00",
+        "fecha_evaluacion": "2026-09-16"
+    }
+}
+]
