@@ -1,0 +1,46 @@
+# Explicación del Proyecto: Sistema de Gestión Académica (Trabajo Integrador UTN)
+
+Esta es una guía pensada para que cualquier persona, sin importar su nivel de conocimientos técnicos, pueda entender de qué trata este proyecto, qué tecnologías usa y cómo funciona por dentro.
+
+## 1. ¿De qué se trata el proyecto?
+Básicamente, es un sistema web similar al sistema que usamos en la facultad para anotarnos a cursar (como el sistema SYSACAD o de autogestión). Sirve para que la universidad administre carreras, materias, alumnos y profesores, y para que los estudiantes puedan ingresar, ver su estado académico y anotarse a las materias.
+
+## 2. ¿Con qué está construido? (Las Tecnologías)
+*   **Python**: Es el lenguaje de programación principal del proyecto. Todo el "cerebro" o la lógica de cómo funciona el sistema está escrito en Python.
+*   **Django**: Es una herramienta (o "framework") que facilita la creación de páginas web con Python. Django se encarga de armar la estructura principal, conectar la base de datos, manejar la seguridad y las rutas de las páginas para que no tengamos que hacer todo desde cero.
+*   **SQLite**: Es el sistema de base de datos. Es el lugar donde se guarda y organiza toda la información (los nombres de los alumnos, sus notas, las carreras, etc.). Es como un archivo Excel superpotente integrado dentro del proyecto.
+*   **HTML**: Es el código que se usa para darle estructura y mostrar las pantallas que ve el usuario en su navegador (botones, tablas, menús, textos).
+
+## 3. ¿Cómo está organizada la información? (Los "Modelos")
+En Django, la información se organiza en "Modelos" (en el archivo `models.py`). Cada modelo representa algo de la vida real que queremos guardar en nuestra base de datos. Los principales son:
+*   **Carrera**: Guarda el nombre y la sigla (ej: Ingeniería en Sistemas - ISI).
+*   **Alumno**: Guarda los datos del estudiante (nombre completo, DNI, email) y a qué carrera pertenece. También se vincula a una cuenta de "Usuario" para que pueda iniciar sesión con contraseña.
+*   **Materia**: Guarda el nombre de la asignatura, su sigla y de qué nivel (o año) es.
+*   **Turno y Curso**: Sirven para organizar dónde y cuándo se dicta una clase. Un Turno es Mañana, Tarde o Noche. Un Curso es la división (ej: 2K7).
+*   **Docente**: Guarda los datos de los profesores y su legajo identificador.
+*   **DictadoMateria**: Es la combinación de una materia que se da en un curso específico, durante un año específico. (Ej: "Análisis Matemático, dictada en el curso 2K7, durante el ciclo 2026").
+*   **Inscripción**: Cuando un alumno se anota a cursar, se crea este registro. Es el "comprobante" de que está anotado, y se le genera un código único de inscripción automáticamente.
+*   **CambioCondicion**: Guarda el historial de los estados del alumno en esa materia. Por ejemplo, arranca como "Inscripto", luego pasa a "Regular" o "Libre". Esto permite ver su recorrido.
+*   **Evaluacion**: Guarda las notas (parciales, recuperatorios, trabajos prácticos) que saca el alumno en la materia cursada.
+
+## 4. ¿Qué acciones se pueden hacer en el sistema? (Las "Vistas")
+El archivo `views.py` tiene las funciones que deciden qué mostrar en la pantalla cuando el usuario hace clic en algún lado. Las pantallas o funciones principales son:
+*   `inicio`: Es la página de bienvenida general al sistema.
+*   `panel_alumno`: Es el perfil personal del estudiante. Cuando entra, ve sus datos personales, las materias a las que ya está anotado y en qué estado se encuentra cada una.
+*   `inscribir_materia`: Es la pantalla que permite al alumno ver a qué clases se puede anotar (filtradas según su carrera) y hacer clic para inscribirse.
+*   `reporte_regulares`: Es una página que genera una lista rápida para ver en qué materias el alumno logró quedar "Regular" (aprobó la cursada).
+*   `notas`: Es la pantalla donde el alumno puede ver todas las notas de evaluaciones que los profesores le hayan cargado.
+*   `LoginAlumnoView`: Es el "guardia de seguridad". Se encarga de mostrar la pantalla de Inicio de Sesión y verificar que el usuario y la contraseña sean correctos antes de dejar entrar al alumno a su panel.
+
+## 5. ¿Cómo se navega por la página? (Las "URLs")
+En el archivo `urls.py` están definidas las direcciones web (los links) del sistema. Funcionan como el mapa de rutas. Por ejemplo:
+*   Si entras a `/login/`, el sistema sabe que te tiene que mostrar la pantalla de login.
+*   Si entras a `/alumno/1/inscribir/`, el sistema sabe que te tiene que mostrar la pantalla de inscripción para el alumno específico (el alumno número 1).
+*   Este archivo es el que conecta las direcciones que aparecen arriba en el navegador con las "Vistas" de las que hablamos recién.
+
+## 6. Resumen: ¿Cómo es el paso a paso del uso del programa?
+1. Primero, los administradores cargan las Carreras, Materias, Cursos y a los Alumnos usando un panel de administración secreto que trae Django.
+2. Un alumno entra a la página web y va a "Iniciar Sesión" (Login).
+3. Una vez adentro, ve su "Panel de Alumno" con toda su situación académica actual.
+4. Si se quiere anotar a cursar, va al botón de inscripción, elige una materia disponible para su carrera, y el sistema lo anota devolviéndole un código de confirmación.
+5. Durante el año, los profesores le cargan las notas. El alumno entra a la sección de notas para verlas. Al final del año, le cambian su condición a "Regular" si aprobó, y el alumno puede ver esto en su panel y en la sección de reportes.
