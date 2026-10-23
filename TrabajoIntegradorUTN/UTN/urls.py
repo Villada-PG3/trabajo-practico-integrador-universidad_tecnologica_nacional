@@ -14,5 +14,7 @@ urlpatterns = [
     path('login/', views.LoginAlumnoView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path("", views.landing, name="landing"),
+    path('docentes/login/', views.LoginDocenteView.as_view(), name='login_docente'),
+    path('docentes/panel/', views.panel_docente, name='panel_docente'),
 
 ]
