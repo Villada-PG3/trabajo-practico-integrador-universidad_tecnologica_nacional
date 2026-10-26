@@ -116,32 +116,84 @@ class LoginAlumnoView(LoginView):
     
     
 def landing(request):
-    carreras = []
-    for carrera in Carrera.objects.all():
-        carreras.append({
-            "nombre": carrera.nombre
-        })
+    iconos_carrera = [
+        "bi-building",
+        "bi-lightning-charge",
+        "bi-cpu",
+        "bi-gear",
+        "bi-tools",
+        "bi-bezier2",
+        "bi-boxes",
+        "bi-code-slash",
+    ]
+    carreras = [
+        {
+            "nombre": carrera.nombre,
+            "sigla": carrera.sigla,
+            "icono": iconos_carrera[indice % len(iconos_carrera)],
+        }
+        for indice, carrera in enumerate(Carrera.objects.all().order_by("nombre"))
+    ]
+    if not carreras:
+        carreras = [
+            {"nombre": "Ingeniería Civil", "sigla": "IC", "icono": "bi-building"},
+            {"nombre": "Ingeniería Eléctrica", "sigla": "IE", "icono": "bi-lightning-charge"},
+            {"nombre": "Ingeniería Electrónica", "sigla": "IE", "icono": "bi-cpu"},
+            {"nombre": "Ingeniería Industrial", "sigla": "II", "icono": "bi-gear"},
+            {"nombre": "Ingeniería Mecánica", "sigla": "IM", "icono": "bi-tools"},
+            {"nombre": "Ingeniería Metalúrgica", "sigla": "IM", "icono": "bi-bezier2"},
+            {"nombre": "Ingeniería Química", "sigla": "IQ", "icono": "bi-boxes"},
+            {"nombre": "Ingeniería en Sistemas de Información", "sigla": "ISI", "icono": "bi-code-slash"},
+        ]
+
     fotos = [
-        {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBs5zALy7bHbwEEZsIhmb9i5f21WzYBQ6MZJGj6Xc1TwnSzE7rZ3LpkXw&s=10", "alt": "Edificio central"},
-        {"url": "https://fra.utn.edu.ar/wp-content/uploads/2024/08/1-23.jpg", "alt": "Laboratorios"},
-        {"url": "https://www.academia.frc.utn.edu.ar/pub/image/IMG_20130311_191734.jpg", "alt": "Aulas"},
-        {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2RUdpeXiPMmSXxtQ9h1UFbWLNPHloJ0he6mTBYxiCGu-vmVasVK9umAHk&s=10", "alt": "Ciudad Universitaria"},
+        {"url": "static/UTN/media/img-utn-patio.webp", "alt": "Patio de la UTN Facultad Regional Córdoba"},
+        {"url": "static/UTN/media/1-23.jpg", "alt": "Espacios universitarios"},
+        {"url": "static/UTN/media/IMG_20130311_191734.jpg", "alt": "Actividad en las aulas"},
+        {"url": "static/UTN/media/images (1).jpg", "alt": "Ciudad Universitaria de Córdoba"},
     ]
     noticias = [
-        {"categoria": "Ingreso", "titulo": "Ingreso a Ingenierías 2027",
-         "resumen": "Requisitos, fechas y clases grabadas de apoyo para el Ciclo Introductorio.",
-         "link": "https://www.frc.utn.edu.ar/ingreso-ingenierias-2027/"},
-        {"categoria": "Investigación", "titulo": "Sombras y Sonidos - VR",
-         "resumen": "Aplicación de realidad virtual desarrollada en el Centro de Investigación y Transferencia en Acústica de la FRC.",
-         "link": "https://www.frc.utn.edu.ar/"},
-        {"categoria": "Comunidad", "titulo": "Radio FM 94.3",
-         "resumen": "La radio de la Facultad, con contenidos de la comunidad universitaria.",
-         "link": "https://www.frc.utn.edu.ar/"},
+        {"categoria": "Comunidad", "titulo": "5.ª Marcha Federal Universitaria",
+         "resumen": "La comunidad tecnológica participó de la jornada por la educación, la soberanía y la democracia."},
+        {"categoria": "Ingeniería Nuclear", "titulo": "Visita a la Central Nuclear Embalse",
+         "resumen": "Una delegación de la UTN Córdoba recorrió una instalación clave del sistema energético argentino."},
+        {"categoria": "Ingeniería en Sistemas", "titulo": "Presentación de proyectos finales",
+         "resumen": "Estudiantes compartieron sus trabajos en una nueva jornada de proyectos de carrera."},
+    ]
+    eventos = [
+        {"fecha": "26 OCT", "tipo": "Conferencia", "titulo": "Ingeniería en la vida real: de la UTN a Vaca Muerta",
+         "detalle": "Hoy · 17:00 · Sala Agustín Tosco · Presencial"},
+        {"fecha": "27 OCT", "tipo": "Charla", "titulo": "Campus France Argentina / DAAD",
+         "detalle": "18:30 · Kultur Ensemble Córdoba · Presencial"},
+        {"fecha": "28 OCT", "tipo": "Innovación", "titulo": "Llega Hack 2 Future",
+         "detalle": "08:45 · SUM Lic. Alicia Delgado · Presencial"},
+    ]
+    formaciones = [
+        {"tipo": "Curso", "titulo": "Flujo subterráneo con MODFLOW",
+         "detalle": "Inicia el 26 de octubre · Modalidad online"},
+        {"tipo": "Curso", "titulo": "Herramientas de Design Thinking",
+         "detalle": "Inicia el 6 de noviembre · Modalidad presencial"},
+        {"tipo": "Workshop", "titulo": "Desarrollo profesional de mandos medios",
+         "detalle": "Inicia el 11 de noviembre · Modalidad presencial"},
+    ]
+    entrevistas = [
+        {"persona": "Ing. Lucía Angeleri",
+         "titulo": "Investigación, innovación y una experiencia internacional",
+         "resumen": "Graduada de la UTN FRC, realizó investigación en nanotecnología y obtuvo una beca Marie Curie para doctorarse en Madrid."},
+        {"persona": "Dr. Ing. Guillermo Gilberto",
+         "titulo": "Un audiojuego para percibir el espacio",
+         "resumen": "El investigador desarrolló una experiencia de realidad virtual como parte de su tesis doctoral en Ingeniería Electrónica."},
+        {"persona": "Dr. Martín Pucheta",
+         "titulo": "Ingeniería aplicada al automovilismo",
+         "resumen": "Director de una especialización de posgrado pionera en Latinoamérica, dictada en nuestra Facultad."},
     ]
     context = {
         "carreras": carreras,
         "fotos": fotos,
         "noticias": noticias,
+        "eventos": eventos,
+        "formaciones": formaciones,
+        "entrevistas": entrevistas,
     }
     return render(request, "UTN/landing.html", context)
 
