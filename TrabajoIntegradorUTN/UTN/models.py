@@ -64,6 +64,7 @@ class DictadoMateria(models.Model):
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE, related_name="dictados")
     curso = models.ForeignKey(Curso, on_delete=models.CASCADE, related_name="dictados")
     ciclo_lectivo = models.ForeignKey(CicloLectivo, on_delete=models.PROTECT, related_name="dictados")
+    docentes = models.ManyToManyField("Docente", related_name="dictados", blank=True)
 
     def __str__(self):
         return f"{self.materia.sigla} - {self.curso.nombre} ({self.ciclo_lectivo.anio})"
@@ -88,6 +89,7 @@ class Horario(models.Model):
 
 
 class Docente(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     legajo = models.CharField(max_length=50, unique=True)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)

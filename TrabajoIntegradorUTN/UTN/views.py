@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse 
 from django.contrib import messages
-from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condicion, Carrera
+from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condicion, Carrera, Evaluacion, TipoEvaluacion
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
 from django.db import transaction, IntegrityError
+from decimal import Decimal, InvalidOperation
+from django.core.exceptions import PermissionDenied
+from django.utils import timezone
 
 def inicio(request):
     return render(request, 'UTN/utn.html', {'alumnos': Alumno.objects.all()})
@@ -142,3 +145,110 @@ def landing(request):
     }
     return render(request, "UTN/landing.html", context)
 
+
+
+class LoginDocenteView(LoginView):
+    template_name = 'UTN/login.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['titulo'] = 'Acceso docentes'
+        ctx['subtitulo'] = 'Ingresá con tu usuario para calificar a tus alumnos.'
+        return ctx
+
+    def form_valid(self, form):
+        # Credenciales correctas pero no es docente (ej: un alumno) -> no lo dejamos pasar
+        if not hasattr(form.get_user(), 'docente'):
+            form.add_error(None, "Este usuario no está registrado como docente.")
+            return self.form_invalid(form)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('panel_docente')
+
+
+def _a_int(valor):
+    return int(valor) if valor and valor.isdigit() else None
+
+
+@login_required(login_url='login_docente')
+def panel_docente(request):
+    docente = getattr(request.user, 'docente', None)
+    if docente is None:
+        raise PermissionDenied  # muestra tu página 403
+
+    dictados = (docente.dictados
+                .select_related('materia', 'curso', 'curso__turno', 'ciclo_lectivo')
+                .order_by('-ciclo_lectivo__anio', 'materia__nombre'))
+    tipos = TipoEvaluacion.objects.all()
+
+    # Tanto en GET (?dictado=1&tipo=2) como en POST (campos ocultos)
+    dictado_id = _a_int(request.POST.get('dictado_id') or request.GET.get('dictado'))
+    tipo_id = _a_int(request.POST.get('tipo_id') or request.GET.get('tipo'))
+
+    dictado = get_object_or_404(dictados, id=dictado_id) if dictado_id else None  # solo SUS cursos
+    tipo = get_object_or_404(tipos, id=tipo_id) if tipo_id else tipos.first()
+
+    filas = []
+    if dictado and tipo:
+        inscripciones = list(
+            dictado.inscripciones.select_related('alumno').order_by('alumno__nombre_completo')
+        )
+
+        if request.method == 'POST':
+            errores = 0
+            with transaction.atomic():
+                for insc in inscripciones:
+                    raw = request.POST.get(f'nota_{insc.id}')
+                    if raw is None:
+                        continue  # alumno inscripto después de cargar la página
+                    existente = Evaluacion.objects.filter(
+                        inscripcion=insc, tipo_evaluacion=tipo
+                    ).first()
+
+                    if raw == '':  # Pendiente
+                        if existente:
+                            existente.delete()
+                        continue
+
+                    try:
+                        valor = Decimal(raw)
+                    except InvalidOperation:
+                        errores += 1
+                        continue
+                    if not (1 <= valor <= 10):
+                        errores += 1
+                        continue
+
+                    if existente:
+                        existente.valor = valor
+                        existente.docente = docente
+                        existente.fecha_evaluacion = timezone.localdate()
+                        existente.save()
+                    else:
+                        Evaluacion.objects.create(
+                            inscripcion=insc, tipo_evaluacion=tipo, docente=docente,
+                            valor=valor, fecha_evaluacion=timezone.localdate(),
+                        )
+
+            if errores:
+                messages.warning(request, f"Se guardaron las notas, pero {errores} valor(es) no eran válidos.")
+            else:
+                messages.success(request, "Notas guardadas correctamente.")
+            return redirect(f"{reverse('panel_docente')}?dictado={dictado.id}&tipo={tipo.id}")
+
+        notas = {
+            e.inscripcion_id: e.valor
+            for e in Evaluacion.objects.filter(inscripcion__dictado_materia=dictado, tipo_evaluacion=tipo)
+        }
+        filas = [{'inscripcion': i, 'alumno': i.alumno, 'nota': notas.get(i.id)} for i in inscripciones]
+
+    return render(request, 'UTN/panel_docente.html', {
+        'docente': docente,
+        'dictados': dictados,
+        'tipos': tipos,
+        'dictado': dictado,
+        'tipo': tipo,
+        'filas': filas,
+        'escala': range(1, 11),
+    })
