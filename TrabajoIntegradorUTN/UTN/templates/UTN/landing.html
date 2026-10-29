@@ -240,19 +240,24 @@
     </footer>
 
     <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content landing-modal">
-                <div class="modal-header border-0 pb-0">
-                    <h2 class="modal-title fs-5" id="infoModalTitle"></h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content landing-modal shadow-lg border-0" style="border-radius: 1.25rem;">
+            <div class="modal-header border-0 p-4 pb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-light text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="bi bi-info-circle-fill fs-3"></i>
+                    </div>
+                    <h2 class="modal-title fs-3 fw-bold mb-0" id="infoModalTitle" style="color: #2c3e50;"></h2>
                 </div>
-                <div class="modal-body pt-2" id="infoModalContent"></div>
-                <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-modern btn-modern-primary" data-bs-dismiss="modal">Entendido</button>
-                </div>
+                <button type="button" class="btn-close fs-5" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body p-4 pt-0 fs-5 text-secondary lh-lg" id="infoModalContent"></div>
+            <div class="modal-footer border-0 p-4 pt-2 justify-content-end">
+                <button type="button" class="btn btn-modern btn-primary btn-lg px-5 rounded-pill shadow-sm" data-bs-dismiss="modal">Entendido</button>
             </div>
         </div>
     </div>
+</div>
 </main>
 {% endblock %}
 
