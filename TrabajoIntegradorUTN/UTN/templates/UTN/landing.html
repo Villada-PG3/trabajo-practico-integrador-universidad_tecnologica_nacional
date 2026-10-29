@@ -18,8 +18,15 @@
                 <div class="d-flex flex-wrap gap-2">
                     <a href="#ingreso" class="btn btn-light btn-modern">Conocé el ingreso</a>
                     <a href="#carreras" class="btn btn-outline-light btn-modern">Explorá las carreras</a>
-                    <a href="{% url 'utn' %}" class="btn btn-outline-light btn-modern">Autogestión</a>
-                    <a href="{% url 'login_docente' %}" class="btn btn-outline-light btn-modern">Acceso docentes</a>
+                    
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'redireccion_panel' %}" class="btn btn-outline-light btn-modern">
+                            <i class="bi bi-person-circle me-1"></i> Ir a mi panel ({{ user.username }})
+                        </a>
+                    {% else %}
+                        <a href="{% url 'utn' %}" class="btn btn-outline-light btn-modern">Autogestión</a>
+                        <a href="{% url 'login_docente' %}" class="btn btn-outline-light btn-modern">Acceso docentes</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
