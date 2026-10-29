@@ -1,46 +1,23 @@
 {% extends 'UTN/base.html' %}
+{% load l10n %}
 
 {% block title %}Panel docente{% endblock %}
 
 {% block content %}
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4">
     <div>
         <h2 class="text-primary-modern display-6 fw-bold mb-1">Panel docente</h2>
         <p class="text-secondary fs-5 mb-0">{{ docente.apellido }}, {{ docente.nombre }} | Legajo {{ docente.legajo }}</p>
     </div>
-    <form method="post" action="{% url 'logout' %}" class="mt-4 mt-md-0">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-modern btn-modern-ghost">
-            <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
-        </button>
-    </form>
-</div>
-
-<div class="card border-0 shadow-soft rounded-organic-sm p-3 mb-4">
-    <div class="card-body">
-        <form method="get" class="row g-3 align-items-end">
-            <div class="col-md-6">
-                <label for="dictado" class="form-label small fw-bold text-secondary">Curso</label>
-                <select name="dictado" id="dictado" class="form-select" onchange="this.form.submit()">
-                    <option value="">Elegí un curso...</option>
-                    {% for d in dictados %}
-                        <option value="{{ d.id }}" {% if dictado and dictado.id == d.id %}selected{% endif %}>
-                            {{ d.materia.nombre }} · {{ d.curso.nombre }} ({{ d.curso.turno.nombre }}) · {{ d.ciclo_lectivo.anio }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="tipo" class="form-label small fw-bold text-secondary">Evaluación</label>
-                <select name="tipo" id="tipo" class="form-select" onchange="this.form.submit()">
-                    {% for t in tipos %}
-                        <option value="{{ t.id }}" {% if tipo and tipo.id == t.id %}selected{% endif %}>{{ t.nombre }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-modern btn-modern-primary w-100">Ver</button>
-            </div>
+    <div class="mt-4 mt-md-0 d-flex gap-2">
+        <a href="{% url 'mi_cuenta' %}" class="btn btn-modern btn-modern-ghost">
+            <i class="bi bi-person-gear me-1"></i> Mi cuenta
+        </a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-modern btn-modern-ghost">
+                <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
+            </button>
         </form>
     </div>
 </div>
@@ -50,69 +27,343 @@
         <i class="bi bi-journal-x fs-1 d-block mb-3"></i>
         Todavía no tenés cursos asignados. Contactá a administración.
     </div>
-{% elif not tipos %}
-    <div class="alert bg-white shadow-soft border-0 rounded-organic p-5 text-center text-secondary">
-        No hay tipos de evaluación cargados en el sistema (Parcial, Final, etc.).
+{% else %}
+
+<!-- Selector de curso (lo único que hay que elegir) -->
+<div class="card border-0 shadow-soft rounded-organic-sm p-2 mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-8 col-lg-6">
+                <label for="dictado" class="form-label small fw-bold text-secondary">Curso</label>
+                <select name="dictado" id="dictado" class="form-select" onchange="this.form.submit()">
+                    {% for d in dictados %}
+                        <option value="{{ d.id }}" {% if dictado.id == d.id %}selected{% endif %}>
+                            {{ d.materia.nombre }} · {{ d.curso.nombre }} ({{ d.curso.turno.nombre }}) · {{ d.ciclo_lectivo.anio }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <noscript><div class="col-auto"><button class="btn btn-modern btn-modern-primary">Ver</button></div></noscript>
+        </form>
     </div>
-{% elif dictado %}
-    <div class="d-flex justify-content-between align-items-center mb-3">
+</div>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
         <h4 class="fw-bold m-0">{{ dictado.materia.nombre }} <span class="text-muted fs-6">· {{ dictado.curso.nombre }}</span></h4>
-        <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">{{ filas|length }} alumnos</span>
+        <small class="text-secondary">{{ filas|length }} alumno{{ filas|length|pluralize }} · {{ columnas|length }} evaluaci{{ columnas|length|pluralize:"ón,ones" }}</small>
+    </div>
+    {% if filas %}
+    <button type="button" class="btn btn-modern btn-modern-primary shadow-soft" data-bs-toggle="modal" data-bs-target="#modalColumna" data-modo="nueva">
+        <i class="bi bi-plus-lg me-1"></i> Agregar evaluación
+    </button>
+    {% endif %}
+</div>
+
+{% if not filas %}
+    <div class="alert bg-white shadow-soft border-0 rounded-organic p-5 text-center text-secondary">
+        Este curso todavía no tiene alumnos inscriptos.
+    </div>
+{% else %}
+
+<form method="post" id="formPlanilla" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="dictado_id" value="{{ dictado.id }}">
+    <input type="hidden" name="col_id" id="colId" value="">
+
+    <div class="card border-0 shadow-soft rounded-organic-sm mb-3 overflow-hidden">
+        <div class="table-responsive planilla-wrap">
+            <table class="table align-middle mb-0 planilla">
+                <thead>
+                    <tr>
+                        <th class="col-alumno">Alumno</th>
+                        {% for col in columnas %}
+                        <th class="col-nota">
+                            <div class="d-flex align-items-start justify-content-between gap-1">
+                                <div>
+                                    <div class="col-titulo" title="{{ col.tipo_evaluacion.nombre }}">{{ col.titulo }}</div>
+                                    <div class="col-meta">
+                                        {{ col.fecha|date:"d/m" }}
+                                        {% if col.nombre %}· {{ col.tipo_evaluacion.nombre }}{% endif %}
+                                    </div>
+                                    {% if not col.para_todos %}
+                                        <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis mt-1">{{ col.ids_alumnos|length }} alumno{{ col.ids_alumnos|length|pluralize }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-sm btn-link text-secondary p-0" data-bs-toggle="dropdown"
+                                            data-bs-popper-config='{"strategy":"fixed"}' aria-label="Opciones de la columna">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-soft border-0">
+                                        <li>
+                                            <button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalColumna"
+                                                    data-modo="editar" data-col-id="{{ col.id }}" data-tipo="{{ col.tipo_evaluacion_id }}"
+                                                    data-nombre="{{ col.nombre }}" data-fecha="{{ col.fecha|date:'Y-m-d' }}"
+                                                    data-todos="{{ col.para_todos|yesno:'1,0' }}"
+                                                    data-alumnos="{% for i in col.ids_alumnos %}{{ i|unlocalize }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                                                <i class="bi bi-pencil me-1"></i> Editar columna
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="dropdown-item text-danger" data-bs-toggle="modal" data-bs-target="#modalEliminarColumna"
+                                                    data-col-id="{{ col.id }}" data-titulo="{{ col.titulo }}">
+                                                <i class="bi bi-trash me-1"></i> Eliminar columna
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </th>
+                        {% endfor %}
+                        <th class="col-agregar text-center">
+                            <button type="button" class="btn btn-sm btn-agregar-col" data-bs-toggle="modal" data-bs-target="#modalColumna"
+                                    data-modo="nueva" title="Agregar evaluación" aria-label="Agregar evaluación">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </th>
+                        <th class="col-promedio text-center">Promedio</th>
+                        <th class="col-condicion">Condición</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fila in filas %}
+                    <tr>
+                        <td class="col-alumno">
+                            <div class="fw-semibold text-dark">{{ fila.alumno.nombre_completo }}</div>
+                            <small class="text-muted">DNI {{ fila.alumno.documento|unlocalize }}</small>
+                        </td>
+                        {% for celda in fila.celdas %}
+                            {% if celda.aplica %}
+                            <td class="col-nota">
+                                <input type="text" inputmode="decimal" autocomplete="off"
+                                       class="form-control form-control-sm planilla-input"
+                                       name="nota_{{ celda.columna.id }}_{{ fila.inscripcion.id }}"
+                                       value="{{ celda.nota }}"
+                                       placeholder="–" aria-label="Nota de {{ fila.alumno.nombre_completo }} en {{ celda.columna.titulo }}">
+                            </td>
+                            {% else %}
+                            <td class="col-nota celda-no-aplica" title="Esta evaluación no corresponde a este alumno">
+                                <span>No aplica</span>
+                            </td>
+                            {% endif %}
+                        {% endfor %}
+                        <td class="col-agregar"></td>
+                        <td class="col-promedio text-center fw-semibold">
+                            {% if fila.promedio is not None %}{{ fila.promedio|floatformat:2 }}{% else %}<span class="text-muted">—</span>{% endif %}
+                        </td>
+                        <td class="col-condicion">
+                            <select name="condicion_{{ fila.inscripcion.id }}" class="form-select form-select-sm planilla-select">
+                                {% if not fila.condicion_id %}<option value="" selected>Sin condición</option>{% endif %}
+                                {% for c in condiciones %}
+                                    <option value="{{ c.id }}" {% if fila.condicion_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if not columnas %}
+        <div class="text-center text-secondary p-4 border-top">
+            <i class="bi bi-table fs-3 d-block mb-2 text-primary-modern"></i>
+            Todavía no hay evaluaciones en este curso. Tocá <strong>+ Agregar evaluación</strong> para crear la primera columna.
+        </div>
+        {% endif %}
     </div>
 
-    {% if filas %}
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="dictado_id" value="{{ dictado.id }}">
-        <input type="hidden" name="tipo_id" value="{{ tipo.id }}">
+    <p class="small text-secondary mb-5">
+        <i class="bi bi-info-circle me-1"></i>
+        Notas de 1 a 10 (podés usar decimales, por ejemplo 7,5). Dejá la celda vacía si la nota está pendiente.
+        Con <kbd>Enter</kbd> bajás al alumno siguiente.
+    </p>
 
-        <div class="card border-0 shadow-soft rounded-organic-sm p-2 mb-4">
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th class="py-3 text-secondary small text-uppercase">Alumno</th>
-                            <th class="py-3 text-secondary small text-uppercase">DNI</th>
-                            <th class="py-3 text-secondary small text-uppercase text-end" style="width: 200px;">
-                                Nota · {{ tipo.nombre }}
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for fila in filas %}
-                        <tr>
-                            <td class="py-3 fw-medium text-dark">{{ fila.alumno.nombre_completo }}</td>
-                            <td class="py-3 text-muted">{{ fila.alumno.documento }}</td>
-                            <td class="py-3 text-end">
-                                <select name="nota_{{ fila.inscripcion.id }}" class="form-select form-select-sm">
-                                    <option value="" {% if fila.nota is None %}selected{% endif %}>Pendiente</option>
-                                    {% for n in escala %}
-                                        <option value="{{ n }}" {% if fila.nota == n %}selected{% endif %}>{{ n }}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+    <!-- Barra fija para guardar -->
+    <div class="barra-guardar shadow">
+        <span class="small" id="estadoCambios"><i class="bi bi-check2 me-1"></i>Sin cambios</span>
+        <button type="submit" name="accion" value="guardar" class="btn btn-modern btn-modern-primary">
+            <i class="bi bi-check2-circle me-1"></i> Guardar planilla
+        </button>
+    </div>
+
+    <!-- Modal: agregar / editar columna -->
+    <div class="modal fade" id="modalColumna" tabindex="-1" aria-labelledby="modalColumnaTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0 rounded-organic">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="modalColumnaTitulo">Agregar evaluación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label class="form-label small fw-medium" for="colTipo">Tipo de evaluación <span class="text-danger">*</span></label>
+                            <select class="form-select" name="col_tipo" id="colTipo">
+                                {% for t in tipos %}<option value="{{ t.id }}">{{ t.nombre }}</option>{% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label small fw-medium" for="colFecha">Fecha</label>
+                            <input type="date" class="form-control" name="col_fecha" id="colFecha" value="{{ hoy|date:'Y-m-d' }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-medium" for="colNombre">Nombre <span class="text-secondary fw-normal">(opcional)</span></label>
+                            <input type="text" class="form-control" name="col_nombre" id="colNombre" maxlength="80" placeholder="Ej: Parcial 1, Recuperatorio, TP 2">
+                        </div>
+                        <div class="col-12">
+                            <span class="form-label small fw-medium d-block mb-2">¿A quiénes se les toma?</span>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="col_alcance" id="alcanceTodos" value="todos" checked>
+                                <label class="btn btn-outline-primary" for="alcanceTodos"><i class="bi bi-people me-1"></i> A todos</label>
+                                <input type="radio" class="btn-check" name="col_alcance" id="alcanceAlgunos" value="algunos">
+                                <label class="btn btn-outline-primary" for="alcanceAlgunos"><i class="bi bi-person-check me-1"></i> A algunos</label>
+                            </div>
+                        </div>
+                        <div class="col-12 d-none" id="listaAlumnos">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="small text-secondary">Elegí los alumnos</span>
+                                <div class="small">
+                                    <a href="#" id="marcarTodos" class="text-decoration-none">Todos</a> ·
+                                    <a href="#" id="marcarNinguno" class="text-decoration-none">Ninguno</a>
+                                </div>
+                            </div>
+                            <div class="opciones-multiples">
+                                {% for insc in inscripciones %}
+                                <div class="form-check">
+                                    <input class="form-check-input js-alumno-col" type="checkbox" name="col_alumnos" value="{{ insc.id|unlocalize }}" id="colAl{{ insc.id|unlocalize }}">
+                                    <label class="form-check-label" for="colAl{{ insc.id|unlocalize }}">{{ insc.alumno.nombre_completo }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="small text-secondary mt-3 mb-0"><i class="bi bi-info-circle me-1"></i>Las notas que ya escribiste en la planilla también se guardan.</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-modern btn-modern-ghost" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" name="accion" value="guardar_columna" class="btn btn-modern btn-modern-primary" id="btnGuardarColumna">Agregar columna</button>
+                </div>
             </div>
         </div>
-
-        <div class="text-end mb-5">
-            <button type="submit" class="btn btn-modern btn-modern-primary shadow-soft">
-                <i class="bi bi-check2-circle me-1"></i> Guardar notas
-            </button>
-        </div>
-    </form>
-    {% else %}
-        <div class="alert bg-white shadow-soft border-0 rounded-organic p-5 text-center text-secondary">
-            Este curso todavía no tiene alumnos inscriptos.
-        </div>
-    {% endif %}
-{% else %}
-    <div class="alert bg-white shadow-soft border-0 rounded-organic p-5 text-center text-secondary">
-        <i class="bi bi-arrow-up-circle fs-1 d-block mb-3"></i>
-        Elegí un curso para ver a sus alumnos.
     </div>
+
+    <!-- Modal: eliminar columna -->
+    <div class="modal fade" id="modalEliminarColumna" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-organic">
+                <div class="modal-body text-center p-4">
+                    <div class="icono-rol bg-danger-subtle text-danger mx-auto mb-3"><i class="bi bi-trash"></i></div>
+                    <h5 class="fw-bold">¿Eliminar la columna <span class="js-titulo"></span>?</h5>
+                    <p class="text-secondary mb-0">Se borran también todas las notas de esa evaluación. No se puede deshacer.</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pb-4">
+                    <button type="button" class="btn btn-modern btn-modern-ghost" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" name="accion" value="eliminar_columna" class="btn btn-modern btn-danger">Sí, eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 {% endif %}
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    const form = document.getElementById('formPlanilla');
+    if (!form) return;
+
+    const colId = document.getElementById('colId');
+    const estado = document.getElementById('estadoCambios');
+    let hayCambios = false;
+    let enviando = false;
+
+    // --- Validación visual y aviso de cambios sin guardar ---
+    function validar(input) {
+        const v = input.value.trim().replace(',', '.');
+        const ok = v === '' || (!isNaN(v) && Number(v) >= 1 && Number(v) <= 10);
+        input.classList.toggle('is-invalid', !ok);
+    }
+    function marcarCambio(el) {
+        el.classList.add('celda-cambiada');
+        if (!hayCambios) {
+            hayCambios = true;
+            estado.innerHTML = '<i class="bi bi-circle-fill text-warning me-1" style="font-size:.6rem"></i>Cambios sin guardar';
+        }
+    }
+    form.querySelectorAll('.planilla-input').forEach(function (input) {
+        input.addEventListener('input', function () { validar(input); marcarCambio(input); });
+        // Enter = bajar a la misma columna del alumno siguiente (como en una planilla)
+        input.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            const td = input.closest('td');
+            const indice = Array.from(td.parentNode.children).indexOf(td);
+            let fila = td.parentNode.nextElementSibling;
+            while (fila) {
+                const siguiente = fila.children[indice].querySelector('.planilla-input');
+                if (siguiente) { siguiente.focus(); siguiente.select(); return; }
+                fila = fila.nextElementSibling;
+            }
+        });
+    });
+    form.querySelectorAll('.planilla-select').forEach(function (sel) {
+        sel.addEventListener('change', function () { marcarCambio(sel); });
+    });
+    form.addEventListener('submit', function () { enviando = true; });
+    window.addEventListener('beforeunload', function (e) {
+        if (hayCambios && !enviando) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    // --- Modal agregar / editar columna ---
+    const modal = document.getElementById('modalColumna');
+    const lista = document.getElementById('listaAlumnos');
+    const todos = document.getElementById('alcanceTodos');
+    const algunos = document.getElementById('alcanceAlgunos');
+    const checks = modal.querySelectorAll('.js-alumno-col');
+
+    function actualizarLista() { lista.classList.toggle('d-none', !algunos.checked); }
+    todos.addEventListener('change', actualizarLista);
+    algunos.addEventListener('change', actualizarLista);
+    document.getElementById('marcarTodos').addEventListener('click', function (e) { e.preventDefault(); checks.forEach(c => c.checked = true); });
+    document.getElementById('marcarNinguno').addEventListener('click', function (e) { e.preventDefault(); checks.forEach(c => c.checked = false); });
+
+    modal.addEventListener('show.bs.modal', function (event) {
+        const b = event.relatedTarget;
+        const editar = b && b.dataset.modo === 'editar';
+        document.getElementById('modalColumnaTitulo').textContent = editar ? 'Editar evaluación' : 'Agregar evaluación';
+        document.getElementById('btnGuardarColumna').textContent = editar ? 'Guardar cambios' : 'Agregar columna';
+        colId.value = editar ? b.dataset.colId : '';
+        if (editar) {
+            document.getElementById('colTipo').value = b.dataset.tipo;
+            document.getElementById('colNombre').value = b.dataset.nombre;
+            document.getElementById('colFecha').value = b.dataset.fecha;
+            const elegidos = b.dataset.alumnos ? b.dataset.alumnos.split(',') : [];
+            (b.dataset.todos === '1' ? todos : algunos).checked = true;
+            checks.forEach(c => c.checked = elegidos.includes(c.value));
+        } else {
+            document.getElementById('colNombre').value = '';
+            document.getElementById('colFecha').value = '{{ hoy|date:"Y-m-d" }}';
+            todos.checked = true;
+            checks.forEach(c => c.checked = true);
+        }
+        actualizarLista();
+    });
+    modal.addEventListener('shown.bs.modal', function () { document.getElementById('colNombre').focus(); });
+    // Enter dentro del modal = guardar la columna (y no "Guardar planilla")
+    modal.querySelectorAll('input').forEach(function (el) {
+        el.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); document.getElementById('btnGuardarColumna').click(); }
+        });
+    });
+
+    // --- Modal eliminar columna ---
+    document.getElementById('modalEliminarColumna').addEventListener('show.bs.modal', function (event) {
+        colId.value = event.relatedTarget.dataset.colId;
+        this.querySelector('.js-titulo').textContent = '«' + event.relatedTarget.dataset.titulo + '»';
+    });
+})();
+</script>
 {% endblock %}

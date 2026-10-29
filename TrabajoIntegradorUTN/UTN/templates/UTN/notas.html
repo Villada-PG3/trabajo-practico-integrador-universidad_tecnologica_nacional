@@ -19,7 +19,7 @@
                         <div>
                             <div class="fw-bold text-primary">{{ inscripcion.dictado_materia.materia.nombre }}</div>
                             <small class="text-muted">
-                                {{ inscripcion.dictado_materia.materia.sigla }} · {{ inscripcion.obtener_condicion_actual }}
+                                {{ inscripcion.dictado_materia.materia.sigla }} · {{ inscripcion.condicion_actual }}
                             </small>
                         </div>
                     </button>
@@ -31,7 +31,7 @@
                             {% for evaluacion in inscripcion.evaluaciones.all %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-2">
                                     <div>
-                                        <strong>{{ evaluacion.tipo_evaluacion.nombre }}</strong>
+                                        <strong>{{ evaluacion.instancia.titulo|default:evaluacion.tipo_evaluacion.nombre }}</strong>
                                         <br><small class="text-muted"><i class="bi bi-calendar3"></i> {{ evaluacion.fecha_evaluacion|date:"d/m/Y" }}</small>
                                     </div>
                                     <span class="badge bg-secondary rounded-pill fs-6">{{ evaluacion.valor }}</span>

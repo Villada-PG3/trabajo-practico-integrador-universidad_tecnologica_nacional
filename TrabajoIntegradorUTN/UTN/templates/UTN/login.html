@@ -1,43 +1,73 @@
 {% extends 'UTN/base.html' %}
 
-{% block title %}{{ titulo|default:"Iniciar sesión" }}{% endblock %}
+{% block title %}Iniciar sesión - Autogestión UTN{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-  <div class="col-md-6 col-lg-4">
-    <div class="card border-0 shadow-soft rounded-organic p-3">
-      <div class="card-body">
-        <h3 class="fw-bold text-primary-modern mb-1">{{ titulo|default:"Iniciar sesión" }}</h3>
-        <p class="text-secondary small mb-4">{{ subtitulo|default:"Ingresá con tu usuario y contraseña." }}</p>
+    <div class="col-sm-10 col-md-7 col-lg-5 col-xl-4">
+        <div class="card border-0 shadow-soft rounded-organic p-2 p-md-3">
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="icono-rol bg-primary-subtle text-primary-modern mx-auto mb-3">
+                        <i class="bi bi-layers-half"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">Iniciar sesión</h3>
+                    <p class="text-secondary small mb-0">Alumnos, docentes y administración ingresan desde acá.</p>
+                </div>
 
-        {% for error in form.non_field_errors %}
-          <div class="alert alert-danger py-2 small">{{ error }}</div>
-        {% endfor %}
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger border-0 rounded-organic-sm small">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i>
+                        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                    </div>
+                {% endif %}
 
-        <form method="post">
-          {% csrf_token %}
-          {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
 
-          <div class="mb-3">
-            <label for="id_username" class="form-label small fw-bold">Usuario</label>
-            <input type="text" name="username" id="id_username" class="form-control"
-                   value="{{ form.username.value|default:'' }}" autofocus required>
-          </div>
-          <div class="mb-4">
-            <label for="id_password" class="form-label small fw-bold">Contraseña</label>
-            <input type="password" name="password" id="id_password" class="form-control" required>
-          </div>
+                    <div class="mb-3">
+                        <label for="{{ form.username.id_for_label }}" class="form-label fw-medium small">Usuario</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+                            {{ form.username }}
+                        </div>
+                    </div>
 
-          <button type="submit" class="btn btn-modern btn-modern-primary w-100 shadow-soft">
-            Ingresar
-          </button>
-        </form>
+                    <div class="mb-4">
+                        <label for="{{ form.password.id_for_label }}" class="form-label fw-medium small">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
+                            {{ form.password }}
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Mostrar contraseña">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-        <a href="{% url 'landing' %}" class="btn btn-link text-decoration-none text-secondary p-0 mt-3 small">
-          <i class="bi bi-arrow-left"></i> Volver al inicio
-        </a>
-      </div>
+                    <button type="submit" class="btn btn-modern btn-modern-primary w-100 py-2">
+                        Ingresar <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <a href="{% url 'landing' %}" class="small text-secondary text-decoration-none">
+                        <i class="bi bi-arrow-left"></i> Volver al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const input = document.getElementById('{{ form.password.id_for_label }}');
+        const visible = input.type === 'text';
+        input.type = visible ? 'password' : 'text';
+        this.innerHTML = visible ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
 {% endblock %}

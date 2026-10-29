@@ -1346,6 +1346,78 @@
     }
 },
 {
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$IiyPVIOmGNzauYmmC9vGhl$+zs/cnUZfX6KsWFlfrCDZtftmyv29pYAIHE3t6TmeH4=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "PerezRoberto",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-29T13:26:31.785Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$WqGEIH8Gonjo1PmFapMQUt$5yEFsUZLxK8IwrHC81rvGRIjd5HALDQfVxSMCTctp/E=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "DominguezMaria",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-29T13:26:32.087Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$Fdgulk7NvaVl2KRTlOCvWm$0vP3+uym/LsSCr/9l1WdxW1CHJcGTJIDzDGAw9SZLSE=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "SanchezCarlos",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-29T13:26:32.344Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 9,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$WelYkSCEJVxS0BUFgKNfcn$szSgyyubpF6QBfU5qmLQLrFhrZ3Yws2Khcs9cen4LLE=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "GomezLaura",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-29T13:26:32.591Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
     "model": "sessions.session",
     "pk": "0f6dbj7ap56j02d1ds80zdljlwibpl0p",
     "fields": {
@@ -1765,7 +1837,9 @@
         "materia": 1,
         "curso": 1,
         "ciclo_lectivo": 3,
-        "docentes": []
+        "docentes": [
+            5
+        ]
     }
 },
 {
@@ -1775,7 +1849,9 @@
         "materia": 1,
         "curso": 2,
         "ciclo_lectivo": 3,
-        "docentes": []
+        "docentes": [
+            5
+        ]
     }
 },
 {
@@ -2006,7 +2082,7 @@
     "model": "UTN.docente",
     "pk": 1,
     "fields": {
-        "usuario": null,
+        "usuario": 6,
         "legajo": "D-1001",
         "nombre": "Roberto",
         "apellido": "Pérez"
@@ -2016,7 +2092,7 @@
     "model": "UTN.docente",
     "pk": 2,
     "fields": {
-        "usuario": null,
+        "usuario": 7,
         "legajo": "D-1002",
         "nombre": "María",
         "apellido": "Domínguez"
@@ -2026,7 +2102,7 @@
     "model": "UTN.docente",
     "pk": 3,
     "fields": {
-        "usuario": null,
+        "usuario": 8,
         "legajo": "D-1003",
         "nombre": "Carlos",
         "apellido": "Sánchez"
@@ -2036,7 +2112,7 @@
     "model": "UTN.docente",
     "pk": 4,
     "fields": {
-        "usuario": null,
+        "usuario": 9,
         "legajo": "D-1004",
         "nombre": "Laura",
         "apellido": "Gómez"
@@ -2238,10 +2314,76 @@
     }
 },
 {
+    "model": "UTN.instanciaevaluacion",
+    "pk": 6,
+    "fields": {
+        "dictado_materia": 1,
+        "tipo_evaluacion": 1,
+        "nombre": "",
+        "fecha": "2026-09-14",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 7,
+    "fields": {
+        "dictado_materia": 1,
+        "tipo_evaluacion": 2,
+        "nombre": "",
+        "fecha": "2026-09-14",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 8,
+    "fields": {
+        "dictado_materia": 2,
+        "tipo_evaluacion": 1,
+        "nombre": "",
+        "fecha": "2026-09-18",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 9,
+    "fields": {
+        "dictado_materia": 2,
+        "tipo_evaluacion": 2,
+        "nombre": "",
+        "fecha": "2026-09-18",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 10,
+    "fields": {
+        "dictado_materia": 4,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-09-16",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
     "model": "UTN.evaluacion",
     "pk": 1,
     "fields": {
         "inscripcion": 2,
+        "instancia": 6,
         "tipo_evaluacion": 1,
         "docente": 1,
         "valor": "6.00",
@@ -2253,6 +2395,7 @@
     "pk": 2,
     "fields": {
         "inscripcion": 2,
+        "instancia": 7,
         "tipo_evaluacion": 2,
         "docente": 1,
         "valor": "7.50",
@@ -2264,6 +2407,7 @@
     "pk": 3,
     "fields": {
         "inscripcion": 5,
+        "instancia": 8,
         "tipo_evaluacion": 1,
         "docente": 1,
         "valor": "8.50",
@@ -2275,6 +2419,7 @@
     "pk": 4,
     "fields": {
         "inscripcion": 5,
+        "instancia": 9,
         "tipo_evaluacion": 2,
         "docente": 1,
         "valor": "9.00",
@@ -2286,6 +2431,7 @@
     "pk": 5,
     "fields": {
         "inscripcion": 3,
+        "instancia": 10,
         "tipo_evaluacion": 3,
         "docente": 2,
         "valor": "4.00",

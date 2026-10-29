@@ -98,6 +98,26 @@ class Docente(models.Model):
         return f"{self.apellido}, {self.nombre} (Legajo: {self.legajo})"
 
 
+class Administrador(models.Model):
+    DIRECTOR = "DIRECTOR"
+    EJECUTIVO = "EJECUTIVO"
+    CARGOS = [
+        (DIRECTOR, "Director"),
+        (EJECUTIVO, "Ejecutivo"),
+    ]
+
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="administrador")
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    cargo = models.CharField(max_length=20, choices=CARGOS, default=EJECUTIVO)
+
+    class Meta:
+        verbose_name_plural = "Administradores"
+
+    def __str__(self):
+        return f"{self.apellido}, {self.nombre} ({self.get_cargo_display()})"
+
+
 class Condicion(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=150, blank=True, null=True)
@@ -155,8 +175,39 @@ class CambioCondicion(models.Model):
         return f"{self.inscripcion.alumno.nombre_completo} -> {self.condicion.nombre}"
 
 
+class InstanciaEvaluacion(models.Model):
+    """Una "columna" de la planilla del docente: un parcial, un TP, un recuperatorio, etc."""
+    dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="instancias_evaluacion")
+    tipo_evaluacion = models.ForeignKey(TipoEvaluacion, on_delete=models.PROTECT, related_name="instancias")
+    nombre = models.CharField(max_length=80, blank=True, help_text="Opcional. Ej: Parcial 1, Recuperatorio")
+    fecha = models.DateField(default=timezone.localdate)
+    para_todos = models.BooleanField(default=True, help_text="Si está tildado, aplica a todos los inscriptos del curso")
+    inscripciones = models.ManyToManyField(Inscripcion, related_name="instancias_evaluacion", blank=True,
+                                           help_text="Solo se usa si no es para todos")
+    creada_por = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        ordering = ["fecha", "id"]
+        verbose_name = "instancia de evaluación"
+        verbose_name_plural = "instancias de evaluación"
+
+    @property
+    def titulo(self):
+        return self.nombre or self.tipo_evaluacion.nombre
+
+    def aplica_a(self, inscripcion_id):
+        if self.para_todos:
+            return True
+        return inscripcion_id in {i.id for i in self.inscripciones.all()}
+
+    def __str__(self):
+        return f"{self.titulo} - {self.dictado_materia} ({self.fecha:%d/%m/%Y})"
+
+
 class Evaluacion(models.Model):
     inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, related_name="evaluaciones")
+    instancia = models.ForeignKey(InstanciaEvaluacion, on_delete=models.CASCADE, null=True, blank=True,
+                                  related_name="notas")
     tipo_evaluacion = models.ForeignKey(TipoEvaluacion, on_delete=models.PROTECT)
     docente = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True)
     valor = models.DecimalField(max_digits=4, decimal_places=2)
