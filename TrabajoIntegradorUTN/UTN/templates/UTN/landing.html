@@ -4,190 +4,269 @@
 {% block title %}UTN Facultad Regional Córdoba{% endblock %}
 
 {% block content %}
-
-
-<div class="p-5 mb-5 bg-white rounded-organic shadow-soft border-0 text-center mx-auto" style="max-width: 1000px;">
-    <div class="container-fluid py-3">
-        <h1 class="display-5 fw-bold text-primary-modern mb-2">UTN Facultad Regional Córdoba</h1>
-        <p class="fs-5 text-muted mb-4">Universidad Tecnológica Nacional · Ingeniería, tecnicaturas y posgrados en Córdoba</p>
-        <div class="d-flex justify-content-center">
-            {% if user.is_authenticated %}
-                <a href="{% url 'redireccion_panel' %}" class="btn btn-modern btn-modern-primary btn-lg px-5 shadow-soft">
-                    <i class="bi bi-grid me-2"></i> Ir a mi panel
-                </a>
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-modern btn-modern-primary btn-lg px-5 shadow-soft">
-                    <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar sesión
-                </a>
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-
-<div class="mb-5 mx-auto" style="max-width: 1000px;" id="institucional">
-    <h4 class="fw-bold mb-3">Sobre la Facultad</h4>
-    <div class="row g-4">
-        <div class="col-lg-7">
-            <div class="card h-100 border-0 rounded-organic-sm shadow-soft p-2">
-                <div class="card-body">
-                    <p class="text-secondary">
-                        La Facultad Regional Córdoba (FRC) es una de las facultades regionales de la Universidad Tecnológica Nacional
-                        y funciona en la Ciudad Universitaria de Córdoba. Por cantidad de alumnos y de carreras de ingeniería,
-                        posgrado y tecnicaturas, es considerada la regional más importante del interior del país.
-                    </p>
-                    <p class="text-secondary mb-0">
-                        Además de la oferta de grado, la Facultad desarrolla investigación, extensión, pasantías y cuenta con su propia
-                        radio, FM 94.3.
-                    </p>
+<main class="landing-page">
+    <section class="landing-hero rounded-organic mb-5" aria-labelledby="hero-title">
+        <div class="landing-hero-overlay rounded-organic">
+            <div class="landing-brand-lockup">
+                <span class="utn-logo" aria-hidden="true">UTN</span>
+                <span>Facultad Regional Córdoba</span>
+            </div>
+            <div class="landing-hero-copy">
+                <p class="landing-eyebrow">Universidad pública · Córdoba</p>
+                <h1 id="hero-title">Educación que transforma</h1>
+                <p>Promovemos el conocimiento e inspiramos la innovación por y para las personas.</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#ingreso" class="btn btn-light btn-modern">Conocé el ingreso</a>
+                    <a href="#carreras" class="btn btn-outline-light btn-modern">Explorá las carreras</a>
+                    <a href="{% url 'utn' %}" class="btn btn-outline-light btn-modern">Autogestión</a>
+                    <a href="{% url 'login_docente' %}" class="btn btn-outline-light btn-modern">Acceso docentes</a>
                 </div>
             </div>
         </div>
-        <div class="col-lg-5">
-            <div class="card h-100 border-0 rounded-organic-sm shadow-soft p-2">
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-light rounded-circle p-3 me-3 text-primary-modern"><i class="bi bi-mortarboard-fill fs-4"></i></div>
-                        <div>
-                            <h5 class="mb-0 fw-bold">8 ingenierías</h5>
-                            <small class="text-muted">más tecnicaturas, licenciaturas y posgrados</small>
-                        </div>
+    </section>
+
+    <section class="landing-section mb-5" id="ingreso" aria-labelledby="ingreso-title">
+        <div class="section-heading">
+            <div>
+                <p class="landing-eyebrow text-primary-modern mb-1">Estudiá en la UTN FRC</p>
+                <h2 id="ingreso-title">Ingreso 2027</h2>
+                <p class="text-secondary mb-0">Conocé las propuestas y fechas de preinscripción.</p>
+            </div>
+            <span class="section-heading-icon"><i class="bi bi-mortarboard-fill"></i></span>
+        </div>
+        <div class="row g-3">
+            <div class="col-sm-6 col-lg">
+                <button type="button" class="info-card admission-card w-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="Ingenierías" data-modal-content="Preinscripciones abiertas hasta el 29 de noviembre de 2026. El ingreso incluye un Ciclo Introductorio con actividades de apoyo.">
+                    <i class="bi bi-gear-wide-connected"></i><span>Ingenierías</span><small>Hasta el 29 de noviembre</small>
+                </button>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <button type="button" class="info-card admission-card w-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="Tecnicaturas Universitarias" data-modal-content="Propuestas de formación técnica universitaria. Preinscripciones hasta el 18 de diciembre de 2026.">
+                    <i class="bi bi-tools"></i><span>Tecnicaturas Universitarias</span><small>Hasta el 18 de diciembre</small>
+                </button>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <button type="button" class="info-card admission-card w-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="Tecnicatura Universitaria en Programación" data-modal-content="Formación universitaria en programación. Preinscripciones hasta el 30 de octubre de 2026.">
+                    <i class="bi bi-code-slash"></i><span>Tec. Univ. en Programación</span><small>Hasta el 30 de octubre</small>
+                </button>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <button type="button" class="info-card admission-card w-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="Ciclos de Licenciatura" data-modal-content="Continuá tu formación con los ciclos de licenciatura de la UTN FRC. Preinscripciones hasta el 18 de diciembre de 2026.">
+                    <i class="bi bi-journal-check"></i><span>Ciclos de Licenciatura</span><small>Hasta el 18 de diciembre</small>
+                </button>
+            </div>
+            <div class="col-sm-6 col-lg">
+                <button type="button" class="info-card admission-card w-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="Carreras de Posgrado" data-modal-content="Especializaciones, maestrías y doctorados para profundizar tu desarrollo profesional. Preinscripciones hasta el 31 de marzo de 2027.">
+                    <i class="bi bi-award"></i><span>Carreras de Posgrado</span><small>Hasta el 31 de marzo</small>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="row g-4 mb-5" id="novedades">
+        <div class="col-lg-8">
+            <div class="feature-news h-100">
+                <div class="feature-news-art" aria-hidden="true">
+                    <i class="bi bi-megaphone"></i>
+                    <span>UTN FRC</span>
+                </div>
+                <div class="feature-news-copy">
+                    <span class="badge text-bg-light mb-3">Comunidad universitaria</span>
+                    <h2>Una universidad pública, abierta y en movimiento</h2>
+                    <p>La comunidad tecnológica se encuentra, comparte ideas y trabaja por una educación que transforma.</p>
+                    <button type="button" class="btn btn-light btn-modern" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="La comunidad UTN FRC" data-modal-content="La Facultad Regional Córdoba promueve el encuentro, la participación y el desarrollo de proyectos para fortalecer la educación pública.">
+                        Conocé más <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="section-heading section-heading-compact">
+                <div>
+                    <p class="landing-eyebrow text-primary-modern mb-1">Actualidad</p>
+                    <h2>Novedades</h2>
+                </div>
+                <i class="bi bi-newspaper section-heading-icon"></i>
+            </div>
+            <div class="d-grid gap-2">
+                {% for noticia in noticias %}
+                <button type="button" class="news-list-card" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="{{ noticia.titulo }}" data-modal-content="{{ noticia.resumen }}">
+                    <span class="news-category">{{ noticia.categoria }}</span>
+                    <span class="news-title">{{ noticia.titulo }}</span>
+                    <i class="bi bi-arrow-up-right"></i>
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section class="landing-section mb-5" aria-labelledby="eventos-title">
+        <div class="section-heading">
+            <div>
+                <p class="landing-eyebrow text-primary-modern mb-1">Encontrémonos</p>
+                <h2 id="eventos-title">Agenda de eventos</h2>
+            </div>
+            <span class="section-heading-icon"><i class="bi bi-calendar-event"></i></span>
+        </div>
+        <div class="row g-3">
+            {% for evento in eventos %}
+            <div class="col-md-6 col-lg-4">
+                <button type="button" class="event-card w-100 h-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="{{ evento.titulo }}" data-modal-content="{{ evento.fecha }} · {{ evento.detalle }}">
+                    <span class="event-date"><i class="bi bi-calendar3"></i>{{ evento.fecha }}</span>
+                    <span class="event-type">{{ evento.tipo }}</span>
+                    <span class="event-title">{{ evento.titulo }}</span>
+                    <span class="event-detail">{{ evento.detalle }}</span>
+                    <span class="event-more">Ver información <i class="bi bi-arrow-right"></i></span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="school-banner rounded-organic mb-5">
+        <div class="school-mark" aria-hidden="true"><i class="bi bi-book-half"></i></div>
+        <div class="school-copy">
+            <p class="landing-eyebrow mb-1">Formación preuniversitaria</p>
+            <h2>Secundario de la UTN FRC</h2>
+            <p class="mb-0">Una propuesta educativa orientada a la ciencia, la tecnología y la innovación.</p>
+        </div>
+        <button type="button" class="btn btn-light btn-modern ms-lg-auto" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="Secundario de la UTN FRC" data-modal-content="El Colegio Tecnológico Preuniversitario ofrece una formación con énfasis en automatización, robótica industrial y transformación digital.">
+            Conocer la propuesta <i class="bi bi-arrow-right ms-1"></i>
+        </button>
+    </section>
+
+    <section class="training-section rounded-organic mb-5" aria-labelledby="formaciones-title">
+        <div class="section-heading section-heading-light">
+            <div>
+                <p class="landing-eyebrow mb-1">Formaciones</p>
+                <h2 id="formaciones-title">Capacitación con respaldo universitario</h2>
+                <p class="mb-0">Propuestas para seguir aprendiendo y creciendo profesionalmente.</p>
+            </div>
+            <span class="training-open"><i class="bi bi-bookmark-check me-2"></i>Inscripciones abiertas</span>
+        </div>
+        <div class="row g-3">
+            {% for formacion in formaciones %}
+            <div class="col-md-6 col-lg-4">
+                <button type="button" class="training-card w-100 h-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="{{ formacion.titulo }}" data-modal-content="{{ formacion.tipo }} · Extensión · {{ formacion.detalle }}">
+                    <span class="training-card-top"><span>{{ formacion.tipo }}</span><i class="bi bi-arrow-up-right"></i></span>
+                    <span class="training-card-title">{{ formacion.titulo }}</span>
+                    <span class="training-card-area">Extensión universitaria</span>
+                    <span class="training-card-detail"><i class="bi bi-calendar3"></i>{{ formacion.detalle }}</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="landing-section mb-5" aria-labelledby="entrevistas-title">
+        <div class="section-heading">
+            <div>
+                <p class="landing-eyebrow text-primary-modern mb-1">Historias que inspiran</p>
+                <h2 id="entrevistas-title">Entrevistas</h2>
+            </div>
+            <span class="section-heading-icon"><i class="bi bi-mic"></i></span>
+        </div>
+        <div class="row g-3">
+            {% for entrevista in entrevistas %}
+            <div class="col-md-6 col-lg-4">
+                <button type="button" class="interview-card w-100 h-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="{{ entrevista.persona }} · {{ entrevista.titulo }}" data-modal-content="{{ entrevista.resumen }}">
+                    <span class="interview-avatar"><i class="bi bi-person-fill"></i></span>
+                    <span class="interview-person">{{ entrevista.persona }}</span>
+                    <span class="interview-title">{{ entrevista.titulo }}</span>
+                    <span class="interview-summary">{{ entrevista.resumen }}</span>
+                    <span class="event-more">Leer entrevista <i class="bi bi-arrow-right"></i></span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="landing-section mb-5" id="carreras" aria-labelledby="carreras-title">
+        <div class="section-heading">
+            <div>
+                <p class="landing-eyebrow text-primary-modern mb-1">Estudiá en Córdoba</p>
+                <h2 id="carreras-title">Carreras de grado</h2>
+                <p class="text-secondary mb-0">Conocé las ingenierías de la Facultad Regional Córdoba.</p>
+            </div>
+            <span class="section-heading-icon"><i class="bi bi-cpu"></i></span>
+        </div>
+        <div class="row g-3">
+            {% for carrera in carreras %}
+            <div class="col-sm-6 col-lg-3">
+                <button type="button" class="career-card w-100 h-100" data-bs-toggle="modal" data-bs-target="#infoModal" data-modal-title="{{ carrera.nombre }}" data-modal-content="Carrera de grado de la UTN Facultad Regional Córdoba. Sigla: {{ carrera.sigla }}.">
+                    <span class="career-icon"><i class="bi {{ carrera.icono }}"></i></span>
+                    <span class="career-name">{{ carrera.nombre }}</span>
+                    <i class="bi bi-arrow-up-right career-arrow"></i>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="landing-section mb-5" aria-labelledby="galeria-title">
+        <div class="section-heading">
+            <div>
+                <p class="landing-eyebrow text-primary-modern mb-1">Nuestra casa</p>
+                <h2 id="galeria-title">La Facultad en imágenes</h2>
+            </div>
+            <span class="section-heading-icon"><i class="bi bi-images"></i></span>
+        </div>
+        <div class="row g-3">
+            {% for foto in fotos %}
+            <div class="col-6 col-lg-3">
+                <div class="ratio ratio-4x3 gallery-image rounded-organic-sm overflow-hidden">
+                    <img src="{{ foto.url }}" alt="{{ foto.alt }}" class="w-100 h-100" loading="lazy">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer class="landing-footer rounded-organic">
+        <div class="footer-brand">
+            <span class="utn-logo" aria-hidden="true">UTN</span>
+            <div><strong>Universidad Tecnológica Nacional</strong><span>Facultad Regional Córdoba</span></div>
+        </div>
+        <div class="footer-contact">
+            <strong>Contacto</strong>
+            <span>Maestro M. López esq. Cruz Roja Argentina · Ciudad Universitaria, Córdoba</span>
+            <span>+54 351 598-6000 · info@frc.utn.edu.ar</span>
+        </div>
+        <div class="footer-social" aria-label="Redes oficiales">
+            <a href="https://www.instagram.com/utn.cordoba/" target="_blank" rel="noopener noreferrer" aria-label="Instagram oficial"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.facebook.com/utn.cordoba/" target="_blank" rel="noopener noreferrer" aria-label="Facebook oficial"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.youtube.com/@utn.cordoba" target="_blank" rel="noopener noreferrer" aria-label="YouTube oficial"><i class="bi bi-youtube"></i></a>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content landing-modal shadow-lg border-0" style="border-radius: 1.25rem;">
+            <div class="modal-header border-0 p-4 pb-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-light text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                        <i class="bi bi-info-circle-fill fs-3"></i>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-light rounded-circle p-3 me-3 text-primary-modern"><i class="bi bi-award-fill fs-4"></i></div>
-                        <div>
-                            <h5 class="mb-0 fw-bold">Acreditación Mercosur</h5>
-                            <small class="text-muted">Ingeniería Electrónica fue una de las pocas ingenierías del país acreditadas a nivel Mercosur</small>
-                        </div>
-                    </div>
+                    <h2 class="modal-title fs-3 fw-bold mb-0" id="infoModalTitle" style="color: #2c3e50;"></h2>
                 </div>
+                <button type="button" class="btn-close fs-5" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body p-4 pt-0 fs-5 text-secondary lh-lg" id="infoModalContent"></div>
+            <div class="modal-footer border-0 p-4 pt-2 justify-content-end">
+                <button type="button" class="btn btn-modern btn-primary btn-lg px-5 rounded-pill shadow-sm" data-bs-dismiss="modal">Entendido</button>
             </div>
         </div>
     </div>
 </div>
+</main>
+{% endblock %}
 
-
-<div class="mb-5 mx-auto" style="max-width: 1000px;" id="carreras">
-    <h4 class="fw-bold mb-1">Carreras de grado</h4>
-    <p class="text-secondary small mb-4">Ingenierías que se cursan en la Facultad.</p>
-    <div class="row">
-        {% for c in carreras %}
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100 border-0 rounded-organic-sm shadow-soft shadow-hover p-2">
-                <div class="card-body d-flex align-items-center">
-                    <div class="bg-light rounded-circle p-3 me-3 text-primary-modern">
-                        <i class="bi {{ c.icono }} fs-4"></i>
-                    </div>
-                    <h5 class="card-title mb-0 fw-bold fs-6">{{ c.nombre }}</h5>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
-    <div class="row g-4 mt-1">
-        <div class="col-md-6">
-            <div class="alert bg-light border-0 text-secondary rounded-organic p-4 mb-0 h-100">
-                <i class="bi bi-journal-bookmark fs-4 d-block mb-2 text-primary-modern"></i>
-                <strong>Tecnicaturas y licenciaturas</strong><br>
-                <span class="small">Secretaría de Planeamiento Académico · Tel. 351 5986066 · planeamiento.academico@frc.utn.edu.ar</span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="alert bg-light border-0 text-secondary rounded-organic p-4 mb-0 h-100">
-                <i class="bi bi-lightbulb fs-4 d-block mb-2 text-primary-modern"></i>
-                <strong>Doctorados, maestrías y especializaciones</strong><br>
-                <span class="small">Secretaría de Posgrado · Tel. 351 5986000 int. 2134 · posgrado@frc.utn.edu.ar</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<div class="mb-5 mx-auto" style="max-width: 1000px;" id="galeria">
-    <h4 class="fw-bold mb-3">La Facultad en imágenes</h4>
-    <div class="row g-3">
-        {% for foto in fotos %}
-        <div class="col-6 col-lg-3">
-            <div class="ratio ratio-4x3 rounded-organic-sm shadow-soft overflow-hidden bg-light">
-                <img src="{{ foto.url }}" alt="{{ foto.alt }}" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-
-<div class="mb-5 mx-auto" style="max-width: 1000px;" id="novedades">
-    <div class="d-flex justify-content-between align-items-end mb-3">
-        <h4 class="fw-bold mb-0">Novedades</h4>
-        <a href="https://www.frc.utn.edu.ar/" target="_blank" rel="noopener" class="small text-primary-modern text-decoration-none">
-            Ver todas en frc.utn.edu.ar <i class="bi bi-box-arrow-up-right"></i>
-        </a>
-    </div>
-    <div class="row">
-        {% for n in noticias %}
-        <div class="col-lg-4 mb-4">
-            <div class="card h-100 border-0 rounded-organic-sm shadow-soft shadow-hover p-2">
-                <div class="card-body d-flex flex-column">
-                    <span class="badge bg-light text-secondary border align-self-start mb-3">{{ n.categoria }}</span>
-                    <h5 class="card-title fw-bold">{{ n.titulo }}</h5>
-                    <p class="card-text text-muted small flex-grow-1">{{ n.resumen }}</p>
-                    <a href="{{ n.link }}" target="_blank" rel="noopener" class="btn btn-modern btn-modern-primary w-100 d-flex justify-content-between align-items-center mt-2">
-                        <span>Leer más</span><i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-
-<div class="p-5 mb-5 bg-white rounded-organic shadow-soft border-0 mx-auto" style="max-width: 1000px;" id="ingreso">
-    <h4 class="fw-bold mb-3">Ingreso a Ingenierías</h4>
-    <p class="text-secondary">
-        El ingreso incluye un Ciclo Introductorio con clases grabadas de apoyo en el canal oficial de YouTube de la
-        Facultad (<strong>utn.cordoba</strong>). Se puede pedir la eximición directa si:
-    </p>
-    <ul class="text-secondary">
-        <li>Aprobaste el seminario en la FRC u otra Facultad Regional de la UTN.</li>
-        <li>Sos estudiante de una carrera afín a la ingeniería en otra universidad nacional, con al menos una materia regularizada.</li>
-        <li>Tenés un título de grado en Ciencias Exactas, Físicas o Naturales, o una tecnicatura de la FRC.</li>
-        <li>Sos alumno regular de la FRC con dos materias de primer año regularizadas y cursás una segunda carrera.</li>
-    </ul>
-    <a href="https://www.frc.utn.edu.ar/ingreso-ingenierias-2027/" target="_blank" rel="noopener" class="btn btn-modern btn-modern-primary">
-        Requisitos y fechas <i class="bi bi-arrow-right ms-1"></i>
-    </a>
-</div>
-
-
-<div class="mb-5 mx-auto" style="max-width: 1000px;" id="contacto">
-    <h4 class="fw-bold mb-3">Contacto</h4>
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card h-100 border-0 rounded-organic-sm shadow-soft p-2">
-                <div class="card-body">
-                    <h5 class="fw-bold mb-3">Secretaría Académica</h5>
-                    <p class="text-muted small mb-1"><i class="bi bi-telephone me-2"></i>351 5986025</p>
-                    <p class="text-muted small mb-1"><i class="bi bi-envelope me-2"></i>sa@frc.utn.edu.ar</p>
-                    <p class="text-muted small mb-0"><i class="bi bi-clock me-2"></i>Lunes a viernes de 8 a 20 h</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card h-100 border-0 rounded-organic-sm shadow-soft p-2">
-                <div class="card-body">
-                    <h5 class="fw-bold mb-3">Redes oficiales</h5>
-                    {# Completá con los links reales #}
-                    <a href="#" class="btn btn-light border me-1"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="btn btn-light border me-1"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="btn btn-light border"><i class="bi bi-youtube"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+{% block scripts %}
+<script>
+    document.getElementById('infoModal').addEventListener('show.bs.modal', function (event) {
+        const trigger = event.relatedTarget;
+        document.getElementById('infoModalTitle').textContent = trigger.dataset.modalTitle;
+        document.getElementById('infoModalContent').textContent = trigger.dataset.modalContent;
+    });
+</script>
 {% endblock %}

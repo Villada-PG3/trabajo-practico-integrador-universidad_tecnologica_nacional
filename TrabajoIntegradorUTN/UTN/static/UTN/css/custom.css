@@ -102,6 +102,569 @@ h1, h2, h3, h4, h5, h6 {
     border-left-color: #3b82f6 !important;
 }
 
+/* UTN Córdoba landing page */
+.landing-page {
+    --utn-blue: #075b9a;
+    --utn-blue-dark: #073b68;
+    --utn-cyan: #13a8d5;
+    --utn-ink: #17324b;
+    --utn-muted: #647789;
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+}
+
+.landing-page h2 {
+    color: var(--utn-ink);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    margin-bottom: 0;
+}
+
+.landing-page .text-primary-modern {
+    color: var(--utn-blue) !important;
+}
+
+.landing-page .btn-modern-primary {
+    background-color: var(--utn-blue);
+    color: #fff;
+}
+
+.landing-page .btn-modern-primary:hover {
+    background-color: var(--utn-blue-dark);
+    color: #fff;
+}
+
+.landing-hero {
+    min-height: 390px;
+    overflow: hidden;
+    color: white;
+    background: url("https://www.frc.utn.edu.ar/wp-content/uploads/2026/07/img-utn-patio.webp") center 48% / cover no-repeat;
+}
+
+.landing-hero-overlay {
+    min-height: 390px;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(105deg, rgb(5 43 78 / 94%) 0%, rgb(5 66 112 / 82%) 48%, rgb(3 85 143 / 35%) 100%);
+}
+
+.landing-brand-lockup,
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 600;
+}
+
+.utn-logo {
+    width: 56px;
+    height: 42px;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    color: var(--utn-blue);
+    background: #fff;
+    border: 2px solid currentColor;
+    border-radius: 5px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.landing-hero-copy {
+    max-width: 800px;
+    padding-top: 2rem;
+}
+
+.landing-hero-copy h1 {
+    margin-bottom: 0.7rem;
+    color: white;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1.02;
+}
+
+.landing-hero-copy p:not(.landing-eyebrow) {
+    max-width: 560px;
+    margin-bottom: 1.4rem;
+    color: rgb(255 255 255 / 90%);
+    font-size: 1.1rem;
+}
+
+.landing-eyebrow {
+    color: inherit;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.landing-section {
+    padding: clamp(1.2rem, 3vw, 2rem);
+    background: #fff;
+    border: 1px solid #e8eef3;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgb(18 52 79 / 5%);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+}
+
+.section-heading-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: #eaf5fc;
+    color: var(--utn-blue);
+    font-size: 1.3rem;
+}
+
+.section-heading-compact {
+    margin-bottom: 0.8rem;
+}
+
+.info-card,
+.event-card,
+.training-card,
+.interview-card,
+.career-card,
+.news-list-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e5edf3;
+    border-radius: 12px;
+    background: #fff;
+    color: var(--utn-ink);
+    text-align: left;
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.info-card:hover,
+.event-card:hover,
+.training-card:hover,
+.interview-card:hover,
+.career-card:hover,
+.news-list-card:hover {
+    transform: translateY(-3px);
+    border-color: #b7d9ef;
+    box-shadow: 0 10px 24px rgb(17 61 94 / 10%);
+}
+
+.landing-page button:focus-visible,
+.landing-footer a:focus-visible {
+    outline: 3px solid #59bce8;
+    outline-offset: 3px;
+}
+
+.admission-card {
+    min-height: 150px;
+    align-items: flex-start;
+    padding: 1.1rem;
+}
+
+.admission-card > i {
+    margin-bottom: 0.8rem;
+    color: var(--utn-blue);
+    font-size: 1.5rem;
+}
+
+.admission-card > span {
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.admission-card small {
+    margin-top: auto;
+    padding-top: 0.65rem;
+    color: var(--utn-muted);
+}
+
+.feature-news {
+    min-height: 330px;
+    display: grid;
+    grid-template-columns: minmax(170px, 0.8fr) 1.2fr;
+    overflow: hidden;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #075b9a, #073b68);
+    color: #fff;
+}
+
+.feature-news-art {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    color: rgb(255 255 255 / 90%);
+    background: linear-gradient(145deg, rgb(19 168 213 / 90%), rgb(7 91 154 / 60%)), url("https://www.frc.utn.edu.ar/wp-content/uploads/2026/07/img-utn-patio.webp") center / cover;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+.feature-news-art i {
+    font-size: 3.5rem;
+}
+
+.feature-news-copy {
+    align-self: center;
+    padding: clamp(1.4rem, 4vw, 2.5rem);
+}
+
+.feature-news-copy h2 {
+    margin-bottom: 0.8rem;
+    color: #fff;
+}
+
+.feature-news-copy p {
+    color: rgb(255 255 255 / 82%);
+}
+
+.news-list-card {
+    min-height: 82px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem 0.7rem;
+    padding: 0.8rem 1rem;
+}
+
+.news-category {
+    grid-column: 1;
+    color: var(--utn-blue);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.news-title {
+    grid-column: 1;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.news-list-card > i {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    color: var(--utn-blue);
+}
+
+.event-card {
+    min-height: 260px;
+    padding: 1.2rem;
+}
+
+.event-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--utn-blue);
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.event-type {
+    margin-top: 1rem;
+    color: var(--utn-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.event-title {
+    margin-top: 0.35rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.event-detail {
+    margin-top: 0.65rem;
+    color: var(--utn-muted);
+    font-size: 0.85rem;
+}
+
+.event-more {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    color: var(--utn-blue);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.school-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2rem;
+    padding: clamp(1.4rem, 3vw, 2.2rem);
+    color: #fff;
+    background: linear-gradient(105deg, #0879ae, #07528d);
+}
+
+.school-mark {
+    width: 58px;
+    height: 58px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    border: 1px solid rgb(255 255 255 / 35%);
+    border-radius: 14px;
+    font-size: 1.7rem;
+}
+
+.school-copy {
+    flex: 1 1 300px;
+}
+
+.school-copy h2 {
+    margin-bottom: 0.35rem;
+    color: #fff;
+}
+
+.school-copy p {
+    color: rgb(255 255 255 / 85%);
+}
+
+.training-section {
+    padding: clamp(1.2rem, 3vw, 2rem);
+    color: #fff;
+    background: linear-gradient(135deg, #073b68, #075b9a);
+}
+
+.section-heading-light h2,
+.section-heading-light .landing-eyebrow,
+.section-heading-light p {
+    color: #fff;
+}
+
+.training-open {
+    align-self: center;
+    padding: 0.55rem 0.8rem;
+    border: 1px solid rgb(255 255 255 / 35%);
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.training-card {
+    min-height: 220px;
+    padding: 1.2rem;
+    border-color: rgb(255 255 255 / 55%);
+    background: rgb(255 255 255 / 97%);
+}
+
+.training-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--utn-blue);
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.training-card-title {
+    margin-top: 1.2rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.training-card-area {
+    margin-top: 0.4rem;
+    color: var(--utn-blue);
+    font-size: 0.82rem;
+}
+
+.training-card-detail {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    color: var(--utn-muted);
+    font-size: 0.82rem;
+}
+
+.interview-card {
+    min-height: 285px;
+    padding: 1.3rem;
+}
+
+.interview-avatar {
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eaf5fc;
+    color: var(--utn-blue);
+    font-size: 1.35rem;
+}
+
+.interview-person {
+    margin-top: 1rem;
+    color: var(--utn-blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.interview-title {
+    margin-top: 0.35rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.interview-summary {
+    margin-top: 0.6rem;
+    color: var(--utn-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.career-card {
+    min-height: 145px;
+    align-items: flex-start;
+    padding: 1.15rem;
+}
+
+.career-icon {
+    color: var(--utn-blue);
+    font-size: 1.5rem;
+}
+
+.career-name {
+    max-width: calc(100% - 1.5rem);
+    margin-top: 0.8rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.career-arrow {
+    position: absolute;
+    right: 1rem;
+    bottom: 1.15rem;
+    color: var(--utn-blue);
+}
+
+.gallery-image {
+    background: #eaf1f6;
+}
+
+.gallery-image img {
+    object-fit: cover;
+}
+
+.landing-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: clamp(1.3rem, 3vw, 2rem);
+    color: #fff;
+    background: #082e50;
+}
+
+.landing-footer .utn-logo {
+    color: #fff;
+    background: transparent;
+}
+
+.footer-brand > div,
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.footer-brand span:not(.utn-logo),
+.footer-contact span {
+    color: rgb(255 255 255 / 75%);
+    font-size: 0.82rem;
+}
+
+.footer-contact {
+    max-width: 450px;
+}
+
+.footer-social {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.footer-social a {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(255 255 255 / 35%);
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-social a:hover {
+    background: rgb(255 255 255 / 12%);
+}
+
+.landing-modal {
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgb(5 35 61 / 25%);
+}
+
+.landing-modal .modal-title {
+    color: var(--utn-ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+}
+
+.landing-modal .modal-body {
+    color: var(--utn-muted);
+    line-height: 1.55;
+}
+
+@media (max-width: 767.98px) {
+    .feature-news {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-news-art {
+        min-height: 150px;
+    }
+
+    .training-open {
+        display: none;
+    }
+}
+
 /* Print Styles */
 @media print {
     body { background: white !important; }
