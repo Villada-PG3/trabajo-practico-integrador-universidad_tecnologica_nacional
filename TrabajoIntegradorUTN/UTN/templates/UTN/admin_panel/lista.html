@@ -1,0 +1,114 @@
+{% extends 'UTN/admin_panel/base_admin.html' %}
+
+{% block title %}{{ conf.titulo }}{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+        <h2 class="fw-bold mb-1"><i class="bi {{ conf.icono }} text-primary-modern me-2"></i>{{ conf.titulo }}</h2>
+        <p class="text-secondary mb-0">{{ total }} registro{{ total|pluralize }}{% if q %} para «{{ q }}»{% endif %}</p>
+    </div>
+    <a href="{% url 'admin_crear' entidad %}" class="btn btn-modern btn-modern-primary shadow-soft">
+        <i class="bi bi-plus-lg me-1"></i> Nuevo {{ conf.singular }}
+    </a>
+</div>
+
+<div class="card border-0 shadow-soft rounded-organic">
+    <div class="card-body p-0">
+        <form method="get" class="p-3 border-bottom">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                <input type="search" name="q" value="{{ q }}" class="form-control border-start-0" placeholder="Buscar en {{ conf.titulo|lower }}...">
+                {% if q %}<a href="{% url 'admin_lista' entidad %}" class="btn btn-outline-secondary">Limpiar</a>{% endif %}
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0 admin-tabla">
+                <thead class="table-light">
+                    <tr>
+                        {% for ruta, titulo in conf.columnas %}
+                            <th class="small text-uppercase text-secondary {% if forloop.first %}ps-4{% endif %}">{{ titulo }}</th>
+                        {% endfor %}
+                        <th class="pe-4 text-end small text-uppercase text-secondary">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fila in filas %}
+                    <tr>
+                        {% for valor in fila.valores %}
+                            <td class="{% if forloop.first %}ps-4 fw-semibold{% endif %}">
+                                {% if valor is True %}<i class="bi bi-check-circle-fill text-success"></i>
+                                {% elif valor is False %}<i class="bi bi-dash-circle text-secondary"></i>
+                                {% elif valor is None or valor == "" %}<span class="text-muted">—</span>
+                                {% else %}{{ valor }}{% endif %}
+                            </td>
+                        {% endfor %}
+                        <td class="pe-4 text-end text-nowrap">
+                            <a href="{% url 'admin_editar' entidad fila.obj.pk %}" class="btn btn-sm btn-light" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-light text-danger" title="Eliminar"
+                                    data-bs-toggle="modal" data-bs-target="#modalEliminar"
+                                    data-url="{% url 'admin_eliminar' entidad fila.obj.pk %}" data-nombre="{{ fila.obj }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="{{ conf.columnas|length|add:1 }}" class="text-center py-5">
+                            <i class="bi bi-inbox fs-1 text-muted d-block mb-2"></i>
+                            <p class="text-secondary mb-3">{% if q %}No hay resultados para tu búsqueda.{% else %}Todavía no hay {{ conf.titulo|lower }} cargados.{% endif %}</p>
+                            <a href="{% url 'admin_crear' entidad %}" class="btn btn-modern btn-modern-primary btn-sm">Crear el primero</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if pagina.has_other_pages %}
+        <nav class="p-3 border-top d-flex justify-content-center">
+            <ul class="pagination pagination-sm mb-0">
+                {% if pagina.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ pagina.previous_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}">Anterior</a></li>
+                {% endif %}
+                <li class="page-item disabled"><span class="page-link">Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span></li>
+                {% if pagina.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ pagina.next_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}">Siguiente</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Modal de confirmación para eliminar -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form method="post" class="modal-content border-0 rounded-organic" id="formEliminar">
+            {% csrf_token %}
+            <div class="modal-body text-center p-4">
+                <div class="icono-rol bg-danger-subtle text-danger mx-auto mb-3"><i class="bi bi-trash"></i></div>
+                <h5 class="fw-bold">¿Eliminar este registro?</h5>
+                <p class="text-secondary mb-0"><strong class="js-nombre"></strong><br>Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer border-0 justify-content-center pb-4">
+                <button type="button" class="btn btn-modern btn-modern-ghost" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-modern btn-danger">Sí, eliminar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('modalEliminar').addEventListener('show.bs.modal', function (event) {
+        const boton = event.relatedTarget;
+        document.getElementById('formEliminar').action = boton.dataset.url;
+        this.querySelector('.js-nombre').textContent = boton.dataset.nombre;
+    });
+</script>
+{% endblock %}

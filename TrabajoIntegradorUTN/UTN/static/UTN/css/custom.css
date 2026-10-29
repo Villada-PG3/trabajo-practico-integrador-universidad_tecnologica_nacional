@@ -112,3 +112,224 @@ h1, h2, h3, h4, h5, h6 {
         padding: 0 !important;
     }
 }
+
+
+/* ============================================================
+   Agregados: landing, login, paneles docente y administración
+   ============================================================ */
+.hero-landing { max-width: 900px; }
+
+.icono-rol {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+}
+.icono-rol.icono-sm { width: 46px; height: 46px; font-size: 1.25rem; flex-shrink: 0; }
+
+.avatar-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #4338ca;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.stat-pill {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.6rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+}
+.stat-pill small { color: #64748b; }
+
+.form-control:focus, .form-select:focus {
+    border-color: #818cf8;
+    box-shadow: 0 0 0 0.2rem rgba(67, 56, 202, 0.15);
+}
+.form-check-input:checked { background-color: #4338ca; border-color: #4338ca; }
+
+/* --- Panel de administración --- */
+.admin-body { background: #f1f5f9; }
+
+.admin-sidebar,
+.offcanvas-lg.admin-sidebar {
+    --bs-offcanvas-bg: #1e1b4b;
+    background-color: #1e1b4b !important;
+    color: #c7d2fe;
+    width: 260px;
+    min-height: 100vh;
+}
+@media (min-width: 992px) {
+    .admin-sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        flex-shrink: 0;
+    }
+}
+.admin-sidebar .offcanvas-header { color: #fff; }
+
+.admin-brand {
+    display: block;
+    padding: 1.4rem 1.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #fff;
+    text-decoration: none;
+}
+.admin-brand:hover { color: #fff; }
+
+.admin-nav-grupo {
+    padding: 1.2rem 1.5rem 0.4rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #818cf8;
+    font-weight: 600;
+}
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.55rem 1.5rem;
+    margin: 0 0.6rem;
+    border-radius: 8px;
+    color: #c7d2fe;
+    text-decoration: none;
+    font-size: 0.92rem;
+    transition: background 0.15s, color 0.15s;
+}
+.admin-nav-link:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.admin-nav-link.active { background: #4338ca; color: #fff; font-weight: 600; }
+.admin-sidebar-footer { padding: 1rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+.admin-main { min-width: 0; }
+.admin-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-tabla td { font-size: 0.92rem; }
+
+.opciones-multiples {
+    max-height: 240px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    background: #fff;
+}
+
+/* --- Planilla de notas del docente --- */
+.planilla thead th {
+    background: #f8fafc;
+    font-size: 0.8rem;
+    color: #475569;
+    vertical-align: top;
+    white-space: nowrap;
+    border-bottom: 1px solid #e2e8f0;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}
+.planilla td { border-color: #f1f5f9; }
+.planilla .col-alumno {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #fff;
+    min-width: 210px;
+    box-shadow: 1px 0 0 #e2e8f0;
+    padding-left: 1.2rem;
+}
+.planilla thead .col-alumno { background: #f8fafc; z-index: 3; }
+.planilla .col-nota { min-width: 120px; width: 120px; }
+.planilla .col-titulo {
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.85rem;
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.planilla .col-meta { font-size: 0.72rem; color: #64748b; }
+.planilla .col-agregar { width: 56px; text-align: center; }
+.planilla .col-promedio { min-width: 95px; }
+.planilla .col-condicion { min-width: 180px; padding-right: 1.2rem; }
+
+.planilla-input {
+    text-align: center;
+    font-weight: 600;
+    max-width: 84px;
+    margin: 0 auto;
+}
+.planilla-input.is-invalid { background-image: none; padding-right: 0.5rem; }
+.celda-cambiada { background-color: #fef9c3 !important; border-color: #facc15 !important; }
+
+.celda-no-aplica {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    background: repeating-linear-gradient(45deg, #f8fafc, #f8fafc 6px, #f1f5f9 6px, #f1f5f9 12px) !important;
+}
+
+.btn-agregar-col {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px dashed #a5b4fc;
+    border-radius: 8px;
+    color: #4338ca;
+    background: #fff;
+}
+.btn-agregar-col:hover { background: #eef2ff; color: #3730a3; }
+
+.barra-guardar {
+    position: sticky;
+    bottom: 1rem;
+    z-index: 1010;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 0.6rem 0.6rem 0.6rem 1.2rem;
+    margin-bottom: 2rem;
+}
+.btn-outline-primary {
+    --bs-btn-color: #4338ca;
+    --bs-btn-border-color: #c7d2fe;
+    --bs-btn-hover-bg: #eef2ff;
+    --bs-btn-hover-color: #3730a3;
+    --bs-btn-hover-border-color: #a5b4fc;
+    --bs-btn-active-bg: #4338ca;
+    --bs-btn-active-border-color: #4338ca;
+}
+@media (max-width: 575.98px) {
+    .planilla .col-alumno { min-width: 140px; max-width: 160px; padding-left: 0.75rem; }
+    .planilla .col-nota { min-width: 96px; width: 96px; }
+}
