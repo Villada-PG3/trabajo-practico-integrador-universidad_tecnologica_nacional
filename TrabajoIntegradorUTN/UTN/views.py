@@ -220,7 +220,7 @@ def reporte_regulares(request, alumno_id):
 @rol_requerido(ROL_ALUMNO, ROL_ADMIN)
 def notas(request, alumno_id):
     alumno = _alumno_autorizado(request, alumno_id)
-    inscripciones = Inscripcion.objects.filter(alumno=alumno)
+    inscripciones = Inscripcion.objects.filter(alumno=alumno).select_related('dictado_materia__materia', 'dictado_materia__curso').prefetch_related('evaluaciones__instancia', 'evaluaciones__tipo_evaluacion')
 
     return render(request, 'UTN/notas.html', {
         'alumno': alumno,

@@ -14,7 +14,7 @@ class Carrera(models.Model):
 class Alumno(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, related_name="alumnos")
     nombre_completo = models.CharField(max_length=100)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     documento = models.IntegerField(unique=True)
     email = models.EmailField(max_length=100)
 
@@ -154,8 +154,11 @@ class Inscripcion(models.Model):
 
     @property
     def condicion_actual(self):
-        ultimo_cambio = self.historial_condiciones.order_by('-fecha_hora').first()
-        return ultimo_cambio.condicion.nombre if ultimo_cambio else "Sin Condición"
+        historial = list(self.historial_condiciones.all())
+        if not historial:
+            return "Sin Condición"
+        ultimo_cambio = sorted(historial, key=lambda c: c.fecha_hora, reverse=True)[0]
+        return ultimo_cambio.condicion.nombre
 
     @property
     def es_regular(self):
