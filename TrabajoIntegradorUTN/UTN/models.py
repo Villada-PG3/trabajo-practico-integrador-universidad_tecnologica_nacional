@@ -1,7 +1,9 @@
 import uuid
+
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 
 class Carrera(models.Model):
     nombre = models.CharField(max_length=100)
@@ -98,6 +100,26 @@ class Docente(models.Model):
         return f"{self.apellido}, {self.nombre} (Legajo: {self.legajo})"
 
 
+class Administrador(models.Model):
+    DIRECTOR = "DIRECTOR"
+    EJECUTIVO = "EJECUTIVO"
+    CARGOS = [
+        (DIRECTOR, "Director"),
+        (EJECUTIVO, "Ejecutivo"),
+    ]
+
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="administrador")
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    cargo = models.CharField(max_length=20, choices=CARGOS, default=EJECUTIVO)
+
+    class Meta:
+        verbose_name_plural = "Administradores"
+
+    def __str__(self):
+        return f"{self.apellido}, {self.nombre} ({self.get_cargo_display()})"
+
+
 class Condicion(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=150, blank=True, null=True)
@@ -118,28 +140,45 @@ class TipoEvaluacion(models.Model):
 def _generar_codigo():
     return f"INS-{uuid.uuid4().hex[:8].upper()}"
 
+
 class Inscripcion(models.Model):
     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE, related_name="inscripciones")
     dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="inscripciones")
     codigo_inscripcion = models.CharField(max_length=30, unique=True, default=_generar_codigo, editable=False)
     fecha_inscripcion = models.DateField(auto_now_add=True)
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=["alumno", "dictado_materia"],
                 name="inscripcion_unica_alumno_dictado",
+                violation_error_message="Ya estás inscripto en esta materia.",
             )
         ]
 
-    @property
-    def condicion_actual(self):
-        ultimo_cambio = self.historial_condiciones.order_by('-fecha_hora').first()
-        return ultimo_cambio.condicion.nombre if ultimo_cambio else "Sin Condición"
+    def clean(self):
+        """Un alumno solo se inscribe en materias de su propia carrera."""
+        if self.alumno_id and self.dictado_materia_id:
+            if self.dictado_materia.materia.carrera_id != self.alumno.carrera_id:
+                raise ValidationError("Esa materia no pertenece a la carrera del alumno.")
+
+    def save(self, *args, **kwargs):
+        es_nueva = self._state.adding
+        super().save(*args, **kwargs)
+        if es_nueva:  # toda inscripción nueva arranca con la condición "Inscripto"
+            condicion, _ = Condicion.objects.get_or_create(
+                nombre="Inscripto", defaults={"es_condicion_final": False}
+            )
+            CambioCondicion.objects.create(inscripcion=self, condicion=condicion)
 
     @property
-    def es_regular(self):
-        return self.condicion_actual == "Regular"
+    def ultimo_cambio(self):
+        # max() sobre .all() aprovecha el prefetch_related (no hace una consulta por inscripción)
+        return max(self.historial_condiciones.all(), key=lambda c: (c.fecha_hora, c.id), default=None)
+
+    @property
+    def condicion_actual(self):
+        return self.ultimo_cambio.condicion.nombre if self.ultimo_cambio else "Sin Condición"
 
     def __str__(self):
         return f"{self.alumno.nombre_completo} - {self.dictado_materia} [{self.codigo_inscripcion}]"
@@ -155,12 +194,36 @@ class CambioCondicion(models.Model):
         return f"{self.inscripcion.alumno.nombre_completo} -> {self.condicion.nombre}"
 
 
-class Evaluacion(models.Model):
-    inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, related_name="evaluaciones")
-    tipo_evaluacion = models.ForeignKey(TipoEvaluacion, on_delete=models.PROTECT)
-    docente = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True)
-    valor = models.DecimalField(max_digits=4, decimal_places=2)
-    fecha_evaluacion = models.DateField()
+class InstanciaEvaluacion(models.Model):
+    """Una "columna" de la planilla del docente: un parcial, un TP, un recuperatorio, etc."""
+    dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="instancias_evaluacion")
+    tipo_evaluacion = models.ForeignKey(TipoEvaluacion, on_delete=models.PROTECT, related_name="instancias")
+    nombre = models.CharField(max_length=80, blank=True, help_text="Opcional. Ej: Parcial 1, Recuperatorio")
+    fecha = models.DateField(default=timezone.localdate)
+    para_todos = models.BooleanField(default=True, help_text="Si está tildado, aplica a todos los inscriptos del curso")
+    inscripciones = models.ManyToManyField(Inscripcion, related_name="instancias_evaluacion", blank=True,
+                                           help_text="Solo se usa si no es para todos")
+    creada_por = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True, blank=True)
+
+    class Meta:
+        ordering = ["fecha", "id"]
+        verbose_name = "instancia de evaluación"
+        verbose_name_plural = "instancias de evaluación"
+
+    @property
+    def titulo(self):
+        return self.nombre or self.tipo_evaluacion.nombre
 
     def __str__(self):
-        return f"{self.tipo_evaluacion.nombre}: {self.valor} ({self.inscripcion.alumno.nombre_completo})"
+        return f"{self.titulo} - {self.dictado_materia} ({self.fecha:%d/%m/%Y})"
+
+
+class Evaluacion(models.Model):
+    """La nota de un alumno (inscripción) en una columna de la planilla."""
+    inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, related_name="evaluaciones")
+    instancia = models.ForeignKey(InstanciaEvaluacion, on_delete=models.CASCADE, related_name="notas")
+    docente = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True, blank=True)
+    valor = models.DecimalField(max_digits=4, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.instancia.titulo}: {self.valor} ({self.inscripcion.alumno.nombre_completo})"

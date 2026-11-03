@@ -1,17 +1,8 @@
-{% extends 'UTN/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Panel de {{ alumno.nombre_completo }}{% endblock %}
 
 {% block content %}
-
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
-            <i class="bi bi-check-circle-fill"></i> {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    {% endfor %}
-{% endif %}
 
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5">
     <div>
@@ -23,10 +14,10 @@
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotas" aria-controls="offcanvasNotas">
             <i class="bi bi-journal-text me-1"></i> Historial de notas
         </button>
-        <a href="{% url 'reporte_regulares' alumno.id %}" class="btn btn-modern btn-modern-ghost">
+        <a href="{% url 'utn:reporte_regulares' alumno.id %}" class="btn btn-modern btn-modern-ghost">
             <i class="bi bi-file-earmark-text me-1"></i> Certificado de regularidad
         </a>
-        <a href="{% url 'inscribir_materia' alumno.id %}" class="btn btn-modern btn-modern-primary ms-md-2 shadow-soft">
+        <a href="{% url 'utn:inscribir_materia' alumno.id %}" class="btn btn-modern btn-modern-primary ms-md-2 shadow-soft">
             <i class="bi bi-plus-circle me-1"></i> Nueva Inscripción
         </a>
     </div>
@@ -79,7 +70,7 @@
             </div>
             <h5 class="fw-bold">No hay inscripciones</h5>
             <p class="text-secondary mb-4">No estás cursando ninguna materia en este ciclo lectivo.</p>
-            <a href="{% url 'inscribir_materia' alumno.id %}" class="btn btn-modern btn-modern-primary">
+            <a href="{% url 'utn:inscribir_materia' alumno.id %}" class="btn btn-modern btn-modern-primary">
                 Comenzar una inscripción
             </a>
         </div>
@@ -88,7 +79,7 @@
 </div>
 
 
-{% include 'UTN/notas.html' %}
+{% include 'notas.html' %}
 
 <script>
     

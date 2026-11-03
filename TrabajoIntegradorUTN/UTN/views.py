@@ -1,254 +1,180 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse 
 from django.contrib import messages
-from .models import Alumno, DictadoMateria, Inscripcion, CambioCondicion, Condicion, Carrera, Evaluacion, TipoEvaluacion
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
-from django.urls import reverse
-from django.db import transaction, IntegrityError
-from decimal import Decimal, InvalidOperation
-from django.core.exceptions import PermissionDenied
-from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.exceptions import PermissionDenied, ValidationError
+from django.db import IntegrityError, transaction
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.utils.functional import cached_property
+from django.views.generic import DetailView, ListView, UpdateView
 
-def inicio(request):
-    return render(request, 'UTN/utn.html', {'alumnos': Alumno.objects.all()})
+from .forms import LoginForm, CuentaUsuarioForm, CambiarPasswordForm
+from .models import Alumno, Carrera, DictadoMateria, Inscripcion
+from .roles import obtener_rol, RolRequeridoMixin, ROL_ADMIN, ROL_DOCENTE, ROL_ALUMNO
+
+
+# ---------------------------------------------------------------------------
+# Landing (vista basada en función: no necesita nada de lo que ofrecen las genéricas)
+# ---------------------------------------------------------------------------
+ICONOS_CARRERA = [
+    ("sistemas", "bi-cpu"),
+    ("electr", "bi-motherboard"),
+    ("eléctr", "bi-lightning-charge"),
+    ("industrial", "bi-gear-wide-connected"),
+    ("mecánica", "bi-tools"),
+    ("mecanica", "bi-tools"),
+    ("civil", "bi-building"),
+    ("química", "bi-droplet-half"),
+    ("quimica", "bi-droplet-half"),
+    ("metal", "bi-fire"),
+    ("aero", "bi-airplane"),
+]
+
+FOTOS = [
+    {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBs5zALy7bHbwEEZsIhmb9i5f21WzYBQ6MZJGj6Xc1TwnSzE7rZ3LpkXw&s=10", "alt": "Edificio central"},
+    {"url": "https://fra.utn.edu.ar/wp-content/uploads/2024/08/1-23.jpg", "alt": "Laboratorios"},
+    {"url": "https://www.academia.frc.utn.edu.ar/pub/image/IMG_20130311_191734.jpg", "alt": "Aulas"},
+    {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2RUdpeXiPMmSXxtQ9h1UFbWLNPHloJ0he6mTBYxiCGu-vmVasVK9umAHk&s=10", "alt": "Ciudad Universitaria"},
+]
+
+NOTICIAS = [
+    {"categoria": "Ingreso", "titulo": "Ingreso a Ingenierías 2027",
+     "resumen": "Requisitos, fechas y clases grabadas de apoyo para el Ciclo Introductorio.",
+     "link": "https://www.frc.utn.edu.ar/ingreso-ingenierias-2027/"},
+    {"categoria": "Investigación", "titulo": "Sombras y Sonidos - VR",
+     "resumen": "Aplicación de realidad virtual desarrollada en el Centro de Investigación y Transferencia en Acústica de la FRC.",
+     "link": "https://www.frc.utn.edu.ar/"},
+    {"categoria": "Comunidad", "titulo": "Radio FM 94.3",
+     "resumen": "La radio de la Facultad, con contenidos de la comunidad universitaria.",
+     "link": "https://www.frc.utn.edu.ar/"},
+]
+
+
+def _icono_carrera(nombre):
+    nombre = nombre.lower()
+    return next((icono for palabra, icono in ICONOS_CARRERA if palabra in nombre), "bi-mortarboard")
+
+
+def landing(request):
+    carreras = [{"nombre": c.nombre, "icono": _icono_carrera(c.nombre)} for c in Carrera.objects.all()]
+    return render(request, "landing.html", {"carreras": carreras, "fotos": FOTOS, "noticias": NOTICIAS})
+
+
+# ---------------------------------------------------------------------------
+# Login único + redirección según el rol
+# ---------------------------------------------------------------------------
+class LoginUnificadoView(LoginView):
+    template_name = "registration/login.html"
+    authentication_form = LoginForm
+    redirect_authenticated_user = True
+
 
 @login_required
-def panel_alumno(request, alumno_id):
-    alumno = get_object_or_404(Alumno, id=alumno_id)
-    inscripciones = Inscripcion.objects.filter(alumno=alumno).prefetch_related('evaluaciones', 'historial_condiciones')
-    return render(request, 'UTN/panel_alumno.html', {
-        'alumno': alumno,
-        'inscripciones': inscripciones
-    })
+def redireccion_panel(request):
+    """Después del login, manda a cada usuario a su panel según su rol."""
+    rol = obtener_rol(request.user)
+    if rol == ROL_ADMIN:
+        return redirect("utn:admin_dashboard")
+    if rol == ROL_DOCENTE:
+        return redirect("utn:panel_docente")
+    if rol == ROL_ALUMNO:
+        return redirect("utn:panel_alumno", pk=request.user.alumno.pk)
+
+    logout(request)
+    messages.error(request, "Tu usuario no tiene un perfil asignado. Contactá a administración.")
+    return redirect("utn:login")
 
 
+# ---------------------------------------------------------------------------
+# Mi cuenta: cambiar usuario y contraseña (alumnos, docentes y administradores)
+# ---------------------------------------------------------------------------
+class CuentaUsuarioView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = User
+    form_class = CuentaUsuarioForm
+    template_name = "mi_cuenta.html"
+    success_url = reverse_lazy("utn:mi_cuenta")
+    success_message = "Listo, tu nombre de usuario se actualizó."
+
+    def get_object(self, queryset=None):
+        return self.request.user  # siempre edita al usuario logueado, nunca a otro
 
 
-def inscribir_materia(request, alumno_id):
-    alumno = get_object_or_404(Alumno, id=alumno_id)
-    dictados = DictadoMateria.objects.filter(
-        materia__carrera=alumno.carrera
-    ).select_related('materia', 'curso', 'curso__turno', 'ciclo_lectivo').prefetch_related('horarios__modulos')
+class CuentaPasswordView(SuccessMessageMixin, PasswordChangeView):
+    """PasswordChangeView ya viene hecha por Django: exige login, valida la clave actual y no cierra la sesión."""
+    form_class = CambiarPasswordForm
+    template_name = "mi_cuenta.html"
+    success_url = reverse_lazy("utn:mi_cuenta_password")
+    success_message = "Tu contraseña se cambió correctamente."
 
 
-    if request.method == 'POST':
-        dictado_id = request.POST.get('dictado_id')
-        dictado = get_object_or_404(dictados_disponibles, id=dictado_id)
+# ---------------------------------------------------------------------------
+# Panel del alumno
+# ---------------------------------------------------------------------------
+class AlumnoMixin(RolRequeridoMixin):
+    """Vistas de un alumno: él ve solo lo suyo; el administrador puede ver a cualquiera."""
+    roles = (ROL_ALUMNO, ROL_ADMIN)
 
-        if Inscripcion.objects.filter(alumno=alumno, dictado_materia=dictado).exists():
-            messages.warning(request, "Ya estás inscripto en esta materia.")
-            return redirect('inscribir_materia', alumno_id=alumno.id)
-
-        try:
-            with transaction.atomic():
-                inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
-                condicion_inscripto, _ = Condicion.objects.get_or_create(
-                    nombre="Inscripto", defaults={'es_condicion_final': False}
-                )
-                CambioCondicion.objects.create(inscripcion=inscripcion, condicion=condicion_inscripto)
-        except IntegrityError:
-            messages.warning(request, "Ya estás inscripto en esta materia.")
-            return redirect('inscribir_materia', alumno_id=alumno.id)
-
-        messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
-        return redirect('panel_alumno', alumno_id=alumno.id)
-
-    if request.method != 'POST':
-        return render(request, 'UTN/inscribir.html', {'alumno': alumno, 'dictados': dictados})
-
-
-    dictado = get_object_or_404(DictadoMateria, id=request.POST.get('dictado_id'))
-    inscripcion = Inscripcion.objects.create(alumno=alumno, dictado_materia=dictado)
-    condicion, _ = Condicion.objects.get_or_create(nombre="Inscripto", defaults={'es_condicion_final': False})
-    CambioCondicion.objects.create(inscripcion=inscripcion, condicion=condicion)
-    
-    messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
-    return redirect('panel_alumno', alumno_id=alumno.id)
-
-def reporte_regulares(request, alumno_id):
-    alumno = get_object_or_404(Alumno, id=alumno_id)
-    inscripciones = Inscripcion.objects.filter(alumno=alumno).prefetch_related(
-        'historial_condiciones__condicion',
-        'dictado_materia__materia',
-        'dictado_materia__curso'
-    )
-    
-    regulares = []
-    for insc in inscripciones:
-        historial = list(insc.historial_condiciones.all())
-        if not historial:
-            continue
-            
-        ultimo_cambio = sorted(historial, key=lambda c: c.fecha_hora, reverse=True)[0]
-        if ultimo_cambio.condicion.nombre == "Regular":
-            regulares.append({
-                'materia': insc.dictado_materia.materia.nombre,
-                'curso': insc.dictado_materia.curso.nombre,
-                'condicion': "Regular",
-                'fecha_regularizacion': ultimo_cambio.fecha_hora
-            })
-            
-    return render(request, 'UTN/reporte_regulares.html', {'alumno': alumno, 'regulares': regulares})
-
-def notas(request, alumno_id):
-    alumno = get_object_or_404(Alumno, id=alumno_id)
-    inscripciones = Inscripcion.objects.filter(alumno=alumno)
-    
-    return render(request, 'UTN/notas.html', {
-        'alumno': alumno,
-        'inscripciones': inscripciones
-    })
-
-
-
-    
-class LoginAlumnoView(LoginView):
-    template_name = 'UTN/login.html'
-
-    def get_success_url(self):
-        alumno = getattr(self.request.user, 'alumno', None)
-        if alumno:
-            return reverse('panel_alumno', args=[alumno.id])
-        return '/admin/'
-    
-    
-    
-    
-def landing(request):
-    carreras = []
-    for carrera in Carrera.objects.all():
-        carreras.append({
-            "nombre": carrera.nombre
-        })
-    fotos = [
-        {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBs5zALy7bHbwEEZsIhmb9i5f21WzYBQ6MZJGj6Xc1TwnSzE7rZ3LpkXw&s=10", "alt": "Edificio central"},
-        {"url": "https://fra.utn.edu.ar/wp-content/uploads/2024/08/1-23.jpg", "alt": "Laboratorios"},
-        {"url": "https://www.academia.frc.utn.edu.ar/pub/image/IMG_20130311_191734.jpg", "alt": "Aulas"},
-        {"url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2RUdpeXiPMmSXxtQ9h1UFbWLNPHloJ0he6mTBYxiCGu-vmVasVK9umAHk&s=10", "alt": "Ciudad Universitaria"},
-    ]
-    noticias = [
-        {"categoria": "Ingreso", "titulo": "Ingreso a Ingenierías 2027",
-         "resumen": "Requisitos, fechas y clases grabadas de apoyo para el Ciclo Introductorio.",
-         "link": "https://www.frc.utn.edu.ar/ingreso-ingenierias-2027/"},
-        {"categoria": "Investigación", "titulo": "Sombras y Sonidos - VR",
-         "resumen": "Aplicación de realidad virtual desarrollada en el Centro de Investigación y Transferencia en Acústica de la FRC.",
-         "link": "https://www.frc.utn.edu.ar/"},
-        {"categoria": "Comunidad", "titulo": "Radio FM 94.3",
-         "resumen": "La radio de la Facultad, con contenidos de la comunidad universitaria.",
-         "link": "https://www.frc.utn.edu.ar/"},
-    ]
-    context = {
-        "carreras": carreras,
-        "fotos": fotos,
-        "noticias": noticias,
-    }
-    return render(request, "UTN/landing.html", context)
-
-
-
-class LoginDocenteView(LoginView):
-    template_name = 'UTN/login.html'
+    @cached_property
+    def alumno(self):
+        alumno = get_object_or_404(Alumno.objects.select_related("carrera"), pk=self.kwargs["pk"])
+        if obtener_rol(self.request.user) != ROL_ADMIN and alumno.usuario_id != self.request.user.id:
+            raise PermissionDenied  # 403: es el panel de otro alumno
+        return alumno
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['titulo'] = 'Acceso docentes'
-        ctx['subtitulo'] = 'Ingresá con tu usuario para calificar a tus alumnos.'
-        return ctx
+        return super().get_context_data(alumno=self.alumno, **kwargs)
 
-    def form_valid(self, form):
-        # Credenciales correctas pero no es docente (ej: un alumno) -> no lo dejamos pasar
-        if not hasattr(form.get_user(), 'docente'):
-            form.add_error(None, "Este usuario no está registrado como docente.")
-            return self.form_invalid(form)
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse('panel_docente')
+    def inscripciones(self):
+        return (self.alumno.inscripciones
+                .select_related("dictado_materia__materia", "dictado_materia__curso", "dictado_materia__ciclo_lectivo")
+                .prefetch_related("evaluaciones__instancia__tipo_evaluacion", "historial_condiciones__condicion"))
 
 
-def _a_int(valor):
-    return int(valor) if valor and valor.isdigit() else None
+class PanelAlumnoView(AlumnoMixin, DetailView):
+    model = Alumno
+    template_name = "panel_alumno.html"
+
+    def get_object(self, queryset=None):
+        return self.alumno
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(inscripciones=self.inscripciones(), **kwargs)
 
 
-@login_required(login_url='login_docente')
-def panel_docente(request):
-    docente = getattr(request.user, 'docente', None)
-    if docente is None:
-        raise PermissionDenied  # muestra tu página 403
+class InscribirView(AlumnoMixin, ListView):
+    """GET: muestra los dictados de la carrera del alumno. POST: lo inscribe en el elegido."""
+    context_object_name = "dictados"
+    template_name = "inscribir.html"
 
-    dictados = (docente.dictados
-                .select_related('materia', 'curso', 'curso__turno', 'ciclo_lectivo')
-                .order_by('-ciclo_lectivo__anio', 'materia__nombre'))
-    tipos = TipoEvaluacion.objects.all()
+    def get_queryset(self):
+        return (DictadoMateria.objects
+                .filter(materia__carrera=self.alumno.carrera)  # solo materias de SU carrera
+                .select_related("materia", "curso__turno", "ciclo_lectivo")
+                .prefetch_related("horarios__modulos"))
 
-    # Tanto en GET (?dictado=1&tipo=2) como en POST (campos ocultos)
-    dictado_id = _a_int(request.POST.get('dictado_id') or request.GET.get('dictado'))
-    tipo_id = _a_int(request.POST.get('tipo_id') or request.GET.get('tipo'))
-
-    dictado = get_object_or_404(dictados, id=dictado_id) if dictado_id else None  # solo SUS cursos
-    tipo = get_object_or_404(tipos, id=tipo_id) if tipo_id else tipos.first()
-
-    filas = []
-    if dictado and tipo:
-        inscripciones = list(
-            dictado.inscripciones.select_related('alumno').order_by('alumno__nombre_completo')
-        )
-
-        if request.method == 'POST':
-            errores = 0
+    def post(self, request, *args, **kwargs):
+        dictado = get_object_or_404(self.get_queryset(), pk=request.POST.get("dictado_id"))
+        inscripcion = Inscripcion(alumno=self.alumno, dictado_materia=dictado)
+        try:
             with transaction.atomic():
-                for insc in inscripciones:
-                    raw = request.POST.get(f'nota_{insc.id}')
-                    if raw is None:
-                        continue  # alumno inscripto después de cargar la página
-                    existente = Evaluacion.objects.filter(
-                        inscripcion=insc, tipo_evaluacion=tipo
-                    ).first()
+                inscripcion.full_clean()  # valida carrera y duplicados (models.py)
+                inscripcion.save()
+        except (ValidationError, IntegrityError) as error:
+            mensaje = " ".join(error.messages) if isinstance(error, ValidationError) else "Ya estás inscripto en esta materia."
+            messages.warning(request, mensaje)
+            return redirect("utn:inscribir_materia", pk=self.alumno.pk)
 
-                    if raw == '':  # Pendiente
-                        if existente:
-                            existente.delete()
-                        continue
+        messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
+        return redirect("utn:panel_alumno", pk=self.alumno.pk)
 
-                    try:
-                        valor = Decimal(raw)
-                    except InvalidOperation:
-                        errores += 1
-                        continue
-                    if not (1 <= valor <= 10):
-                        errores += 1
-                        continue
 
-                    if existente:
-                        existente.valor = valor
-                        existente.docente = docente
-                        existente.fecha_evaluacion = timezone.localdate()
-                        existente.save()
-                    else:
-                        Evaluacion.objects.create(
-                            inscripcion=insc, tipo_evaluacion=tipo, docente=docente,
-                            valor=valor, fecha_evaluacion=timezone.localdate(),
-                        )
+class ReporteRegularesView(AlumnoMixin, ListView):
+    context_object_name = "regulares"
+    template_name = "reporte_regulares.html"
 
-            if errores:
-                messages.warning(request, f"Se guardaron las notas, pero {errores} valor(es) no eran válidos.")
-            else:
-                messages.success(request, "Notas guardadas correctamente.")
-            return redirect(f"{reverse('panel_docente')}?dictado={dictado.id}&tipo={tipo.id}")
-
-        notas = {
-            e.inscripcion_id: e.valor
-            for e in Evaluacion.objects.filter(inscripcion__dictado_materia=dictado, tipo_evaluacion=tipo)
-        }
-        filas = [{'inscripcion': i, 'alumno': i.alumno, 'nota': notas.get(i.id)} for i in inscripciones]
-
-    return render(request, 'UTN/panel_docente.html', {
-        'docente': docente,
-        'dictados': dictados,
-        'tipos': tipos,
-        'dictado': dictado,
-        'tipo': tipo,
-        'filas': filas,
-        'escala': range(1, 11),
-    })
+    def get_queryset(self):
+        return [i for i in self.inscripciones() if i.condicion_actual == "Regular"]

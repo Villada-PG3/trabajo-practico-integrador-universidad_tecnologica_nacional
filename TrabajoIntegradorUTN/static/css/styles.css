@@ -1,0 +1,141 @@
+/* styles.css - estilos propios, encima de Bootstrap 5 */
+
+:root {
+    --utn: #4338ca;           /* violeta principal */
+    --utn-oscuro: #3730a3;
+    --utn-claro: #eef2ff;
+    --borde: #e2e8f0;
+    --texto: #334155;
+    --titulo: #0f172a;
+}
+
+/* ---------- Base ---------- */
+body { font-family: 'Inter', sans-serif; background: #f8fafc; color: var(--texto); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; color: var(--titulo); font-weight: 700; }
+
+/* ---------- Utilidades propias ---------- */
+.text-primary-modern { color: var(--utn) !important; }
+.bg-white-glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+.rounded-organic { border-radius: 16px !important; }
+.rounded-organic-sm { border-radius: 12px !important; }
+.shadow-soft {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05) !important;
+    border: 1px solid #f1f5f9;
+}
+.shadow-hover:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+.icono-rol {
+    width: 56px; height: 56px; border-radius: 14px; font-size: 1.6rem;
+    display: inline-flex; align-items: center; justify-content: center;
+}
+.icono-rol.icono-sm { width: 46px; height: 46px; font-size: 1.25rem; flex-shrink: 0; }
+.avatar-circle {
+    width: 32px; height: 32px; border-radius: 50%; background: var(--utn); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem;
+}
+
+/* ---------- Componentes ---------- */
+.navbar-modern { border-bottom: 1px solid var(--borde); }
+.navbar-modern .navbar-brand { font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--titulo) !important; letter-spacing: -0.5px; }
+.navbar-modern .nav-link { color: #475569 !important; font-weight: 500; }
+.navbar-modern .nav-link:hover { color: var(--utn) !important; }
+
+.btn-modern { border-radius: 10px; font-weight: 600; padding: 0.6rem 1.2rem; transition: all 0.2s; }
+.btn-modern-primary { background: var(--utn); border: none; color: #fff; }
+.btn-modern-primary:hover { background: var(--utn-oscuro); color: #fff; }
+.btn-modern-ghost { background: transparent; border: 1px solid #cbd5e1; color: #475569; }
+.btn-modern-ghost:hover { background: #f1f5f9; color: var(--titulo); }
+.btn-outline-primary {
+    --bs-btn-color: var(--utn); --bs-btn-border-color: #c7d2fe;
+    --bs-btn-hover-bg: var(--utn-claro); --bs-btn-hover-color: var(--utn-oscuro); --bs-btn-hover-border-color: #a5b4fc;
+    --bs-btn-active-bg: var(--utn); --bs-btn-active-border-color: var(--utn);
+}
+
+.form-control:focus, .form-select:focus { border-color: #818cf8; box-shadow: 0 0 0 0.2rem rgb(67 56 202 / 0.15); }
+.form-check-input:checked { background-color: var(--utn); border-color: var(--utn); }
+.opciones-multiples { max-height: 240px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 10px; padding: 0.75rem 1rem; background: #fff; }
+
+/* Tarjetas de materia del alumno: la franja de color indica la condición */
+.materia-card { border-left: 4px solid #cbd5e1 !important; }
+.materia-card.regular { border-left-color: #10b981 !important; }
+.materia-card.inscripto { border-left-color: #3b82f6 !important; }
+
+/* ---------- Panel de administración ---------- */
+.admin-body { background: #f1f5f9; }
+.admin-sidebar, .offcanvas-lg.admin-sidebar {
+    --bs-offcanvas-bg: #1e1b4b;
+    background-color: #1e1b4b !important; color: #c7d2fe; width: 260px; min-height: 100vh;
+}
+@media (min-width: 992px) {
+    .admin-sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; flex-shrink: 0; }
+}
+.admin-sidebar .offcanvas-header { color: #fff; }
+.admin-brand {
+    display: block; padding: 1.4rem 1.5rem; color: #fff; text-decoration: none;
+    font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.25rem;
+}
+.admin-brand:hover { color: #fff; }
+.admin-nav-grupo {
+    padding: 1.2rem 1.5rem 0.4rem; font-size: 0.7rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px; color: #818cf8;
+}
+.admin-nav-link {
+    display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 1.5rem; margin: 0 0.6rem;
+    border-radius: 8px; color: #c7d2fe; text-decoration: none; font-size: 0.92rem; transition: background 0.15s, color 0.15s;
+}
+.admin-nav-link:hover { background: rgb(255 255 255 / 0.08); color: #fff; }
+.admin-nav-link.active { background: var(--utn); color: #fff; font-weight: 600; }
+.admin-sidebar-footer { padding: 1rem 0; border-top: 1px solid rgb(255 255 255 / 0.1); }
+.admin-main { min-width: 0; }
+.admin-topbar {
+    position: sticky; top: 0; z-index: 1020; display: flex; align-items: center; gap: 1rem; padding: 0.8rem 1.5rem;
+    background: rgb(255 255 255 / 0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borde);
+}
+.admin-tabla td { font-size: 0.92rem; }
+
+/* ---------- Planilla de notas del docente ---------- */
+.planilla thead th {
+    background: #f8fafc; font-size: 0.8rem; color: #475569; vertical-align: top; white-space: nowrap;
+    border-bottom: 1px solid var(--borde); padding: 0.8rem 0.5rem;
+}
+.planilla td { border-color: #f1f5f9; }
+.planilla .col-alumno {
+    position: sticky; left: 0; z-index: 2; background: #fff; min-width: 210px;
+    box-shadow: 1px 0 0 var(--borde); padding-left: 1.2rem;
+}
+.planilla thead .col-alumno { background: #f8fafc; z-index: 3; }
+.planilla .col-nota { min-width: 120px; width: 120px; }
+.planilla .col-titulo { font-weight: 600; color: var(--titulo); font-size: 0.85rem; max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
+.planilla .col-meta { font-size: 0.72rem; color: #64748b; }
+.planilla .col-agregar { width: 56px; text-align: center; }
+.planilla .col-promedio { min-width: 95px; }
+.planilla .col-condicion { min-width: 180px; padding-right: 1.2rem; }
+.planilla-input { text-align: center; font-weight: 600; max-width: 84px; margin: 0 auto; }
+.planilla-input.is-invalid { background-image: none; padding-right: 0.5rem; }
+.celda-cambiada { background-color: #fef9c3 !important; border-color: #facc15 !important; }
+.celda-no-aplica {
+    text-align: center; color: #94a3b8; font-size: 0.72rem;
+    background: repeating-linear-gradient(45deg, #f8fafc, #f8fafc 6px, #f1f5f9 6px, #f1f5f9 12px) !important;
+}
+.btn-agregar-col {
+    width: 32px; height: 32px; padding: 0; border: 1px dashed #a5b4fc; border-radius: 8px; color: var(--utn); background: #fff;
+}
+.btn-agregar-col:hover { background: var(--utn-claro); color: var(--utn-oscuro); }
+.barra-guardar {
+    position: sticky; bottom: 1rem; z-index: 1010; display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    background: #fff; border: 1px solid var(--borde); border-radius: 14px; padding: 0.6rem 0.6rem 0.6rem 1.2rem; margin-bottom: 2rem;
+}
+@media (max-width: 575.98px) {
+    .planilla .col-alumno { min-width: 140px; max-width: 160px; padding-left: 0.75rem; }
+    .planilla .col-nota { min-width: 96px; width: 96px; }
+}
+
+/* ---------- Impresión (certificado de regularidad) ---------- */
+@media print {
+    body { background: #fff !important; }
+    .no-print { display: none !important; }
+    .print-document { border: none !important; box-shadow: none !important; padding: 0 !important; }
+}
