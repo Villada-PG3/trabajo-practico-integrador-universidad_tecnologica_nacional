@@ -1274,11 +1274,24 @@
     }
 },
 {
+    "model": "admin.logentry",
+    "pk": 99,
+    "fields": {
+        "action_time": "2026-11-02T11:31:51.522Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "12",
+        "object_repr": "abc12345",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
+    }
+},
+{
     "model": "auth.user",
     "pk": 2,
     "fields": {
         "password": "pbkdf2_sha256$1500000$N6cbDbZi9hT35C3VWoMOFJ$rxzUjaRPSWyyigu6wlaHiIdM3ihun6FrcxT5yPQhBF0=",
-        "last_login": "2026-10-26T12:03:29.327Z",
+        "last_login": "2026-11-02T11:49:16.023Z",
         "is_superuser": true,
         "username": "admin",
         "first_name": "",
@@ -1296,7 +1309,7 @@
     "pk": 3,
     "fields": {
         "password": "pbkdf2_sha256$1500000$C2ML8yNzIqtjrC6cpdcZ8T$s8WORxB5VqOYuuYofYEfOL0j7CXSH9bSHF5cru5OlqU=",
-        "last_login": "2026-10-26T12:06:34.040Z",
+        "last_login": "2026-11-02T11:47:21.820Z",
         "is_superuser": false,
         "username": "LucciMalap",
         "first_name": "",
@@ -1418,6 +1431,78 @@
     }
 },
 {
+    "model": "auth.user",
+    "pk": 10,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$mTBtSNymq1Z4H5Pvtewhn8$f3fKbIj+hqTMhi/qAC/8GkELofRSIVcIuFxUjkf3Hoc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Sixseven",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:20:52.330Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 11,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$HsI7VLb6dxKN4TaR6mhDMK$zgzkEL9HX3NVRzbvdx1j1rUgSmDHbkxu2syS877LA5U=",
+        "last_login": "2026-11-03T00:19:43.583Z",
+        "is_superuser": false,
+        "username": "Sixseven67",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:22:04.679Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 12,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$zeQGTU9dKDxmyOxPJcKesp$S8WTsGLJAc2Z9bu5uk18V5WDRRPKP50i+Cr6jnQ/UR0=",
+        "last_login": "2026-11-02T11:42:07.416Z",
+        "is_superuser": false,
+        "username": "abc12345",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:26:11.607Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 13,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$gWaTMJy0ZQmClBRXkmNdKg$mJaqLNctRDfj/40xel2aOMTQ/eTSa1HkIro+V7tNea4=",
+        "last_login": "2026-11-02T11:27:54.209Z",
+        "is_superuser": false,
+        "username": "Batman",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:27:12.006Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
     "model": "sessions.session",
     "pk": "0f6dbj7ap56j02d1ds80zdljlwibpl0p",
     "fields": {
@@ -1431,6 +1516,14 @@
     "fields": {
         "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xLJJm:E9RyguygDFpwOSwa9jhtW7naK2iL9wJjH_4_u6woTGk",
         "expire_date": "2026-11-09T11:56:46.031Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "3p839hsq5pxpojw1v8fzgz8ypobf8dh8",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGllZx8k6lPScIdqPjQPIlvKpEHeHSCmgfTPzXmakbc3jtsR5nNScDYA5_Y5M8ohlJ3qncqtWalnnie2u2IMu9lo1Pi-H-3eQacnfWlBAIzM0iQZChODFOWwdeO2j71ovARIyaSDULqZeuMVmcL4J4Doy7w8TKjf2:1xO2Fb:YTjet7bPl7-bWgYGQA6lctWnnJiVA1gVJirsSgljetg",
+        "expire_date": "2026-11-17T00:19:43.592Z"
     }
 },
 {
@@ -1641,6 +1734,39 @@
     }
 },
 {
+    "model": "UTN.alumno",
+    "pk": 6,
+    "fields": {
+        "carrera": 6,
+        "nombre_completo": "Six Seven Boy",
+        "usuario": 10,
+        "documento": 67676767,
+        "email": "sixseven@gmail.com"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 7,
+    "fields": {
+        "carrera": 6,
+        "nombre_completo": "Pepo",
+        "usuario": 12,
+        "documento": 34534543,
+        "email": "fdghfds@sfdt.hg"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 8,
+    "fields": {
+        "carrera": 6,
+        "nombre_completo": "Juan Carlos Batman",
+        "usuario": 13,
+        "documento": 2509875,
+        "email": "juancbatman@gmail.com"
+    }
+},
+{
     "model": "UTN.materia",
     "pk": 1,
     "fields": {
@@ -1688,6 +1814,16 @@
         "nombre": "Redes de Información",
         "sigla": "RDI",
         "nivel": 4
+    }
+},
+{
+    "model": "UTN.materia",
+    "pk": 6,
+    "fields": {
+        "carrera": 6,
+        "nombre": "Matematicas I",
+        "sigla": "MAI",
+        "nivel": 1
     }
 },
 {
@@ -1781,6 +1917,16 @@
     }
 },
 {
+    "model": "UTN.curso",
+    "pk": 6,
+    "fields": {
+        "carrera": 6,
+        "turno": 1,
+        "nombre": "IQU4",
+        "nivel": 1
+    }
+},
+{
     "model": "UTN.ciclolectivo",
     "pk": 1,
     "fields": {
@@ -1838,7 +1984,8 @@
         "curso": 1,
         "ciclo_lectivo": 3,
         "docentes": [
-            5
+            5,
+            6
         ]
     }
 },
@@ -1850,7 +1997,8 @@
         "curso": 2,
         "ciclo_lectivo": 3,
         "docentes": [
-            5
+            5,
+            6
         ]
     }
 },
@@ -1881,7 +2029,24 @@
         "materia": 5,
         "curso": 5,
         "ciclo_lectivo": 3,
-        "docentes": []
+        "docentes": [
+            1,
+            3,
+            6
+        ]
+    }
+},
+{
+    "model": "UTN.dictadomateria",
+    "pk": 6,
+    "fields": {
+        "materia": 6,
+        "curso": 6,
+        "ciclo_lectivo": 5,
+        "docentes": [
+            3,
+            6
+        ]
     }
 },
 {
@@ -2129,6 +2294,16 @@
     }
 },
 {
+    "model": "UTN.docente",
+    "pk": 6,
+    "fields": {
+        "usuario": 11,
+        "legajo": "D-1006",
+        "nombre": "Six",
+        "apellido": "Seven boy"
+    }
+},
+{
     "model": "UTN.condicion",
     "pk": 1,
     "fields": {
@@ -2235,32 +2410,42 @@
 },
 {
     "model": "UTN.inscripcion",
-    "pk": 3,
+    "pk": 6,
     "fields": {
-        "alumno": 3,
-        "dictado_materia": 4,
-        "codigo_inscripcion": "INS-481F43C9",
-        "fecha_inscripcion": "2026-09-14"
+        "alumno": 8,
+        "dictado_materia": 6,
+        "codigo_inscripcion": "INS-6483532B",
+        "fecha_inscripcion": "2026-11-02"
     }
 },
 {
     "model": "UTN.inscripcion",
-    "pk": 4,
+    "pk": 7,
     "fields": {
-        "alumno": 5,
+        "alumno": 7,
+        "dictado_materia": 6,
+        "codigo_inscripcion": "INS-F7B400FB",
+        "fecha_inscripcion": "2026-11-02"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 8,
+    "fields": {
+        "alumno": 1,
         "dictado_materia": 5,
-        "codigo_inscripcion": "INS-654A476B",
-        "fecha_inscripcion": "2026-09-14"
+        "codigo_inscripcion": "INS-B9687B9F",
+        "fecha_inscripcion": "2026-11-02"
     }
 },
 {
     "model": "UTN.inscripcion",
-    "pk": 5,
+    "pk": 9,
     "fields": {
-        "alumno": 4,
-        "dictado_materia": 2,
-        "codigo_inscripcion": "INS-AB15B57E",
-        "fecha_inscripcion": "2026-09-14"
+        "alumno": 1,
+        "dictado_materia": 4,
+        "codigo_inscripcion": "INS-D7FDE127",
+        "fecha_inscripcion": "2026-11-02"
     }
 },
 {
@@ -2285,32 +2470,82 @@
 },
 {
     "model": "UTN.cambiocondicion",
-    "pk": 3,
+    "pk": 6,
     "fields": {
-        "inscripcion": 5,
+        "inscripcion": 6,
         "condicion": 1,
         "docente": null,
-        "fecha_hora": "2026-09-14T21:01:05Z"
+        "fecha_hora": "2026-11-02T11:27:57.401Z"
     }
 },
 {
     "model": "UTN.cambiocondicion",
-    "pk": 4,
+    "pk": 7,
     "fields": {
-        "inscripcion": 5,
+        "inscripcion": 7,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-11-02T11:32:42.722Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 8,
+    "fields": {
+        "inscripcion": 6,
+        "condicion": 4,
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:33:43.911Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 9,
+    "fields": {
+        "inscripcion": 7,
         "condicion": 5,
-        "docente": 1,
-        "fecha_hora": "2026-09-14T21:01:17Z"
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:33:43.912Z"
     }
 },
 {
     "model": "UTN.cambiocondicion",
-    "pk": 5,
+    "pk": 10,
     "fields": {
-        "inscripcion": 3,
+        "inscripcion": 6,
         "condicion": 3,
-        "docente": 2,
-        "fecha_hora": "2026-09-14T21:01:48Z"
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:40:54.633Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 11,
+    "fields": {
+        "inscripcion": 1,
+        "condicion": 2,
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:42:53.274Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 12,
+    "fields": {
+        "inscripcion": 8,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-11-02T11:47:50.411Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 13,
+    "fields": {
+        "inscripcion": 9,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-11-02T11:47:59.782Z"
     }
 },
 {
@@ -2379,15 +2614,78 @@
     }
 },
 {
+    "model": "UTN.instanciaevaluacion",
+    "pk": 11,
+    "fields": {
+        "dictado_materia": 6,
+        "tipo_evaluacion": 2,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 12,
+    "fields": {
+        "dictado_materia": 6,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-08-10",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 13,
+    "fields": {
+        "dictado_materia": 6,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 14,
+    "fields": {
+        "dictado_materia": 5,
+        "tipo_evaluacion": 5,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 15,
+    "fields": {
+        "dictado_materia": 5,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
     "model": "UTN.evaluacion",
     "pk": 1,
     "fields": {
         "inscripcion": 2,
         "instancia": 6,
-        "tipo_evaluacion": 1,
         "docente": 1,
-        "valor": "6.00",
-        "fecha_evaluacion": "2026-09-14"
+        "valor": "6.00"
     }
 },
 {
@@ -2396,46 +2694,108 @@
     "fields": {
         "inscripcion": 2,
         "instancia": 7,
-        "tipo_evaluacion": 2,
         "docente": 1,
-        "valor": "7.50",
-        "fecha_evaluacion": "2026-09-14"
+        "valor": "7.50"
     }
 },
 {
     "model": "UTN.evaluacion",
-    "pk": 3,
+    "pk": 6,
     "fields": {
-        "inscripcion": 5,
-        "instancia": 8,
-        "tipo_evaluacion": 1,
-        "docente": 1,
-        "valor": "8.50",
-        "fecha_evaluacion": "2026-09-18"
+        "inscripcion": 6,
+        "instancia": 11,
+        "docente": 6,
+        "valor": "7.50"
     }
 },
 {
     "model": "UTN.evaluacion",
-    "pk": 4,
+    "pk": 7,
     "fields": {
-        "inscripcion": 5,
-        "instancia": 9,
-        "tipo_evaluacion": 2,
-        "docente": 1,
-        "valor": "9.00",
-        "fecha_evaluacion": "2026-09-18"
+        "inscripcion": 7,
+        "instancia": 11,
+        "docente": 6,
+        "valor": "10.00"
     }
 },
 {
     "model": "UTN.evaluacion",
-    "pk": 5,
+    "pk": 8,
     "fields": {
-        "inscripcion": 3,
-        "instancia": 10,
-        "tipo_evaluacion": 3,
-        "docente": 2,
-        "valor": "4.00",
-        "fecha_evaluacion": "2026-09-16"
+        "inscripcion": 6,
+        "instancia": 12,
+        "docente": 6,
+        "valor": "3.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 9,
+    "fields": {
+        "inscripcion": 7,
+        "instancia": 12,
+        "docente": 6,
+        "valor": "8.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 10,
+    "fields": {
+        "inscripcion": 1,
+        "instancia": 6,
+        "docente": 6,
+        "valor": "6.70"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 11,
+    "fields": {
+        "inscripcion": 1,
+        "instancia": 7,
+        "docente": 6,
+        "valor": "7.60"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 12,
+    "fields": {
+        "inscripcion": 6,
+        "instancia": 13,
+        "docente": 6,
+        "valor": "6.67"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 13,
+    "fields": {
+        "inscripcion": 7,
+        "instancia": 13,
+        "docente": 6,
+        "valor": "10.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 15,
+    "fields": {
+        "inscripcion": 8,
+        "instancia": 14,
+        "docente": 6,
+        "valor": "10.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 16,
+    "fields": {
+        "inscripcion": 8,
+        "instancia": 15,
+        "docente": 6,
+        "valor": "6.70"
     }
 }
 ]
