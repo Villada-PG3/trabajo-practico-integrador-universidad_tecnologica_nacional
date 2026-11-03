@@ -1,4 +1,4 @@
-{% extends 'UTN/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Iniciar sesión - Autogestión UTN{% endblock %}
 
@@ -51,7 +51,7 @@
                 </form>
 
                 <div class="text-center mt-4">
-                    <a href="{% url 'landing' %}" class="small text-secondary text-decoration-none">
+                    <a href="{% url 'utn:landing' %}" class="small text-secondary text-decoration-none">
                         <i class="bi bi-arrow-left"></i> Volver al inicio
                     </a>
                 </div>

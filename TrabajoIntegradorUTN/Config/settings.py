@@ -55,14 +55,14 @@ ROOT_URLCONF = 'Config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'UTN.context_processors.rol_usuario',
+                'UTN.context_processors.panel',
             ],
         },
     },
@@ -81,9 +81,9 @@ DATABASES = {
     }
 }
 
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'redireccion_panel'
-LOGOUT_REDIRECT_URL = 'landing'
+LOGIN_URL = 'utn:login'
+LOGIN_REDIRECT_URL = 'utn:redireccion_panel'
+LOGOUT_REDIRECT_URL = 'utn:landing'
 
 from django.contrib.messages import constants as message_constants
 MESSAGE_TAGS = {message_constants.ERROR: 'danger'}
@@ -122,6 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
 # Email

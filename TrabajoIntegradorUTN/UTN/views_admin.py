@@ -1,183 +1,25 @@
 """
 Panel de administración propio (directores y ejecutivos).
 
-Funciona con un "registro" de entidades: cada entrada de ENTIDADES describe
-un modelo (qué columnas mostrar, por qué campos buscar, qué formulario usar).
-Con eso, las mismas 4 vistas (listar, crear, editar, eliminar) sirven para
-todos los modelos del sistema.
+Son 5 vistas genéricas (dashboard, listar, crear, editar, eliminar). Sirven para TODAS las
+entidades: cada una se describe en entidades.py y la URL dice cuál se está administrando.
 """
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.db.models import ProtectedError, Q
 from django.forms import modelform_factory
 from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.utils.functional import cached_property
+from django.views.generic import CreateView, DeleteView, ListView, TemplateView, UpdateView
 
-from .forms import (
-    aplicar_estilos, widgets_modernos,
-    AlumnoForm, DocenteForm, AdministradorForm, HorarioForm,
-)
-from .models import (
-    Carrera, Alumno, Materia, Turno, Curso, CicloLectivo, DictadoMateria,
-    Modulo, Horario, Docente, Administrador, Condicion, TipoEvaluacion,
-    Inscripcion, CambioCondicion, Evaluacion, InstanciaEvaluacion,
-)
-from .roles import rol_requerido, es_director, ROL_ADMIN
+from .entidades import ENTIDADES
+from .forms import ModeloForm
+from .models import Inscripcion
+from .roles import RolRequeridoMixin, es_director, ROL_ADMIN
 
 
-# ---------------------------------------------------------------------------
-# Registro de entidades administrables
-# columnas: lista de (ruta_del_atributo, título). La ruta acepta puntos: "carrera.sigla"
-# ---------------------------------------------------------------------------
-ENTIDADES = {
-    # --- Personas ---
-    "alumnos": {
-        "modelo": Alumno, "grupo": "Personas", "icono": "bi-person-badge",
-        "titulo": "Alumnos", "singular": "alumno",
-        "columnas": [("nombre_completo", "Nombre"), ("documento", "DNI"), ("email", "Email"),
-                     ("carrera.sigla", "Carrera"), ("usuario.username", "Usuario")],
-        "busqueda": ["nombre_completo", "documento", "email", "usuario__username"],
-        "form": AlumnoForm,
-    },
-    "docentes": {
-        "modelo": Docente, "grupo": "Personas", "icono": "bi-person-workspace",
-        "titulo": "Docentes", "singular": "docente",
-        "columnas": [("legajo", "Legajo"), ("apellido", "Apellido"), ("nombre", "Nombre"),
-                     ("usuario.username", "Usuario")],
-        "busqueda": ["legajo", "nombre", "apellido", "usuario__username"],
-        "form": DocenteForm,
-    },
-    "administradores": {
-        "modelo": Administrador, "grupo": "Personas", "icono": "bi-shield-lock",
-        "titulo": "Administradores", "singular": "administrador",
-        "columnas": [("apellido", "Apellido"), ("nombre", "Nombre"),
-                     ("get_cargo_display", "Cargo"), ("usuario.username", "Usuario")],
-        "busqueda": ["nombre", "apellido", "usuario__username"],
-        "form": AdministradorForm,
-        "solo_director": True,
-    },
-    # --- Estructura académica ---
-    "carreras": {
-        "modelo": Carrera, "grupo": "Estructura académica", "icono": "bi-mortarboard",
-        "titulo": "Carreras", "singular": "carrera",
-        "columnas": [("nombre", "Nombre"), ("sigla", "Sigla")],
-        "busqueda": ["nombre", "sigla"],
-    },
-    "materias": {
-        "modelo": Materia, "grupo": "Estructura académica", "icono": "bi-book",
-        "titulo": "Materias", "singular": "materia",
-        "columnas": [("nombre", "Nombre"), ("sigla", "Sigla"), ("nivel", "Nivel"), ("carrera.sigla", "Carrera")],
-        "busqueda": ["nombre", "sigla", "carrera__nombre"],
-    },
-    "turnos": {
-        "modelo": Turno, "grupo": "Estructura académica", "icono": "bi-sun",
-        "titulo": "Turnos", "singular": "turno",
-        "columnas": [("nombre", "Nombre"), ("descripcion", "Descripción")],
-        "busqueda": ["nombre", "descripcion"],
-    },
-    "cursos": {
-        "modelo": Curso, "grupo": "Estructura académica", "icono": "bi-people",
-        "titulo": "Cursos", "singular": "curso",
-        "columnas": [("nombre", "Nombre"), ("nivel", "Nivel"), ("carrera.sigla", "Carrera"), ("turno", "Turno")],
-        "busqueda": ["nombre", "carrera__nombre", "turno__nombre"],
-    },
-    "ciclos": {
-        "modelo": CicloLectivo, "grupo": "Estructura académica", "icono": "bi-calendar-range",
-        "titulo": "Ciclos lectivos", "singular": "ciclo lectivo",
-        "columnas": [("anio", "Año"), ("descripcion", "Descripción"),
-                     ("fecha_inicio", "Inicio"), ("fecha_fin", "Fin")],
-        "busqueda": ["descripcion", "anio"],
-    },
-    # --- Cursado ---
-    "dictados": {
-        "modelo": DictadoMateria, "grupo": "Cursado", "icono": "bi-easel",
-        "titulo": "Dictados de materia", "singular": "dictado",
-        "columnas": [("materia.nombre", "Materia"), ("curso", "Curso"),
-                     ("ciclo_lectivo.anio", "Ciclo"), ("docentes", "Docentes")],
-        "busqueda": ["materia__nombre", "curso__nombre", "docentes__apellido"],
-    },
-    "modulos": {
-        "modelo": Modulo, "grupo": "Cursado", "icono": "bi-clock",
-        "titulo": "Módulos horarios", "singular": "módulo",
-        "columnas": [("numero", "Número"), ("hora_inicio", "Desde"), ("hora_fin", "Hasta")],
-        "busqueda": ["numero"],
-    },
-    "horarios": {
-        "modelo": Horario, "grupo": "Cursado", "icono": "bi-calendar-week",
-        "titulo": "Horarios", "singular": "horario",
-        "columnas": [("dia", "Día"), ("dictado_materia", "Dictado"), ("modulos", "Módulos")],
-        "busqueda": ["dia", "dictado_materia__materia__nombre"],
-        "form": HorarioForm,
-    },
-    "inscripciones": {
-        "modelo": Inscripcion, "grupo": "Cursado", "icono": "bi-journal-check",
-        "titulo": "Inscripciones", "singular": "inscripción",
-        "columnas": [("codigo_inscripcion", "Código"), ("alumno.nombre_completo", "Alumno"),
-                     ("dictado_materia", "Dictado"), ("condicion_actual", "Condición"),
-                     ("fecha_inscripcion", "Fecha")],
-        "busqueda": ["codigo_inscripcion", "alumno__nombre_completo", "dictado_materia__materia__nombre"],
-    },
-    # --- Calificaciones ---
-    "instancias-evaluacion": {
-        "modelo": InstanciaEvaluacion, "grupo": "Calificaciones", "icono": "bi-table",
-        "titulo": "Columnas de evaluación", "singular": "columna de evaluación",
-        "columnas": [("dictado_materia", "Dictado"), ("titulo", "Evaluación"), ("tipo_evaluacion", "Tipo"),
-                     ("fecha", "Fecha"), ("para_todos", "Para todos")],
-        "busqueda": ["nombre", "tipo_evaluacion__nombre", "dictado_materia__materia__nombre"],
-    },
-    "evaluaciones": {
-        "modelo": Evaluacion, "grupo": "Calificaciones", "icono": "bi-pencil-square",
-        "titulo": "Evaluaciones", "singular": "evaluación",
-        "columnas": [("inscripcion.alumno.nombre_completo", "Alumno"), ("instancia.titulo", "Evaluación"),
-                     ("tipo_evaluacion", "Tipo"), ("valor", "Nota"), ("fecha_evaluacion", "Fecha"), ("docente", "Docente")],
-        "busqueda": ["inscripcion__alumno__nombre_completo", "tipo_evaluacion__nombre"],
-    },
-    "cambios-condicion": {
-        "modelo": CambioCondicion, "grupo": "Calificaciones", "icono": "bi-arrow-left-right",
-        "titulo": "Cambios de condición", "singular": "cambio de condición",
-        "columnas": [("inscripcion.alumno.nombre_completo", "Alumno"), ("condicion", "Condición"),
-                     ("fecha_hora", "Fecha"), ("docente", "Docente")],
-        "busqueda": ["inscripcion__alumno__nombre_completo", "condicion__nombre"],
-    },
-    "condiciones": {
-        "modelo": Condicion, "grupo": "Calificaciones", "icono": "bi-flag",
-        "titulo": "Condiciones", "singular": "condición",
-        "columnas": [("nombre", "Nombre"), ("descripcion", "Descripción"), ("es_condicion_final", "Final")],
-        "busqueda": ["nombre"],
-    },
-    "tipos-evaluacion": {
-        "modelo": TipoEvaluacion, "grupo": "Calificaciones", "icono": "bi-ui-checks",
-        "titulo": "Tipos de evaluación", "singular": "tipo de evaluación",
-        "columnas": [("nombre", "Nombre"), ("descripcion", "Descripción")],
-        "busqueda": ["nombre"],
-    },
-}
-
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-def _menu(request):
-    """Arma el menú lateral agrupado, ocultando lo que el usuario no puede ver."""
-    grupos = {}
-    director = es_director(request.user)
-    for clave, conf in ENTIDADES.items():
-        if conf.get("solo_director") and not director:
-            continue
-        grupos.setdefault(conf["grupo"], []).append({"clave": clave, **conf})
-    return grupos
-
-
-def _obtener_entidad(request, clave):
-    conf = ENTIDADES.get(clave)
-    if conf is None:
-        raise Http404("Sección inexistente")
-    if conf.get("solo_director") and not es_director(request.user):
-        return None
-    return conf
-
-
-def _valor(obj, ruta):
+def valor_de(obj, ruta):
     """Resuelve 'carrera.sigla', métodos (get_cargo_display) y relaciones muchos-a-muchos."""
     valor = obj
     for parte in ruta.split("."):
@@ -191,122 +33,118 @@ def _valor(obj, ruta):
     return valor
 
 
-def _form_class(conf):
-    return conf.get("form") or modelform_factory(
-        conf["modelo"], fields="__all__", formfield_callback=widgets_modernos
-    )
+class AdminMixin(RolRequeridoMixin):
+    """Solo administradores. En las vistas de una entidad, además, la busca en entidades.py."""
+    roles = (ROL_ADMIN,)
+
+    def test_func(self):
+        if not super().test_func():
+            return False
+        clave = self.kwargs.get("entidad")
+        if clave is None:  # el dashboard no tiene entidad
+            return True
+        if clave not in ENTIDADES:
+            raise Http404("Sección inexistente")
+        if self.conf.get("solo_director") and not es_director(self.request.user):
+            self.mensaje_denegado = "Solo un director puede gestionar administradores."
+            return False
+        return True
+
+    @cached_property
+    def conf(self):
+        return ENTIDADES[self.kwargs["entidad"]]
+
+    def get_context_data(self, **kwargs):
+        entidad = self.kwargs.get("entidad")
+        return super().get_context_data(conf=self.conf if entidad else None, entidad=entidad,
+                                        seccion_activa=entidad or "dashboard", **kwargs)
+
+    def get_queryset(self):
+        return self.conf["modelo"].objects.all()
+
+    def get_success_url(self):
+        return reverse("utn:admin_lista", kwargs={"entidad": self.kwargs["entidad"]})
 
 
-def _contexto(request, **extra):
-    return {"menu": _menu(request), **extra}
+class DashboardView(AdminMixin, TemplateView):
+    template_name = "admin_dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        tarjetas = [
+            {"clave": clave, "titulo": ENTIDADES[clave]["titulo"], "icono": ENTIDADES[clave]["icono"],
+             "cantidad": ENTIDADES[clave]["modelo"].objects.count()}
+            for clave in ["alumnos", "docentes", "carreras", "materias", "cursos", "turnos", "dictados", "inscripciones"]
+        ]
+        ultimas = Inscripcion.objects.select_related("alumno", "dictado_materia__materia").order_by("-fecha_inscripcion", "-id")[:6]
+        return super().get_context_data(tarjetas=tarjetas, ultimas_inscripciones=ultimas, **kwargs)
 
 
-def _sin_permiso(request):
-    messages.error(request, "Solo un director puede gestionar administradores.")
-    return redirect("admin_dashboard")
+class EntidadListView(AdminMixin, ListView):
+    template_name = "admin_lista.html"
+    paginate_by = 15
+
+    def get_queryset(self):
+        qs = super().get_queryset().order_by("-id")
+        self.q = self.request.GET.get("q", "").strip()
+        if self.q:
+            filtro = Q()
+            for campo in self.conf["busqueda"]:
+                filtro |= Q(**{f"{campo}__icontains": self.q})
+            qs = qs.filter(filtro).distinct()
+        return qs
+
+    def get_context_data(self, **kwargs):
+        contexto = super().get_context_data(q=self.q, **kwargs)
+        columnas = self.conf["columnas"]
+        contexto["filas"] = [{"obj": obj, "valores": [valor_de(obj, ruta) for ruta, _ in columnas]}
+                             for obj in contexto["page_obj"]]
+        return contexto
 
 
-# ---------------------------------------------------------------------------
-# Vistas
-# ---------------------------------------------------------------------------
-@rol_requerido(ROL_ADMIN)
-def admin_dashboard(request):
-    tarjetas = []
-    for clave in ["alumnos", "docentes", "carreras", "materias", "cursos", "turnos", "dictados", "inscripciones"]:
-        conf = ENTIDADES[clave]
-        tarjetas.append({
-            "clave": clave, "titulo": conf["titulo"], "icono": conf["icono"],
-            "cantidad": conf["modelo"].objects.count(),
-        })
-    ultimas = (Inscripcion.objects
-               .select_related("alumno", "dictado_materia__materia")
-               .order_by("-fecha_inscripcion", "-id")[:6])
-    return render(request, "UTN/admin_panel/dashboard.html", _contexto(
-        request, tarjetas=tarjetas, ultimas_inscripciones=ultimas, seccion_activa="dashboard",
-    ))
+class FormularioEntidadMixin(AdminMixin):
+    """Lo que comparten crear y editar: el formulario y el mensaje de éxito."""
+    template_name = "admin_form.html"
+
+    def get_form_class(self):
+        # Si la entidad tiene un formulario propio (alumnos, docentes...) se usa; si no, Django lo arma solo.
+        return self.conf.get("form") or modelform_factory(self.conf["modelo"], form=ModeloForm, fields="__all__")
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(instancia=self.object, **kwargs)
+
+    def form_valid(self, form):
+        respuesta = super().form_valid(form)  # guarda el objeto
+        accion = "actualizado" if isinstance(self, UpdateView) else "creado"
+        messages.success(self.request, f"{self.conf['singular'].capitalize()} «{self.object}» {accion} correctamente.")
+        if "guardar_y_otro" in self.request.POST:
+            return redirect("utn:admin_crear", entidad=self.kwargs["entidad"])
+        return respuesta
 
 
-@rol_requerido(ROL_ADMIN)
-def admin_lista(request, entidad):
-    conf = _obtener_entidad(request, entidad)
-    if conf is None:
-        return _sin_permiso(request)
-
-    qs = conf["modelo"].objects.all().order_by("-id")
-    q = request.GET.get("q", "").strip()
-    if q:
-        filtro = Q()
-        for campo in conf["busqueda"]:
-            filtro |= Q(**{f"{campo}__icontains": q})
-        qs = qs.filter(filtro).distinct()
-
-    pagina = Paginator(qs, 15).get_page(request.GET.get("page"))
-    filas = [{"obj": obj, "valores": [_valor(obj, ruta) for ruta, _ in conf["columnas"]]} for obj in pagina]
-
-    return render(request, "UTN/admin_panel/lista.html", _contexto(
-        request, conf=conf, entidad=entidad, filas=filas, pagina=pagina, q=q,
-        total=qs.count(), seccion_activa=entidad,
-    ))
+class EntidadCreateView(FormularioEntidadMixin, CreateView):
+    pass
 
 
-@rol_requerido(ROL_ADMIN)
-def admin_crear(request, entidad):
-    return _formulario(request, entidad, pk=None)
+class EntidadUpdateView(FormularioEntidadMixin, UpdateView):
+    pass
 
 
-@rol_requerido(ROL_ADMIN)
-def admin_editar(request, entidad, pk):
-    return _formulario(request, entidad, pk=pk)
+class EntidadDeleteView(AdminMixin, DeleteView):
+    template_name = "admin_confirmar_eliminar.html"
 
-
-def _formulario(request, entidad, pk):
-    conf = _obtener_entidad(request, entidad)
-    if conf is None:
-        return _sin_permiso(request)
-
-    instancia = get_object_or_404(conf["modelo"], pk=pk) if pk else None
-    FormClass = _form_class(conf)
-    form = FormClass(request.POST or None, instance=instancia)
-    aplicar_estilos(form)
-
-    if request.method == "POST" and form.is_valid():
-        obj = form.save()
-        accion = "actualizado" if pk else "creado"
-        messages.success(request, f"{conf['singular'].capitalize()} «{obj}» {accion} correctamente.")
-        if "guardar_y_otro" in request.POST:
-            return redirect("admin_crear", entidad=entidad)
-        return redirect("admin_lista", entidad=entidad)
-
-    return render(request, "UTN/admin_panel/form.html", _contexto(
-        request, conf=conf, entidad=entidad, form=form, instancia=instancia, seccion_activa=entidad,
-    ))
-
-
-@rol_requerido(ROL_ADMIN)
-def admin_eliminar(request, entidad, pk):
-    conf = _obtener_entidad(request, entidad)
-    if conf is None:
-        return _sin_permiso(request)
-    if request.method != "POST":
-        return redirect("admin_lista", entidad=entidad)
-
-    obj = get_object_or_404(conf["modelo"], pk=pk)
-    if getattr(obj, "usuario_id", None) == request.user.id:
-        messages.error(request, "No podés eliminar tu propio usuario.")
-        return redirect("admin_lista", entidad=entidad)
-
-    nombre = str(obj)
-    try:
-        usuario = getattr(obj, "usuario", None) if hasattr(obj, "usuario_id") else None
-        obj.delete()
-        if usuario is not None:
-            usuario.delete()  # borra también la cuenta para iniciar sesión
-        messages.success(request, f"«{nombre}» se eliminó correctamente.")
-    except ProtectedError as e:
-        usados = sorted({str(o._meta.verbose_name_plural) for o in e.protected_objects})
-        messages.error(
-            request,
-            f"No se puede eliminar «{nombre}» porque está siendo usado en: {', '.join(usados)}. "
-            "Primero eliminá o modificá esos registros.",
-        )
-    return redirect("admin_lista", entidad=entidad)
+    def form_valid(self, form):
+        obj, nombre = self.object, str(self.object)
+        if getattr(obj, "usuario_id", None) == self.request.user.id:
+            messages.error(self.request, "No podés eliminar tu propio usuario.")
+            return redirect(self.get_success_url())
+        try:
+            usuario = getattr(obj, "usuario", None) if hasattr(obj, "usuario_id") else None
+            obj.delete()
+            if usuario is not None:
+                usuario.delete()  # borra también la cuenta para iniciar sesión
+            messages.success(self.request, f"«{nombre}» se eliminó correctamente.")
+        except ProtectedError as error:  # on_delete=PROTECT: algo lo está usando
+            usados = sorted({str(o._meta.verbose_name_plural) for o in error.protected_objects})
+            messages.error(self.request, f"No se puede eliminar «{nombre}» porque está siendo usado en: "
+                                         f"{', '.join(usados)}. Primero eliminá o modificá esos registros.")
+        return redirect(self.get_success_url())

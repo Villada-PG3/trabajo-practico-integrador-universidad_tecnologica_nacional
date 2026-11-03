@@ -1,15 +1,13 @@
 """
-Lógica de roles del sistema.
+Roles del sistema.
 
 Un mismo login sirve para todos. El rol se deduce del usuario:
   - Superusuario o con perfil Administrador  -> "admin"   (director o ejecutivo)
   - Con perfil Docente                       -> "docente"
   - Con perfil Alumno                        -> "alumno"
 """
-from functools import wraps
-
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
 
 ROL_ADMIN = "admin"
@@ -39,15 +37,19 @@ def es_director(user):
     return admin is not None and admin.cargo == "DIRECTOR"
 
 
-def rol_requerido(*roles):
-    """Decorador: deja pasar solo a los usuarios con alguno de los roles indicados."""
-    def decorador(vista):
-        @wraps(vista)
-        @login_required
-        def envoltura(request, *args, **kwargs):
-            if obtener_rol(request.user) not in roles:
-                messages.error(request, "No tenés permiso para acceder a esa sección.")
-                return redirect("redireccion_panel")
-            return vista(request, *args, **kwargs)
-        return envoltura
-    return decorador
+class RolRequeridoMixin(LoginRequiredMixin, UserPassesTestMixin):
+    """
+    Es un LoginRequiredMixin con una condición más: el rol del usuario tiene que
+    estar en `roles`. Se usa así:  class MiVista(RolRequeridoMixin, TemplateView): roles = (ROL_DOCENTE,)
+    """
+    roles = ()
+    mensaje_denegado = "No tenés permiso para acceder a esa sección."
+
+    def test_func(self):
+        return obtener_rol(self.request.user) in self.roles
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:  # logueado pero con otro rol: vuelve a su panel
+            messages.error(self.request, self.mensaje_denegado)
+            return redirect("utn:redireccion_panel")
+        return super().handle_no_permission()  # sin login: va al login

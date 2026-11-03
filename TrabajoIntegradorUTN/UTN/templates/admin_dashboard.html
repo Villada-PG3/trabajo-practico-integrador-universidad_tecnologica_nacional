@@ -1,4 +1,4 @@
-{% extends 'UTN/admin_panel/base_admin.html' %}
+{% extends 'admin_base.html' %}
 
 {% block title %}Resumen{% endblock %}
 
@@ -11,7 +11,7 @@
 <div class="row g-3 mb-4">
     {% for t in tarjetas %}
     <div class="col-6 col-md-4 col-xl-3">
-        <a href="{% url 'admin_lista' t.clave %}" class="text-decoration-none">
+        <a href="{% url 'utn:admin_lista' t.clave %}" class="text-decoration-none">
             <div class="card border-0 shadow-soft shadow-hover rounded-organic-sm h-100">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="icono-rol icono-sm bg-primary-subtle text-primary-modern"><i class="bi {{ t.icono }}"></i></div>
@@ -32,13 +32,13 @@
             <div class="card-body p-4">
                 <h5 class="fw-bold mb-3">Accesos rápidos</h5>
                 <div class="d-grid gap-2">
-                    <a href="{% url 'admin_crear' 'alumnos' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-person-plus me-2"></i>Nuevo alumno</a>
-                    <a href="{% url 'admin_crear' 'docentes' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-person-workspace me-2"></i>Nuevo docente</a>
-                    <a href="{% url 'admin_crear' 'carreras' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-mortarboard me-2"></i>Nueva carrera</a>
-                    <a href="{% url 'admin_crear' 'turnos' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-sun me-2"></i>Nuevo turno</a>
-                    <a href="{% url 'admin_crear' 'dictados' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-easel me-2"></i>Nuevo dictado (y asignar docentes)</a>
+                    <a href="{% url 'utn:admin_crear' 'alumnos' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-person-plus me-2"></i>Nuevo alumno</a>
+                    <a href="{% url 'utn:admin_crear' 'docentes' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-person-workspace me-2"></i>Nuevo docente</a>
+                    <a href="{% url 'utn:admin_crear' 'carreras' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-mortarboard me-2"></i>Nueva carrera</a>
+                    <a href="{% url 'utn:admin_crear' 'turnos' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-sun me-2"></i>Nuevo turno</a>
+                    <a href="{% url 'utn:admin_crear' 'dictados' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-easel me-2"></i>Nuevo dictado (y asignar docentes)</a>
                     {% if es_director %}
-                    <a href="{% url 'admin_crear' 'administradores' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-shield-plus me-2"></i>Nuevo administrador</a>
+                    <a href="{% url 'utn:admin_crear' 'administradores' %}" class="btn btn-modern btn-modern-ghost text-start"><i class="bi bi-shield-plus me-2"></i>Nuevo administrador</a>
                     {% endif %}
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="fw-bold mb-0">Últimas inscripciones</h5>
-                    <a href="{% url 'admin_lista' 'inscripciones' %}" class="small text-primary-modern text-decoration-none fw-semibold">Ver todas</a>
+                    <a href="{% url 'utn:admin_lista' 'inscripciones' %}" class="small text-primary-modern text-decoration-none fw-semibold">Ver todas</a>
                 </div>
                 <ul class="list-group list-group-flush">
                     {% for insc in ultimas_inscripciones %}

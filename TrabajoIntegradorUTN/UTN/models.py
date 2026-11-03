@@ -1,7 +1,9 @@
 import uuid
+
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 
 class Carrera(models.Model):
     nombre = models.CharField(max_length=100)
@@ -14,7 +16,7 @@ class Carrera(models.Model):
 class Alumno(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, related_name="alumnos")
     nombre_completo = models.CharField(max_length=100)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     documento = models.IntegerField(unique=True)
     email = models.EmailField(max_length=100)
 
@@ -138,31 +140,45 @@ class TipoEvaluacion(models.Model):
 def _generar_codigo():
     return f"INS-{uuid.uuid4().hex[:8].upper()}"
 
+
 class Inscripcion(models.Model):
     alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE, related_name="inscripciones")
     dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="inscripciones")
     codigo_inscripcion = models.CharField(max_length=30, unique=True, default=_generar_codigo, editable=False)
     fecha_inscripcion = models.DateField(auto_now_add=True)
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=["alumno", "dictado_materia"],
                 name="inscripcion_unica_alumno_dictado",
+                violation_error_message="Ya estás inscripto en esta materia.",
             )
         ]
 
-    @property
-    def condicion_actual(self):
-        historial = list(self.historial_condiciones.all())
-        if not historial:
-            return "Sin Condición"
-        ultimo_cambio = sorted(historial, key=lambda c: c.fecha_hora, reverse=True)[0]
-        return ultimo_cambio.condicion.nombre
+    def clean(self):
+        """Un alumno solo se inscribe en materias de su propia carrera."""
+        if self.alumno_id and self.dictado_materia_id:
+            if self.dictado_materia.materia.carrera_id != self.alumno.carrera_id:
+                raise ValidationError("Esa materia no pertenece a la carrera del alumno.")
+
+    def save(self, *args, **kwargs):
+        es_nueva = self._state.adding
+        super().save(*args, **kwargs)
+        if es_nueva:  # toda inscripción nueva arranca con la condición "Inscripto"
+            condicion, _ = Condicion.objects.get_or_create(
+                nombre="Inscripto", defaults={"es_condicion_final": False}
+            )
+            CambioCondicion.objects.create(inscripcion=self, condicion=condicion)
 
     @property
-    def es_regular(self):
-        return self.condicion_actual == "Regular"
+    def ultimo_cambio(self):
+        # max() sobre .all() aprovecha el prefetch_related (no hace una consulta por inscripción)
+        return max(self.historial_condiciones.all(), key=lambda c: (c.fecha_hora, c.id), default=None)
+
+    @property
+    def condicion_actual(self):
+        return self.ultimo_cambio.condicion.nombre if self.ultimo_cambio else "Sin Condición"
 
     def __str__(self):
         return f"{self.alumno.nombre_completo} - {self.dictado_materia} [{self.codigo_inscripcion}]"
@@ -198,23 +214,16 @@ class InstanciaEvaluacion(models.Model):
     def titulo(self):
         return self.nombre or self.tipo_evaluacion.nombre
 
-    def aplica_a(self, inscripcion_id):
-        if self.para_todos:
-            return True
-        return inscripcion_id in {i.id for i in self.inscripciones.all()}
-
     def __str__(self):
         return f"{self.titulo} - {self.dictado_materia} ({self.fecha:%d/%m/%Y})"
 
 
 class Evaluacion(models.Model):
+    """La nota de un alumno (inscripción) en una columna de la planilla."""
     inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE, related_name="evaluaciones")
-    instancia = models.ForeignKey(InstanciaEvaluacion, on_delete=models.CASCADE, null=True, blank=True,
-                                  related_name="notas")
-    tipo_evaluacion = models.ForeignKey(TipoEvaluacion, on_delete=models.PROTECT)
-    docente = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True)
+    instancia = models.ForeignKey(InstanciaEvaluacion, on_delete=models.CASCADE, related_name="notas")
+    docente = models.ForeignKey(Docente, on_delete=models.SET_NULL, null=True, blank=True)
     valor = models.DecimalField(max_digits=4, decimal_places=2)
-    fecha_evaluacion = models.DateField()
 
     def __str__(self):
-        return f"{self.tipo_evaluacion.nombre}: {self.valor} ({self.inscripcion.alumno.nombre_completo})"
+        return f"{self.instancia.titulo}: {self.valor} ({self.inscripcion.alumno.nombre_completo})"

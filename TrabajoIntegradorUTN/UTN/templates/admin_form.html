@@ -1,9 +1,9 @@
-{% extends 'UTN/admin_panel/base_admin.html' %}
+{% extends 'admin_base.html' %}
 
 {% block title %}{% if instancia %}Editar{% else %}Nuevo{% endif %} {{ conf.singular }}{% endblock %}
 
 {% block content %}
-<a href="{% url 'admin_lista' entidad %}" class="btn btn-link text-decoration-none text-secondary p-0 mb-3">
+<a href="{% url 'utn:admin_lista' entidad %}" class="btn btn-link text-decoration-none text-secondary p-0 mb-3">
     <i class="bi bi-arrow-left"></i> Volver a {{ conf.titulo|lower }}
 </a>
 
@@ -68,7 +68,7 @@
                             Guardar y crear otro
                         </button>
                         {% endif %}
-                        <a href="{% url 'admin_lista' entidad %}" class="btn btn-modern btn-link text-secondary">Cancelar</a>
+                        <a href="{% url 'utn:admin_lista' entidad %}" class="btn btn-modern btn-link text-secondary">Cancelar</a>
                     </div>
                 </form>
             </div>
