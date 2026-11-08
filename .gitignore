@@ -15,15 +15,6 @@ local_settings.py
 # Ambientes virtuales
 venv/
 .venv/
-env/
-ENV/
-
-# Variables de entorno / Secretos
-.env
-
-# Editores de código y Sistema Operativo
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-vpintegrador    
+__pycache__/
+*.pyc
+db.sqlite3
