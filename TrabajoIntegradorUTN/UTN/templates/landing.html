@@ -122,9 +122,12 @@
 <div class="mb-5 mx-auto" style="max-width: 1000px;" id="novedades">
     <div class="d-flex justify-content-between align-items-end mb-3">
         <h4 class="fw-bold mb-0">Novedades</h4>
-        <a href="https://www.frc.utn.edu.ar/" target="_blank" rel="noopener" class="small text-primary-modern text-decoration-none">
-            Ver todas en frc.utn.edu.ar <i class="bi bi-box-arrow-up-right"></i>
-        </a>
+        <button type="button" class="btn btn-link small text-primary-modern text-decoration-none p-0"
+                data-bs-toggle="modal" data-bs-target="#modalInformacion"
+                data-titulo="Novedades de la Facultad"
+                data-resumen="Encontrá novedades sobre el ingreso a Ingenierías, proyectos de investigación y actividades de la comunidad universitaria.">
+            Ver todas en frc.utn.edu.ar <i class="bi bi-info-circle"></i>
+        </button>
     </div>
     <div class="row">
         {% for n in noticias %}
@@ -134,9 +137,11 @@
                     <span class="badge bg-light text-secondary border align-self-start mb-3">{{ n.categoria }}</span>
                     <h5 class="card-title fw-bold">{{ n.titulo }}</h5>
                     <p class="card-text text-muted small flex-grow-1">{{ n.resumen }}</p>
-                    <a href="{{ n.link }}" target="_blank" rel="noopener" class="btn btn-modern btn-modern-primary w-100 d-flex justify-content-between align-items-center mt-2">
+                    <button type="button" class="btn btn-modern btn-modern-primary w-100 d-flex justify-content-between align-items-center mt-2"
+                            data-bs-toggle="modal" data-bs-target="#modalInformacion"
+                            data-titulo="{{ n.titulo }}" data-resumen="{{ n.resumen }}">
                         <span>Leer más</span><i class="bi bi-arrow-right"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -157,9 +162,25 @@
         <li>Tenés un título de grado en Ciencias Exactas, Físicas o Naturales, o una tecnicatura de la FRC.</li>
         <li>Sos alumno regular de la FRC con dos materias de primer año regularizadas y cursás una segunda carrera.</li>
     </ul>
-    <a href="https://www.frc.utn.edu.ar/ingreso-ingenierias-2027/" target="_blank" rel="noopener" class="btn btn-modern btn-modern-primary">
+    <button type="button" class="btn btn-modern btn-modern-primary"
+            data-bs-toggle="modal" data-bs-target="#modalInformacion"
+            data-titulo="Ingreso a Ingenierías 2027"
+            data-resumen="El ingreso incluye un Ciclo Introductorio con clases grabadas de apoyo. Podés pedir la eximición directa si aprobaste un seminario de ingreso de la UTN, cursás una carrera afín con una materia regularizada, tenés un título o tecnicatura relacionada, o sos alumno regular de la FRC con dos materias de primer año regularizadas y cursás una segunda carrera.">
         Requisitos y fechas <i class="bi bi-arrow-right ms-1"></i>
-    </a>
+    </button>
+</div>
+
+
+<div class="modal fade" id="modalInformacion" tabindex="-1" aria-labelledby="modalInformacionTitulo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-organic">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="modalInformacionTitulo"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body pt-0" id="modalInformacionResumen"></div>
+        </div>
+    </div>
 </div>
 
 
@@ -190,4 +211,14 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('modalInformacion').addEventListener('show.bs.modal', function (event) {
+        const boton = event.relatedTarget;
+        this.querySelector('#modalInformacionTitulo').textContent = boton.dataset.titulo;
+        this.querySelector('#modalInformacionResumen').textContent = boton.dataset.resumen;
+    });
+</script>
 {% endblock %}
