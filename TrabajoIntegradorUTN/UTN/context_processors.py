@@ -4,8 +4,8 @@ from .roles import obtener_rol, es_director, ROL_ADMIN
 
 def panel(request):
     """
-    Datos disponibles en TODOS los templates:
-      rol, es_director -> para mostrar u ocultar cosas según quién es el usuario
+    Datos disponibles en TODOS los ector -> para mosttemplates:
+      rol, es_dirrar u ocultar cosas según quién es el usuario
       base_template, menu -> el administrador usa el diseño con menú lateral
     """
     rol = obtener_rol(request.user)
