@@ -33,7 +33,7 @@
         "user": 2,
         "content_type": 9,
         "object_id": "2",
-        "object_repr": "IngenierÌa Industrial (IND)",
+        "object_repr": "Ingenier√≠a Industrial (IND)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -46,7 +46,7 @@
         "user": 2,
         "content_type": 9,
         "object_id": "3",
-        "object_repr": "IngenierÌa ElectrÛnica (IEL)",
+        "object_repr": "Ingenier√≠a Electr√≥nica (IEL)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -59,7 +59,7 @@
         "user": 2,
         "content_type": 9,
         "object_id": "4",
-        "object_repr": "IngenierÌa Mec·nica (IME)",
+        "object_repr": "Ingenier√≠a Mec√°nica (IME)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -72,7 +72,7 @@
         "user": 2,
         "content_type": 9,
         "object_id": "5",
-        "object_repr": "IngenierÌa Mec·nica (IME)",
+        "object_repr": "Ingenier√≠a Mec√°nica (IME)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -85,7 +85,7 @@
         "user": 2,
         "content_type": 9,
         "object_id": "6",
-        "object_repr": "IngenierÌa QuÌmica (IQU)",
+        "object_repr": "Ingenier√≠a Qu√≠mica (IQU)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -98,7 +98,7 @@
         "user": 2,
         "content_type": 21,
         "object_id": "1",
-        "object_repr": "MaÒana",
+        "object_repr": "Ma√±ana",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -228,7 +228,7 @@
         "user": 2,
         "content_type": 14,
         "object_id": "1",
-        "object_repr": "PÈrez, Roberto (Legajo: D-1001)",
+        "object_repr": "P√©rez, Roberto (Legajo: D-1001)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -241,7 +241,7 @@
         "user": 2,
         "content_type": 14,
         "object_id": "2",
-        "object_repr": "DomÌnguez, MarÌa (Legajo: D-1002)",
+        "object_repr": "Dom√≠nguez, Mar√≠a (Legajo: D-1002)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -254,7 +254,7 @@
         "user": 2,
         "content_type": 14,
         "object_id": "3",
-        "object_repr": "S·nchez, Carlos (Legajo: D-1003)",
+        "object_repr": "S√°nchez, Carlos (Legajo: D-1003)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -267,7 +267,7 @@
         "user": 2,
         "content_type": 14,
         "object_id": "4",
-        "object_repr": "GÛmez, Laura (Legajo: D-1004)",
+        "object_repr": "G√≥mez, Laura (Legajo: D-1004)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -293,7 +293,7 @@
         "user": 2,
         "content_type": 18,
         "object_id": "1",
-        "object_repr": "An·lisis de Sistemas (ASI) - Nivel 2",
+        "object_repr": "An√°lisis de Sistemas (ASI) - Nivel 2",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -306,7 +306,7 @@
         "user": 2,
         "content_type": 18,
         "object_id": "2",
-        "object_repr": "GestiÛn de la Mejora de Procesos (GMP) - Nivel 3",
+        "object_repr": "Gesti√≥n de la Mejora de Procesos (GMP) - Nivel 3",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -332,7 +332,7 @@
         "user": 2,
         "content_type": 18,
         "object_id": "4",
-        "object_repr": "DiseÒo de Sistemas (DSI) - Nivel 3",
+        "object_repr": "Dise√±o de Sistemas (DSI) - Nivel 3",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -345,7 +345,7 @@
         "user": 2,
         "content_type": 18,
         "object_id": "5",
-        "object_repr": "Redes de InformaciÛn (RDI) - Nivel 4",
+        "object_repr": "Redes de Informaci√≥n (RDI) - Nivel 4",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -397,7 +397,7 @@
         "user": 2,
         "content_type": 12,
         "object_id": "4",
-        "object_repr": "1K1 (MaÒana)",
+        "object_repr": "1K1 (Ma√±ana)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -488,7 +488,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "1",
-        "object_repr": "MÛdulo 1 (08:00 a 08:45)",
+        "object_repr": "M√≥dulo 1 (08:00 a 08:45)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -501,7 +501,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "2",
-        "object_repr": "MÛdulo 2 (08:00 a 09:30)",
+        "object_repr": "M√≥dulo 2 (08:00 a 09:30)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -514,7 +514,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "3",
-        "object_repr": "MÛdulo 4 (13:30 a 14:15)",
+        "object_repr": "M√≥dulo 4 (13:30 a 14:15)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -527,7 +527,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "4",
-        "object_repr": "MÛdulo 5 (14:15 a 15:00)",
+        "object_repr": "M√≥dulo 5 (14:15 a 15:00)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -540,7 +540,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "5",
-        "object_repr": "MÛdulo 6 (15:15 a 16:00)",
+        "object_repr": "M√≥dulo 6 (15:15 a 16:00)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -553,7 +553,7 @@
         "user": 2,
         "content_type": 16,
         "object_id": "1",
-        "object_repr": "MiÈrcoles - ASI - 2K7 (2026)",
+        "object_repr": "Mi√©rcoles - ASI - 2K7 (2026)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -566,7 +566,7 @@
         "user": 2,
         "content_type": 16,
         "object_id": "1",
-        "object_repr": "MiÈrcoles - ASI - 2K7 (2026)",
+        "object_repr": "Mi√©rcoles - ASI - 2K7 (2026)",
         "action_flag": 2,
         "change_message": "[]"
     }
@@ -644,7 +644,7 @@
         "user": 2,
         "content_type": 7,
         "object_id": "2",
-        "object_repr": "Lucas MartÌnez - DNI: 42123456",
+        "object_repr": "Lucas Mart√≠nez - DNI: 42123456",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -670,7 +670,7 @@
         "user": 2,
         "content_type": 7,
         "object_id": "4",
-        "object_repr": "Valentina LÛpez - DNI: 44111222",
+        "object_repr": "Valentina L√≥pez - DNI: 44111222",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -683,7 +683,7 @@
         "user": 2,
         "content_type": 7,
         "object_id": "5",
-        "object_repr": "JoaquÌn Fern·ndez - DNI: 40987654",
+        "object_repr": "Joaqu√≠n Fern√°ndez - DNI: 40987654",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -735,7 +735,7 @@
         "user": 2,
         "content_type": 11,
         "object_id": "4",
-        "object_repr": "AprobaciÛn directa",
+        "object_repr": "Aprobaci√≥n directa",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -748,7 +748,7 @@
         "user": 2,
         "content_type": 11,
         "object_id": "5",
-        "object_repr": "PromociÛn Pr·ctica",
+        "object_repr": "Promoci√≥n Pr√°ctica",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -761,7 +761,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "6",
-        "object_repr": "MÛdulo 0 (18:15 a 19:00)",
+        "object_repr": "M√≥dulo 0 (18:15 a 19:00)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -774,7 +774,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "7",
-        "object_repr": "MÛdulo 1 (19:00 a 19:45)",
+        "object_repr": "M√≥dulo 1 (19:00 a 19:45)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -787,7 +787,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "8",
-        "object_repr": "MÛdulo 2 (19:45 a 20:30)",
+        "object_repr": "M√≥dulo 2 (19:45 a 20:30)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -800,7 +800,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "9",
-        "object_repr": "MÛdulo 3 (20:45 a 21:30)",
+        "object_repr": "M√≥dulo 3 (20:45 a 21:30)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -813,7 +813,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "10",
-        "object_repr": "MÛdulo 4 (21:30 a 22:15)",
+        "object_repr": "M√≥dulo 4 (21:30 a 22:15)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -826,7 +826,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "11",
-        "object_repr": "MÛdulo 5 (22:15 a 23:00)",
+        "object_repr": "M√≥dulo 5 (22:15 a 23:00)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -839,7 +839,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "12",
-        "object_repr": "MÛdulo 6 (23:00 a 23:45)",
+        "object_repr": "M√≥dulo 6 (23:00 a 23:45)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -852,7 +852,7 @@
         "user": 2,
         "content_type": 19,
         "object_id": "13",
-        "object_repr": "MÛdulo 3 (09:40 a 10:25)",
+        "object_repr": "M√≥dulo 3 (09:40 a 10:25)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -865,7 +865,7 @@
         "user": 2,
         "content_type": 20,
         "object_id": "1",
-        "object_repr": "Parcial TeÛrico",
+        "object_repr": "Parcial Te√≥rico",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -878,7 +878,7 @@
         "user": 2,
         "content_type": 20,
         "object_id": "1",
-        "object_repr": "Parcial TeÛrico",
+        "object_repr": "Parcial Te√≥rico",
         "action_flag": 2,
         "change_message": "[]"
     }
@@ -891,7 +891,7 @@
         "user": 2,
         "content_type": 20,
         "object_id": "1",
-        "object_repr": "Parcial TeÛrico",
+        "object_repr": "Parcial Te√≥rico",
         "action_flag": 2,
         "change_message": "[]"
     }
@@ -904,7 +904,7 @@
         "user": 2,
         "content_type": 20,
         "object_id": "2",
-        "object_repr": "Parcial Pr·ctico",
+        "object_repr": "Parcial Pr√°ctico",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -917,7 +917,7 @@
         "user": 2,
         "content_type": 20,
         "object_id": "3",
-        "object_repr": "Trabajo Pr·ctico (TP)",
+        "object_repr": "Trabajo Pr√°ctico (TP)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -930,7 +930,7 @@
         "user": 2,
         "content_type": 20,
         "object_id": "4",
-        "object_repr": "Recuperatorio TeÛrico",
+        "object_repr": "Recuperatorio Te√≥rico",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -943,7 +943,7 @@
         "user": 2,
         "content_type": 20,
         "object_id": "5",
-        "object_repr": "Recuperatorio Pr·ctico",
+        "object_repr": "Recuperatorio Pr√°ctico",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -969,7 +969,7 @@
         "user": 2,
         "content_type": 17,
         "object_id": "2",
-        "object_repr": "Lucas MartÌnez - ASI - 2K7 (2026) [INS-31E46967]",
+        "object_repr": "Lucas Mart√≠nez - ASI - 2K7 (2026) [INS-31E46967]",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -995,7 +995,7 @@
         "user": 2,
         "content_type": 17,
         "object_id": "4",
-        "object_repr": "JoaquÌn Fern·ndez - RDI - 4K3 (2026) [INS-654A476B]",
+        "object_repr": "Joaqu√≠n Fern√°ndez - RDI - 4K3 (2026) [INS-654A476B]",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1008,7 +1008,7 @@
         "user": 2,
         "content_type": 17,
         "object_id": "5",
-        "object_repr": "Valentina LÛpez - ASI - 2K9 (2026) [INS-AB15B57E]",
+        "object_repr": "Valentina L√≥pez - ASI - 2K9 (2026) [INS-AB15B57E]",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1021,7 +1021,7 @@
         "user": 2,
         "content_type": 8,
         "object_id": "1",
-        "object_repr": "Lucas MartÌnez -> Inscripto",
+        "object_repr": "Lucas Mart√≠nez -> Inscripto",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1034,7 +1034,7 @@
         "user": 2,
         "content_type": 8,
         "object_id": "2",
-        "object_repr": "Lucas MartÌnez -> Regular",
+        "object_repr": "Lucas Mart√≠nez -> Regular",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1047,7 +1047,7 @@
         "user": 2,
         "content_type": 8,
         "object_id": "3",
-        "object_repr": "Valentina LÛpez -> Inscripto",
+        "object_repr": "Valentina L√≥pez -> Inscripto",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1060,7 +1060,7 @@
         "user": 2,
         "content_type": 8,
         "object_id": "4",
-        "object_repr": "Valentina LÛpez -> PromociÛn Pr·ctica",
+        "object_repr": "Valentina L√≥pez -> Promoci√≥n Pr√°ctica",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1086,7 +1086,7 @@
         "user": 2,
         "content_type": 15,
         "object_id": "1",
-        "object_repr": "Parcial TeÛrico: 6 (Lucas MartÌnez)",
+        "object_repr": "Parcial Te√≥rico: 6 (Lucas Mart√≠nez)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1099,7 +1099,7 @@
         "user": 2,
         "content_type": 15,
         "object_id": "2",
-        "object_repr": "Parcial Pr·ctico: 7.5 (Lucas MartÌnez)",
+        "object_repr": "Parcial Pr√°ctico: 7.5 (Lucas Mart√≠nez)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1112,7 +1112,7 @@
         "user": 2,
         "content_type": 15,
         "object_id": "3",
-        "object_repr": "Parcial TeÛrico: 8.50 (Valentina LÛpez)",
+        "object_repr": "Parcial Te√≥rico: 8.50 (Valentina L√≥pez)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1125,7 +1125,7 @@
         "user": 2,
         "content_type": 15,
         "object_id": "4",
-        "object_repr": "Parcial Pr·ctico: 9 (Valentina LÛpez)",
+        "object_repr": "Parcial Pr√°ctico: 9 (Valentina L√≥pez)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1138,7 +1138,7 @@
         "user": 2,
         "content_type": 15,
         "object_id": "5",
-        "object_repr": "Trabajo Pr·ctico (TP): 4 (Mateo Silva)",
+        "object_repr": "Trabajo Pr√°ctico (TP): 4 (Mateo Silva)",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1186,50 +1186,50 @@
     "model": "admin.logentry",
     "pk": 92,
     "fields": {
-        "action_time": "2026-10-05T11:56:33.603Z",
+        "action_time": "2026-10-26T11:56:44.271Z",
         "user": 2,
         "content_type": 4,
-        "object_id": "4",
-        "object_repr": "LucasMartinez",
-        "action_flag": 1,
-        "change_message": "[{\"added\": {}}]"
+        "object_id": "3",
+        "object_repr": "LucciMalap",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
     }
 },
 {
     "model": "admin.logentry",
     "pk": 93,
     "fields": {
-        "action_time": "2026-10-05T12:43:31.660Z",
+        "action_time": "2026-10-26T11:56:45.995Z",
         "user": 2,
-        "content_type": 7,
-        "object_id": "2",
-        "object_repr": "Lucas MartÌnez - DNI: 42123456",
+        "content_type": 4,
+        "object_id": "3",
+        "object_repr": "LucciMalap",
         "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
+        "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
     }
 },
 {
     "model": "admin.logentry",
     "pk": 94,
     "fields": {
-        "action_time": "2026-10-05T12:52:45.091Z",
+        "action_time": "2026-10-26T11:56:46.408Z",
         "user": 2,
         "content_type": 4,
-        "object_id": "5",
-        "object_repr": "MateoSilva",
-        "action_flag": 1,
-        "change_message": "[{\"added\": {}}]"
+        "object_id": "3",
+        "object_repr": "LucciMalap",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
     }
 },
 {
     "model": "admin.logentry",
     "pk": 95,
     "fields": {
-        "action_time": "2026-10-05T12:53:06.966Z",
+        "action_time": "2026-10-26T11:59:56.638Z",
         "user": 2,
         "content_type": 4,
-        "object_id": "6",
-        "object_repr": "ValentinaLopez",
+        "object_id": "4",
+        "object_repr": "JoaquinFernandez",
         "action_flag": 1,
         "change_message": "[{\"added\": {}}]"
     }
@@ -1238,37 +1238,37 @@
     "model": "admin.logentry",
     "pk": 96,
     "fields": {
-        "action_time": "2026-10-05T12:53:50.346Z",
-        "user": 2,
-        "content_type": 4,
-        "object_id": "7",
-        "object_repr": "JoaquinFernandez",
-        "action_flag": 1,
-        "change_message": "[{\"added\": {}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 97,
-    "fields": {
-        "action_time": "2026-10-05T12:54:26.468Z",
+        "action_time": "2026-10-26T12:00:13.346Z",
         "user": 2,
         "content_type": 7,
         "object_id": "5",
-        "object_repr": "JoaquÌn Fern·ndez - DNI: 40987654",
+        "object_repr": "Joaqu√≠n Fern√°ndez - DNI: 40987654",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
     }
 },
 {
     "model": "admin.logentry",
+    "pk": 97,
+    "fields": {
+        "action_time": "2026-10-26T12:02:24.561Z",
+        "user": 2,
+        "content_type": 4,
+        "object_id": "5",
+        "object_repr": "TorresFernando",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
     "pk": 98,
     "fields": {
-        "action_time": "2026-10-05T12:54:30.588Z",
+        "action_time": "2026-10-26T12:02:56.557Z",
         "user": 2,
-        "content_type": 7,
-        "object_id": "4",
-        "object_repr": "Valentina LÛpez - DNI: 44111222",
+        "content_type": 14,
+        "object_id": "5",
+        "object_repr": "Torres, Fernando (Legajo: D-1005)",
         "action_flag": 2,
         "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
     }
@@ -1277,78 +1277,13 @@
     "model": "admin.logentry",
     "pk": 99,
     "fields": {
-        "action_time": "2026-10-05T12:59:15.452Z",
+        "action_time": "2026-11-02T11:31:51.522Z",
         "user": 2,
-        "content_type": 7,
-        "object_id": "3",
-        "object_repr": "Mateo Silva - DNI: 41234567",
+        "content_type": 4,
+        "object_id": "12",
+        "object_repr": "abc12345",
         "action_flag": 2,
-        "change_message": "[{\"changed\": {\"fields\": [\"Usuario\"]}}]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 100,
-    "fields": {
-        "action_time": "2026-10-05T12:59:19.701Z",
-        "user": 2,
-        "content_type": 7,
-        "object_id": "4",
-        "object_repr": "Valentina LÛpez - DNI: 44111222",
-        "action_flag": 2,
-        "change_message": "[]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 101,
-    "fields": {
-        "action_time": "2026-10-05T12:59:21.430Z",
-        "user": 2,
-        "content_type": 7,
-        "object_id": "5",
-        "object_repr": "JoaquÌn Fern·ndez - DNI: 40987654",
-        "action_flag": 2,
-        "change_message": "[]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 102,
-    "fields": {
-        "action_time": "2026-10-05T12:59:23.188Z",
-        "user": 2,
-        "content_type": 7,
-        "object_id": "3",
-        "object_repr": "Mateo Silva - DNI: 41234567",
-        "action_flag": 2,
-        "change_message": "[]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 103,
-    "fields": {
-        "action_time": "2026-10-05T12:59:24.873Z",
-        "user": 2,
-        "content_type": 7,
-        "object_id": "2",
-        "object_repr": "Lucas MartÌnez - DNI: 42123456",
-        "action_flag": 2,
-        "change_message": "[]"
-    }
-},
-{
-    "model": "admin.logentry",
-    "pk": 104,
-    "fields": {
-        "action_time": "2026-10-05T12:59:26.445Z",
-        "user": 2,
-        "content_type": 7,
-        "object_id": "1",
-        "object_repr": "Lucciano Malap - DNI: 48599962",
-        "action_flag": 2,
-        "change_message": "[]"
+        "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
     }
 },
 {
@@ -1356,7 +1291,7 @@
     "pk": 2,
     "fields": {
         "password": "pbkdf2_sha256$1500000$N6cbDbZi9hT35C3VWoMOFJ$rxzUjaRPSWyyigu6wlaHiIdM3ihun6FrcxT5yPQhBF0=",
-        "last_login": "2026-10-05T13:10:09.991Z",
+        "last_login": "2026-11-02T11:49:16.023Z",
         "is_superuser": true,
         "username": "admin",
         "first_name": "",
@@ -1373,8 +1308,8 @@
     "model": "auth.user",
     "pk": 3,
     "fields": {
-        "password": "pbkdf2_sha256$1500000$UdGAAnhERUBUVPFN5Pw8VX$QW1WvL+TXvUI2x7e8ayTWznQ36tVU/AeKgNKZWrIqJM=",
-        "last_login": "2026-10-05T11:57:28.652Z",
+        "password": "pbkdf2_sha256$1500000$C2ML8yNzIqtjrC6cpdcZ8T$s8WORxB5VqOYuuYofYEfOL0j7CXSH9bSHF5cru5OlqU=",
+        "last_login": "2026-11-02T11:47:21.820Z",
         "is_superuser": false,
         "username": "LucciMalap",
         "first_name": "",
@@ -1391,16 +1326,16 @@
     "model": "auth.user",
     "pk": 4,
     "fields": {
-        "password": "pbkdf2_sha256$1500000$5z1ZcYrZCAVkUquCT2hNsd$+l/MpnMlnWhyigYfoE9zxclMirUIulfPaSAEV6z5kOc=",
-        "last_login": "2026-10-05T13:03:14.821Z",
+        "password": "pbkdf2_sha256$1500000$HqmtZS1DDaoYvWAqSyly1o$HGx68HxhM4UXhetGIJdIMlGHKGEQOhpQYSuar6js9VE=",
+        "last_login": "2026-10-26T12:00:46.223Z",
         "is_superuser": false,
-        "username": "LucasMartinez",
+        "username": "JoaquinFernandez",
         "first_name": "",
         "last_name": "",
         "email": "",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2026-10-05T11:56:31.747Z",
+        "date_joined": "2026-10-26T11:59:54.845Z",
         "groups": [],
         "user_permissions": []
     }
@@ -1409,16 +1344,16 @@
     "model": "auth.user",
     "pk": 5,
     "fields": {
-        "password": "pbkdf2_sha256$1500000$IDSIbZfGQhy8hCDhbDQKAh$0rDCQqGan5Zjf6b9U2fq8wtaxiXKgrwLBslyGntpFpw=",
-        "last_login": null,
+        "password": "pbkdf2_sha256$1500000$fMGqlvaDW6G0HNMe0to3Ps$SvEBwzy8N94uEczT9ibVXTKZQKAlOgM3dAfqSkPb7Gk=",
+        "last_login": "2026-10-26T12:03:03.784Z",
         "is_superuser": false,
-        "username": "MateoSilva",
+        "username": "TorresFernando",
         "first_name": "",
         "last_name": "",
         "email": "",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2026-10-05T12:52:44.295Z",
+        "date_joined": "2026-10-26T12:02:22.768Z",
         "groups": [],
         "user_permissions": []
     }
@@ -1427,16 +1362,16 @@
     "model": "auth.user",
     "pk": 6,
     "fields": {
-        "password": "pbkdf2_sha256$1500000$ZWsf46VAzT1qvwYSRwaVIA$8eOUkPx7/7lnitAjbSr6Q43wLxB3BQF3KB2TKHSJiy4=",
+        "password": "pbkdf2_sha256$1500000$IiyPVIOmGNzauYmmC9vGhl$+zs/cnUZfX6KsWFlfrCDZtftmyv29pYAIHE3t6TmeH4=",
         "last_login": null,
         "is_superuser": false,
-        "username": "ValentinaLopez",
+        "username": "PerezRoberto",
         "first_name": "",
         "last_name": "",
         "email": "",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2026-10-05T12:53:06.194Z",
+        "date_joined": "2026-10-29T13:26:31.785Z",
         "groups": [],
         "user_permissions": []
     }
@@ -1445,18 +1380,150 @@
     "model": "auth.user",
     "pk": 7,
     "fields": {
-        "password": "pbkdf2_sha256$1500000$Ewe4D3mZkkbN0FGen2YcZR$sI3e+ZgFFNbw/0nztHg6OKQII4Iybe1KF4oGwzeC9lU=",
-        "last_login": "2026-10-05T12:59:39.139Z",
+        "password": "pbkdf2_sha256$1500000$WqGEIH8Gonjo1PmFapMQUt$5yEFsUZLxK8IwrHC81rvGRIjd5HALDQfVxSMCTctp/E=",
+        "last_login": null,
         "is_superuser": false,
-        "username": "JoaquinFernandez",
+        "username": "DominguezMaria",
         "first_name": "",
         "last_name": "",
         "email": "",
         "is_staff": false,
         "is_active": true,
-        "date_joined": "2026-10-05T12:53:49.557Z",
+        "date_joined": "2026-10-29T13:26:32.087Z",
         "groups": [],
         "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$Fdgulk7NvaVl2KRTlOCvWm$0vP3+uym/LsSCr/9l1WdxW1CHJcGTJIDzDGAw9SZLSE=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "SanchezCarlos",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-29T13:26:32.344Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 9,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$WelYkSCEJVxS0BUFgKNfcn$szSgyyubpF6QBfU5qmLQLrFhrZ3Yws2Khcs9cen4LLE=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "GomezLaura",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-10-29T13:26:32.591Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 10,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$mTBtSNymq1Z4H5Pvtewhn8$f3fKbIj+hqTMhi/qAC/8GkELofRSIVcIuFxUjkf3Hoc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Sixseven",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:20:52.330Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 11,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$HsI7VLb6dxKN4TaR6mhDMK$zgzkEL9HX3NVRzbvdx1j1rUgSmDHbkxu2syS877LA5U=",
+        "last_login": "2026-11-03T00:19:43.583Z",
+        "is_superuser": false,
+        "username": "Sixseven67",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:22:04.679Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 12,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$zeQGTU9dKDxmyOxPJcKesp$S8WTsGLJAc2Z9bu5uk18V5WDRRPKP50i+Cr6jnQ/UR0=",
+        "last_login": "2026-11-02T11:42:07.416Z",
+        "is_superuser": false,
+        "username": "abc12345",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:26:11.607Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 13,
+    "fields": {
+        "password": "pbkdf2_sha256$1500000$gWaTMJy0ZQmClBRXkmNdKg$mJaqLNctRDfj/40xel2aOMTQ/eTSa1HkIro+V7tNea4=",
+        "last_login": "2026-11-02T11:27:54.209Z",
+        "is_superuser": false,
+        "username": "Batman",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-11-02T11:27:12.006Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "0f6dbj7ap56j02d1ds80zdljlwibpl0p",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xLJI8:F6uvtIVrtggKHOUHbYM9P8ztxBVeVeR_UTimRwJ8sJI",
+        "expire_date": "2026-11-09T11:55:04.741Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "0ujpgzk49ev2zlvkj6zqoeqxw1vgr824",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xLJJm:E9RyguygDFpwOSwa9jhtW7naK2iL9wJjH_4_u6woTGk",
+        "expire_date": "2026-11-09T11:56:46.031Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "3p839hsq5pxpojw1v8fzgz8ypobf8dh8",
+    "fields": {
+        "session_data": ".eJxVjDsOwjAQBe_iGllZx8k6lPScIdqPjQPIlvKpEHeHSCmgfTPzXmakbc3jtsR5nNScDYA5_Y5M8ohlJ3qncqtWalnnie2u2IMu9lo1Pi-H-3eQacnfWlBAIzM0iQZChODFOWwdeO2j71ovARIyaSDULqZeuMVmcL4J4Doy7w8TKjf2:1xO2Fb:YTjet7bPl7-bWgYGQA6lctWnnJiVA1gVJirsSgljetg",
+        "expire_date": "2026-11-17T00:19:43.592Z"
     }
 },
 {
@@ -1469,6 +1536,22 @@
 },
 {
     "model": "sessions.session",
+    "pk": "4ndot3qr6e5zzokwzqfxdg84lto3zyvh",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xLJJm:E9RyguygDFpwOSwa9jhtW7naK2iL9wJjH_4_u6woTGk",
+        "expire_date": "2026-11-09T11:56:46.433Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "4ul53wsfkedl1stiymjgh6h4ox1komey",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xLJJk:OvNVRLNvkM6X-T9UEly0beeZaeWEqQCGCNwbUxVV2m8",
+        "expire_date": "2026-11-09T11:56:44.316Z"
+    }
+},
+{
+    "model": "sessions.session",
     "pk": "5cexhjfx8v62ajjp8jip1epuh3j960gb",
     "fields": {
         "session_data": ".eJxVjEEOwiAQRe_C2hClTAdcuvcMZIAZqRqalHZlvLuSdKHb_977LxVoW0vYGi9hyuqsBnX43SKlB9cO8p3qbdZprusyRd0VvdOmr3Pm52V3_w4KtfKthSkCkPgR7NGxWD555zAJjtnzgAazYaEck7GCIh7YeoDuASJ69f4ABzo4dQ:1x8eEw:k6Mtmn3w1PRTZILOAkbPsriC7vSU4_sAO5wDI5ePycw",
@@ -1477,26 +1560,34 @@
 },
 {
     "model": "sessions.session",
-    "pk": "9p3zroppoast2sljq6yj03kshed74s9w",
+    "pk": "673yfd1lrhlixjfwkbl02jceqyzknstd",
     "fields": {
-        "session_data": ".eJxVjEEOwiAQRe_C2hClTAdcuvcMZIAZqRqalHZlvLuSdKHb_977LxVoW0vYGi9hyuqsBnX43SKlB9cO8p3qbdZprusyRd0VvdOmr3Pm52V3_w4KtfKthSkCkPgR7NGxWD555zAJjtnzgAazYaEck7GCIh7YeoDuASJ69f4ABzo4dQ:1xDhHf:5WM99XA6w0QG_T1_glri-XVfUpA3bu8tFZ5Vfz9_KCI",
-        "expire_date": "2026-10-19T11:55:07.769Z"
+        "session_data": ".eJxVjMsOwiAQAP-FsyGFbXl49O43kIVdpGpoUtqT8d-VpAe9zkzmJQLuWwl74zXMJM4CxOmXRUwPrl3QHettkWmp2zpH2RN52CavC_HzcrR_g4Kt9K3OEdmD8hH9AJMBA1Y5GDklQ9YigP96yirq0bjBciYgcgbixDZp8f4A2nI34g:1xLJTC:rDJmc-4sKZ2fC6y0y38qvu19Mf1ulKRQ9SfK85m0KHo",
+        "expire_date": "2026-11-09T12:06:30.954Z"
     }
 },
 {
     "model": "sessions.session",
     "pk": "b8hfgyi0ec0pieatv27ilk82fxb8wm0s",
     "fields": {
-        "session_data": ".eJxVjEEOwiAQRe_C2hClTAdcuvcMZIAZqRqalHZlvLuSdKHb_977LxVoW0vYGi9hyuqsBnX43SKlB9cO8p3qbdZprusyRd0VvdOmr3Pm52V3_w4KtfKthSkCkPgR7NGxWD555zAJjtnzgAazYaEck7GCIh7YeoDuASJ69f4ABzo4dQ:1xBCfl:vx59jgEvn2zXCbRjvN-oisuajTnmg_Zuw2KZlGiR7OU",
-        "expire_date": "2026-10-12T14:49:41.398Z"
+        "session_data": ".eJxVjEEOwiAQRe_C2hClTAdcuvcMZIAZqRqalHZlvLuSdKHb_977LxVoW0vYGi9hyuqsBnX43SKlB9cO8p3qbdZprusyRd0VvdOmr3Pm52V3_w4KtfKthSkCkPgR7NGxWD555zAJjtnzgAazYaEck7GCIh7YeoDuASJ69f4ABzo4dQ:1x8f2L:pHSFmoO4IcdT7dCgGd17Au-ZwWSCi8CNDuwCv2QAS3Q",
+        "expire_date": "2026-10-05T14:30:29.386Z"
     }
 },
 {
     "model": "sessions.session",
-    "pk": "bkgwvsiqg9qzfqfzewz2m1ydp6p5faw2",
+    "pk": "c9m17a89u3qekml97k7edt8lt2t25ia8",
     "fields": {
-        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xDiSH:uHo3eOmvu1VX46zTPCSq3Z2akrVhEC5hmhNkLaRvdMQ",
-        "expire_date": "2026-10-19T13:10:09.999Z"
+        "session_data": ".eJxVjMsOwiAQAP-FsyGFbXl49O43kIVdpGpoUtqT8d-VpAe9zkzmJQLuWwl74zXMJM4CxOmXRUwPrl3QHettkWmp2zpH2RN52CavC_HzcrR_g4Kt9K3OEdmD8hH9AJMBA1Y5GDklQ9YigP96yirq0bjBciYgcgbixDZp8f4A2nI34g:1xLJTE:HFW54rTgfrZFkvRLqpQYIcAYFu1HZBQon-2xqHmWmtE",
+        "expire_date": "2026-11-09T12:06:32.488Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "czh1afs3ke63nyvowphdbft2hp9vjow0",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xLJQG:qMsEWHiBylqAKWEPLzttEbNw_fpc4Hhyas32avpjFL4",
+        "expire_date": "2026-11-09T12:03:28.076Z"
     }
 },
 {
@@ -1509,10 +1600,18 @@
 },
 {
     "model": "sessions.session",
-    "pk": "pcdg9ld1o550pugpw2w08z16n7hx0hl2",
+    "pk": "obn73gv2tedamumxciwm7jp9gxkyqknp",
     "fields": {
-        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xDhRR:cf2K6uAk34b1-ZOdcCA89gOhDz8GbzZGpMhzXvHzIOs",
-        "expire_date": "2026-10-19T12:05:13.186Z"
+        "session_data": ".eJxVjMsOwiAQAP-FsyGFbXl49O43kIVdpGpoUtqT8d-VpAe9zkzmJQLuWwl74zXMJM4CxOmXRUwPrl3QHettkWmp2zpH2RN52CavC_HzcrR_g4Kt9K3OEdmD8hH9AJMBA1Y5GDklQ9YigP96yirq0bjBciYgcgbixDZp8f4A2nI34g:1xLJTG:4efa-3conJD1-BbD8xfg_qAsCMBrzHH6T5hiu_Ge3aU",
+        "expire_date": "2026-11-09T12:06:34.051Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "oug76dw42u97w87f1zrclf15jhub3uqw",
+    "fields": {
+        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xLJOo:BPW6o-bAN6VpfwNesR0v92esinHl__H3Za2bMj5agWI",
+        "expire_date": "2026-11-09T12:01:58.324Z"
     }
 },
 {
@@ -1525,10 +1624,10 @@
 },
 {
     "model": "sessions.session",
-    "pk": "uoql57h1lp1adbv8sc5d7a9wbqvv3bkp",
+    "pk": "qvy9f5cancrmwwu1wsvi3ocr60emt15t",
     "fields": {
-        "session_data": ".eJxVjMEOgjAQRP-lZ9O0bFuKR-98A1l2u4KaNqFwMv67kHDQ22Tem3mrAbd1GraalmFmdVWNuvx2I9Iz5QPwA_O9aCp5XeZRH4o-adV94fS6ne7fwYR12tceY0cMUSI5duLBWIFWAic0NpDxhCMHA52IbSOBGOegoYZS2IOL6vMF8P430w:1xDhIC:0hMPFM16y4UndgAIci_LfwZ1QZYJDIc5EKvXDG-58RY",
-        "expire_date": "2026-10-19T11:55:40.037Z"
+        "session_data": ".eJxVjEEOwiAQRe_C2pDpABZcuvcMZIBBqgaS0q6Md7dNutDte-__t_C0LsWvnWc_JXERWpx-WaD45LqL9KB6bzK2usxTkHsiD9vlrSV-XY_276BQL9uaMoyQMTIq4sGii0kjmKjOREppYkhOD-iyRqUR0Vg2dqNW2QgQRvH5AtvPNyc:1xLJNd:ZxU8TyWUYjkvwLFpW5qP2zUU6vJvEiD2OmyQpmZm9ic",
+        "expire_date": "2026-11-09T12:00:45.270Z"
     }
 },
 {
@@ -1543,7 +1642,7 @@
     "model": "UTN.carrera",
     "pk": 2,
     "fields": {
-        "nombre": "IngenierÌa Industrial",
+        "nombre": "Ingenier√≠a Industrial",
         "sigla": "IND"
     }
 },
@@ -1551,7 +1650,7 @@
     "model": "UTN.carrera",
     "pk": 3,
     "fields": {
-        "nombre": "IngenierÌa ElectrÛnica",
+        "nombre": "Ingenier√≠a Electr√≥nica",
         "sigla": "IEL"
     }
 },
@@ -1559,7 +1658,7 @@
     "model": "UTN.carrera",
     "pk": 4,
     "fields": {
-        "nombre": "IngenierÌa Mec·nica",
+        "nombre": "Ingenier√≠a Mec√°nica",
         "sigla": "IME"
     }
 },
@@ -1567,7 +1666,7 @@
     "model": "UTN.carrera",
     "pk": 5,
     "fields": {
-        "nombre": "IngenierÌa Mec·nica",
+        "nombre": "Ingenier√≠a Mec√°nica",
         "sigla": "IME"
     }
 },
@@ -1575,7 +1674,7 @@
     "model": "UTN.carrera",
     "pk": 6,
     "fields": {
-        "nombre": "IngenierÌa QuÌmica",
+        "nombre": "Ingenier√≠a Qu√≠mica",
         "sigla": "IQU"
     }
 },
@@ -1595,8 +1694,8 @@
     "pk": 2,
     "fields": {
         "carrera": 1,
-        "nombre_completo": "Lucas MartÌnez",
-        "usuario": 4,
+        "nombre_completo": "Lucas Mart√≠nez",
+        "usuario": null,
         "documento": 42123456,
         "email": "Lucas@gmail.com"
     }
@@ -1607,7 +1706,7 @@
     "fields": {
         "carrera": 2,
         "nombre_completo": "Mateo Silva",
-        "usuario": 5,
+        "usuario": null,
         "documento": 41234567,
         "email": "Mateo@gmail.com"
     }
@@ -1617,8 +1716,8 @@
     "pk": 4,
     "fields": {
         "carrera": 3,
-        "nombre_completo": "Valentina LÛpez",
-        "usuario": 6,
+        "nombre_completo": "Valentina L√≥pez",
+        "usuario": null,
         "documento": 44111222,
         "email": "Valen@gmail.com"
     }
@@ -1628,10 +1727,43 @@
     "pk": 5,
     "fields": {
         "carrera": 4,
-        "nombre_completo": "JoaquÌn Fern·ndez",
-        "usuario": 7,
+        "nombre_completo": "Joaqu√≠n Fern√°ndez",
+        "usuario": 4,
         "documento": 40987654,
         "email": "Joaco@gmail.com"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 6,
+    "fields": {
+        "carrera": 6,
+        "nombre_completo": "Six Seven Boy",
+        "usuario": 10,
+        "documento": 67676767,
+        "email": "sixseven@gmail.com"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 7,
+    "fields": {
+        "carrera": 6,
+        "nombre_completo": "Pepo",
+        "usuario": 12,
+        "documento": 34534543,
+        "email": "fdghfds@sfdt.hg"
+    }
+},
+{
+    "model": "UTN.alumno",
+    "pk": 8,
+    "fields": {
+        "carrera": 6,
+        "nombre_completo": "Juan Carlos Batman",
+        "usuario": 13,
+        "documento": 2509875,
+        "email": "juancbatman@gmail.com"
     }
 },
 {
@@ -1639,7 +1771,7 @@
     "pk": 1,
     "fields": {
         "carrera": 1,
-        "nombre": "An·lisis de Sistemas",
+        "nombre": "An√°lisis de Sistemas",
         "sigla": "ASI",
         "nivel": 2
     }
@@ -1649,7 +1781,7 @@
     "pk": 2,
     "fields": {
         "carrera": 1,
-        "nombre": "GestiÛn de la Mejora de Procesos",
+        "nombre": "Gesti√≥n de la Mejora de Procesos",
         "sigla": "GMP",
         "nivel": 3
     }
@@ -1669,7 +1801,7 @@
     "pk": 4,
     "fields": {
         "carrera": 1,
-        "nombre": "DiseÒo de Sistemas",
+        "nombre": "Dise√±o de Sistemas",
         "sigla": "DSI",
         "nivel": 3
     }
@@ -1679,16 +1811,26 @@
     "pk": 5,
     "fields": {
         "carrera": 1,
-        "nombre": "Redes de InformaciÛn",
+        "nombre": "Redes de Informaci√≥n",
         "sigla": "RDI",
         "nivel": 4
+    }
+},
+{
+    "model": "UTN.materia",
+    "pk": 6,
+    "fields": {
+        "carrera": 6,
+        "nombre": "Matematicas I",
+        "sigla": "MAI",
+        "nivel": 1
     }
 },
 {
     "model": "UTN.turno",
     "pk": 1,
     "fields": {
-        "nombre": "MaÒana",
+        "nombre": "Ma√±ana",
         "descripcion": "08:00 a 13:15 hs"
     }
 },
@@ -1721,7 +1863,7 @@
     "pk": 5,
     "fields": {
         "nombre": "Fines de Semana",
-        "descripcion": "S·bados por la maÒana"
+        "descripcion": "S√°bados por la ma√±ana"
     }
 },
 {
@@ -1772,6 +1914,16 @@
         "turno": 3,
         "nombre": "4K3",
         "nivel": 4
+    }
+},
+{
+    "model": "UTN.curso",
+    "pk": 6,
+    "fields": {
+        "carrera": 6,
+        "turno": 1,
+        "nombre": "IQU4",
+        "nivel": 1
     }
 },
 {
@@ -1830,7 +1982,11 @@
     "fields": {
         "materia": 1,
         "curso": 1,
-        "ciclo_lectivo": 3
+        "ciclo_lectivo": 3,
+        "docentes": [
+            5,
+            6
+        ]
     }
 },
 {
@@ -1839,7 +1995,11 @@
     "fields": {
         "materia": 1,
         "curso": 2,
-        "ciclo_lectivo": 3
+        "ciclo_lectivo": 3,
+        "docentes": [
+            5,
+            6
+        ]
     }
 },
 {
@@ -1848,7 +2008,8 @@
     "fields": {
         "materia": 2,
         "curso": 3,
-        "ciclo_lectivo": 3
+        "ciclo_lectivo": 3,
+        "docentes": []
     }
 },
 {
@@ -1857,7 +2018,8 @@
     "fields": {
         "materia": 3,
         "curso": 4,
-        "ciclo_lectivo": 3
+        "ciclo_lectivo": 3,
+        "docentes": []
     }
 },
 {
@@ -1866,7 +2028,25 @@
     "fields": {
         "materia": 5,
         "curso": 5,
-        "ciclo_lectivo": 3
+        "ciclo_lectivo": 3,
+        "docentes": [
+            1,
+            3,
+            6
+        ]
+    }
+},
+{
+    "model": "UTN.dictadomateria",
+    "pk": 6,
+    "fields": {
+        "materia": 6,
+        "curso": 6,
+        "ciclo_lectivo": 5,
+        "docentes": [
+            3,
+            6
+        ]
     }
 },
 {
@@ -1991,7 +2171,7 @@
     "pk": 1,
     "fields": {
         "dictado_materia": 1,
-        "dia": "MiÈrcoles",
+        "dia": "Mi√©rcoles",
         "modulos": [
             3,
             4,
@@ -2067,45 +2247,60 @@
     "model": "UTN.docente",
     "pk": 1,
     "fields": {
+        "usuario": 6,
         "legajo": "D-1001",
         "nombre": "Roberto",
-        "apellido": "PÈrez"
+        "apellido": "P√©rez"
     }
 },
 {
     "model": "UTN.docente",
     "pk": 2,
     "fields": {
+        "usuario": 7,
         "legajo": "D-1002",
-        "nombre": "MarÌa",
-        "apellido": "DomÌnguez"
+        "nombre": "Mar√≠a",
+        "apellido": "Dom√≠nguez"
     }
 },
 {
     "model": "UTN.docente",
     "pk": 3,
     "fields": {
+        "usuario": 8,
         "legajo": "D-1003",
         "nombre": "Carlos",
-        "apellido": "S·nchez"
+        "apellido": "S√°nchez"
     }
 },
 {
     "model": "UTN.docente",
     "pk": 4,
     "fields": {
+        "usuario": 9,
         "legajo": "D-1004",
         "nombre": "Laura",
-        "apellido": "GÛmez"
+        "apellido": "G√≥mez"
     }
 },
 {
     "model": "UTN.docente",
     "pk": 5,
     "fields": {
+        "usuario": 5,
         "legajo": "D-1005",
         "nombre": "Fernando",
         "apellido": "Torres"
+    }
+},
+{
+    "model": "UTN.docente",
+    "pk": 6,
+    "fields": {
+        "usuario": 11,
+        "legajo": "D-1006",
+        "nombre": "Six",
+        "apellido": "Seven boy"
     }
 },
 {
@@ -2122,7 +2317,7 @@
     "pk": 2,
     "fields": {
         "nombre": "Regular",
-        "descripcion": "El alumno cumpliÛ con los requisitos mÌnimos de parciales y asistencia para rendir examen final.",
+        "descripcion": "El alumno cumpli√≥ con los requisitos m√≠nimos de parciales y asistencia para rendir examen final.",
         "es_condicion_final": true
     }
 },
@@ -2131,7 +2326,7 @@
     "pk": 3,
     "fields": {
         "nombre": "Libre",
-        "descripcion": "El alumno no alcanzÛ las notas mÌnimas o quedÛ libre por inasistencias.",
+        "descripcion": "El alumno no alcanz√≥ las notas m√≠nimas o qued√≥ libre por inasistencias.",
         "es_condicion_final": true
     }
 },
@@ -2139,8 +2334,8 @@
     "model": "UTN.condicion",
     "pk": 4,
     "fields": {
-        "nombre": "AprobaciÛn directa",
-        "descripcion": "El alumno aprobÛ la materia de forma completa gracias a altas notas durante el cursado.",
+        "nombre": "Aprobaci√≥n directa",
+        "descripcion": "El alumno aprob√≥ la materia de forma completa gracias a altas notas durante el cursado.",
         "es_condicion_final": true
     }
 },
@@ -2148,8 +2343,8 @@
     "model": "UTN.condicion",
     "pk": 5,
     "fields": {
-        "nombre": "PromociÛn Pr·ctica",
-        "descripcion": "El alumno aprobÛ la parte pr·ctica y solo debe rendir un examen final teÛrico.",
+        "nombre": "Promoci√≥n Pr√°ctica",
+        "descripcion": "El alumno aprob√≥ la parte pr√°ctica y solo debe rendir un examen final te√≥rico.",
         "es_condicion_final": true
     }
 },
@@ -2157,23 +2352,23 @@
     "model": "UTN.tipoevaluacion",
     "pk": 1,
     "fields": {
-        "nombre": "Parcial TeÛrico",
-        "descripcion": "EvaluaciÛn escrita individual sobre los conceptos teÛricos de la materia."
+        "nombre": "Parcial Te√≥rico",
+        "descripcion": "Evaluaci√≥n escrita individual sobre los conceptos te√≥ricos de la materia."
     }
 },
 {
     "model": "UTN.tipoevaluacion",
     "pk": 2,
     "fields": {
-        "nombre": "Parcial Pr·ctico",
-        "descripcion": "EvaluaciÛn enfocada en la resoluciÛn de problemas y ejercicios pr·cticos en m·quina o papel."
+        "nombre": "Parcial Pr√°ctico",
+        "descripcion": "Evaluaci√≥n enfocada en la resoluci√≥n de problemas y ejercicios pr√°cticos en m√°quina o papel."
     }
 },
 {
     "model": "UTN.tipoevaluacion",
     "pk": 3,
     "fields": {
-        "nombre": "Trabajo Pr·ctico (TP)",
+        "nombre": "Trabajo Pr√°ctico (TP)",
         "descripcion": "Actividad grupal o individual de desarrollo entregada durante el cursado."
     }
 },
@@ -2181,16 +2376,16 @@
     "model": "UTN.tipoevaluacion",
     "pk": 4,
     "fields": {
-        "nombre": "Recuperatorio TeÛrico",
-        "descripcion": "Instancia para recuperar o levantar la nota de un parcial teÛrico reprobado o ausente."
+        "nombre": "Recuperatorio Te√≥rico",
+        "descripcion": "Instancia para recuperar o levantar la nota de un parcial te√≥rico reprobado o ausente."
     }
 },
 {
     "model": "UTN.tipoevaluacion",
     "pk": 5,
     "fields": {
-        "nombre": "Recuperatorio Pr·ctico",
-        "descripcion": "Instancia para recuperar o levantar la nota de un parcial pr·ctico."
+        "nombre": "Recuperatorio Pr√°ctico",
+        "descripcion": "Instancia para recuperar o levantar la nota de un parcial pr√°ctico."
     }
 },
 {
@@ -2215,42 +2410,42 @@
 },
 {
     "model": "UTN.inscripcion",
-    "pk": 3,
-    "fields": {
-        "alumno": 3,
-        "dictado_materia": 4,
-        "codigo_inscripcion": "INS-481F43C9",
-        "fecha_inscripcion": "2026-09-14"
-    }
-},
-{
-    "model": "UTN.inscripcion",
-    "pk": 4,
-    "fields": {
-        "alumno": 5,
-        "dictado_materia": 5,
-        "codigo_inscripcion": "INS-654A476B",
-        "fecha_inscripcion": "2026-09-14"
-    }
-},
-{
-    "model": "UTN.inscripcion",
-    "pk": 5,
-    "fields": {
-        "alumno": 4,
-        "dictado_materia": 2,
-        "codigo_inscripcion": "INS-AB15B57E",
-        "fecha_inscripcion": "2026-09-14"
-    }
-},
-{
-    "model": "UTN.inscripcion",
     "pk": 6,
     "fields": {
+        "alumno": 8,
+        "dictado_materia": 6,
+        "codigo_inscripcion": "INS-6483532B",
+        "fecha_inscripcion": "2026-11-02"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 7,
+    "fields": {
+        "alumno": 7,
+        "dictado_materia": 6,
+        "codigo_inscripcion": "INS-F7B400FB",
+        "fecha_inscripcion": "2026-11-02"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 8,
+    "fields": {
         "alumno": 1,
-        "dictado_materia": 1,
-        "codigo_inscripcion": "INS-F1F7D4AB",
-        "fecha_inscripcion": "2026-09-14"
+        "dictado_materia": 5,
+        "codigo_inscripcion": "INS-B9687B9F",
+        "fecha_inscripcion": "2026-11-02"
+    }
+},
+{
+    "model": "UTN.inscripcion",
+    "pk": 9,
+    "fields": {
+        "alumno": 1,
+        "dictado_materia": 4,
+        "codigo_inscripcion": "INS-D7FDE127",
+        "fecha_inscripcion": "2026-11-02"
     }
 },
 {
@@ -2275,42 +2470,212 @@
 },
 {
     "model": "UTN.cambiocondicion",
-    "pk": 3,
-    "fields": {
-        "inscripcion": 5,
-        "condicion": 1,
-        "docente": null,
-        "fecha_hora": "2026-09-14T21:01:05Z"
-    }
-},
-{
-    "model": "UTN.cambiocondicion",
-    "pk": 4,
-    "fields": {
-        "inscripcion": 5,
-        "condicion": 5,
-        "docente": 1,
-        "fecha_hora": "2026-09-14T21:01:17Z"
-    }
-},
-{
-    "model": "UTN.cambiocondicion",
-    "pk": 5,
-    "fields": {
-        "inscripcion": 3,
-        "condicion": 3,
-        "docente": 2,
-        "fecha_hora": "2026-09-14T21:01:48Z"
-    }
-},
-{
-    "model": "UTN.cambiocondicion",
     "pk": 6,
     "fields": {
         "inscripcion": 6,
         "condicion": 1,
         "docente": null,
-        "fecha_hora": "2026-09-14T21:05:25.661Z"
+        "fecha_hora": "2026-11-02T11:27:57.401Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 7,
+    "fields": {
+        "inscripcion": 7,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-11-02T11:32:42.722Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 8,
+    "fields": {
+        "inscripcion": 6,
+        "condicion": 4,
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:33:43.911Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 9,
+    "fields": {
+        "inscripcion": 7,
+        "condicion": 5,
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:33:43.912Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 10,
+    "fields": {
+        "inscripcion": 6,
+        "condicion": 3,
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:40:54.633Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 11,
+    "fields": {
+        "inscripcion": 1,
+        "condicion": 2,
+        "docente": 6,
+        "fecha_hora": "2026-11-02T11:42:53.274Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 12,
+    "fields": {
+        "inscripcion": 8,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-11-02T11:47:50.411Z"
+    }
+},
+{
+    "model": "UTN.cambiocondicion",
+    "pk": 13,
+    "fields": {
+        "inscripcion": 9,
+        "condicion": 1,
+        "docente": null,
+        "fecha_hora": "2026-11-02T11:47:59.782Z"
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 6,
+    "fields": {
+        "dictado_materia": 1,
+        "tipo_evaluacion": 1,
+        "nombre": "",
+        "fecha": "2026-09-14",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 7,
+    "fields": {
+        "dictado_materia": 1,
+        "tipo_evaluacion": 2,
+        "nombre": "",
+        "fecha": "2026-09-14",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 8,
+    "fields": {
+        "dictado_materia": 2,
+        "tipo_evaluacion": 1,
+        "nombre": "",
+        "fecha": "2026-09-18",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 9,
+    "fields": {
+        "dictado_materia": 2,
+        "tipo_evaluacion": 2,
+        "nombre": "",
+        "fecha": "2026-09-18",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 10,
+    "fields": {
+        "dictado_materia": 4,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-09-16",
+        "para_todos": true,
+        "creada_por": null,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 11,
+    "fields": {
+        "dictado_materia": 6,
+        "tipo_evaluacion": 2,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 12,
+    "fields": {
+        "dictado_materia": 6,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-08-10",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 13,
+    "fields": {
+        "dictado_materia": 6,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 14,
+    "fields": {
+        "dictado_materia": 5,
+        "tipo_evaluacion": 5,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
+    }
+},
+{
+    "model": "UTN.instanciaevaluacion",
+    "pk": 15,
+    "fields": {
+        "dictado_materia": 5,
+        "tipo_evaluacion": 3,
+        "nombre": "",
+        "fecha": "2026-11-02",
+        "para_todos": true,
+        "creada_por": 6,
+        "inscripciones": []
     }
 },
 {
@@ -2318,10 +2683,9 @@
     "pk": 1,
     "fields": {
         "inscripcion": 2,
-        "tipo_evaluacion": 1,
+        "instancia": 6,
         "docente": 1,
-        "valor": "6.00",
-        "fecha_evaluacion": "2026-09-14"
+        "valor": "6.00"
     }
 },
 {
@@ -2329,43 +2693,109 @@
     "pk": 2,
     "fields": {
         "inscripcion": 2,
-        "tipo_evaluacion": 2,
+        "instancia": 7,
         "docente": 1,
-        "valor": "7.50",
-        "fecha_evaluacion": "2026-09-14"
+        "valor": "7.50"
     }
 },
 {
     "model": "UTN.evaluacion",
-    "pk": 3,
+    "pk": 6,
     "fields": {
-        "inscripcion": 5,
-        "tipo_evaluacion": 1,
-        "docente": 1,
-        "valor": "8.50",
-        "fecha_evaluacion": "2026-09-18"
+        "inscripcion": 6,
+        "instancia": 11,
+        "docente": 6,
+        "valor": "7.50"
     }
 },
 {
     "model": "UTN.evaluacion",
-    "pk": 4,
+    "pk": 7,
     "fields": {
-        "inscripcion": 5,
-        "tipo_evaluacion": 2,
-        "docente": 1,
-        "valor": "9.00",
-        "fecha_evaluacion": "2026-09-18"
+        "inscripcion": 7,
+        "instancia": 11,
+        "docente": 6,
+        "valor": "10.00"
     }
 },
 {
     "model": "UTN.evaluacion",
-    "pk": 5,
+    "pk": 8,
     "fields": {
-        "inscripcion": 3,
-        "tipo_evaluacion": 3,
-        "docente": 2,
-        "valor": "4.00",
-        "fecha_evaluacion": "2026-09-16"
+        "inscripcion": 6,
+        "instancia": 12,
+        "docente": 6,
+        "valor": "3.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 9,
+    "fields": {
+        "inscripcion": 7,
+        "instancia": 12,
+        "docente": 6,
+        "valor": "8.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 10,
+    "fields": {
+        "inscripcion": 1,
+        "instancia": 6,
+        "docente": 6,
+        "valor": "6.70"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 11,
+    "fields": {
+        "inscripcion": 1,
+        "instancia": 7,
+        "docente": 6,
+        "valor": "7.60"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 12,
+    "fields": {
+        "inscripcion": 6,
+        "instancia": 13,
+        "docente": 6,
+        "valor": "6.67"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 13,
+    "fields": {
+        "inscripcion": 7,
+        "instancia": 13,
+        "docente": 6,
+        "valor": "10.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 15,
+    "fields": {
+        "inscripcion": 8,
+        "instancia": 14,
+        "docente": 6,
+        "valor": "10.00"
+    }
+},
+{
+    "model": "UTN.evaluacion",
+    "pk": 16,
+    "fields": {
+        "inscripcion": 8,
+        "instancia": 15,
+        "docente": 6,
+        "valor": "6.70"
     }
 }
 ]

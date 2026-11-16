@@ -1,0 +1,41 @@
+# Documentación Técnica a Nivel Código (Django)
+
+Este documento detalla la implementación a nivel de código del Sistema de Gestión Académica (App: `UTN`), explicando la lógica técnica detrás de los modelos, vistas y rutas del proyecto en Django.
+
+## 1. Estructura del Proyecto
+*   El proyecto principal se llama `TrabajoIntegradorUTN`.
+*   Dentro, existe una app llamada `UTN` donde reside toda la lógica académica.
+*   Se utiliza **SQLite3** como motor de base de datos por defecto, configurado en `settings.py`.
+*   Se siguen los estándares del patrón **MVT** (Model-View-Template) de Django.
+
+## 2. Modelos (`models.py`) - Capa de Datos (ORM)
+Se utiliza el ORM (Object-Relational Mapping) de Django. Cada clase hereda de `models.Model` y se traduce en una tabla SQL.
+
+*   **Relaciones Uno a Muchos (1:N)**: Se resuelven usando `models.ForeignKey`. Por ejemplo, `Materia`, `Curso` y `Alumno` tienen un ForeignKey hacia `Carrera`.
+    *   *Detalle técnico*: Se usa el atributo `related_name` (ej. `related_name="alumnos"`) para poder hacer *reverse lookups* (consultas inversas) de forma limpia. Es decir, desde un objeto de Carrera, podemos ejecutar `carrera.alumnos.all()` para traer la lista de sus alumnos.
+    *   *Integridad referencial*: Se utiliza `on_delete=models.CASCADE` para borrados en cascada (si se borra una carrera, se borran sus alumnos) o `models.PROTECT` para prevenir la eliminación (no permite borrar un ciclo lectivo si hay dictados asociados a este).
+*   **Relación Uno a Uno (1:1)**: En el modelo `Alumno`, se usa un `OneToOneField` apuntando al modelo nativo `User` de Django (`django.contrib.auth.models.User`). Esto extiende el modelo de autenticación nativo, vinculando los datos académicos a una cuenta de usuario que se puede loguear en el sistema.
+*   **Relación Muchos a Muchos (N:M)**: El modelo `Horario` usa un `ManyToManyField` hacia `Modulo`. Esto crea internamente una tabla intermedia, ya que un mismo horario (ej. Lunes) puede abarcar múltiples módulos de horas, y un módulo puede estar presente en varios horarios.
+*   **Lógica de Negocio en el Modelo (Decoradores)**: En el modelo `Inscripcion`, se usan propiedades calculadas con el decorador `@property` (ej: `condicion_actual` y `es_regular`). Esto encapsula la lógica; permite acceder a `inscripcion.condicion_actual` en un template o vista sin necesidad de escribir la query, ejecutando internamente un filtro de la base de datos (`self.historial_condiciones.order_by('-fecha_hora').first()`).
+*   **Generación de IDs UUID**: En `Inscripcion`, el campo `codigo_inscripcion` se auto-genera invocando una función externa `_generar_codigo()` que usa la librería nativa `uuid` (`uuid.uuid4().hex`), impidiendo su edición manual (`editable=False`).
+
+## 3. Vistas (`views.py`) - Controladores
+La lógica utiliza **Function-Based Views (FBV)** en su mayoría, encargadas de procesar requests (HTTP) y retornar una respuesta (render del HTML).
+
+*   **Seguridad**: Se usa el decorador `@login_required` para denegar el acceso a usuarios que no tienen una cookie de sesión válida, redireccionándolos a la página de login de Django.
+*   **Optimización de Queries (Lazy Loading y Eager Loading)**: 
+    *   En vistas críticas como `panel_alumno` o `inscribir_materia`, se usan `select_related()` (hace *JOINs* en SQL para claves foráneas) y `prefetch_related()` (hace consultas adicionales y las une en Python para relaciones N:M o inversas).
+    *   Esto resuelve el clásico problema de "N+1 queries" del ORM, evitando que Django dispare un query a la base de datos por cada evaluación de cada materia al iterar sobre ellas en el HTML.
+*   **Captura de Errores y Seguridad (404)**: Se utiliza `get_object_or_404(Modelo, id)`. Al buscar registros desde la base de datos filtrando por las URLs (ej: `alumno_id`), si el objeto no existe en la base, retorna una respuesta HTTP 404 (Not Found) automáticamente sin crashear el servidor (Evita un error 500).
+*   **Manejo de Formularios y Estados HTTP (`inscribir_materia`)**: 
+    *   Esta función diferencia entre peticiones `GET` (solo muestra la página con el listado) y `POST` (procesa la acción de inscribirse).
+    *   En el `POST`, inserta el registro `Inscripcion` y mediante la función `Condicion.objects.get_or_create` se asegura de obtener la condición "Inscripto" e insertarla en `CambioCondicion`.
+    *   Implementa `django.contrib.messages` (flash messages) para setear en sesión un cartel temporal de "¡Inscripción exitosa!" (`messages.success`).
+*   **Class-Based Views (CBV)**: La clase `LoginAlumnoView` hereda de la vista estándar `LoginView` de Django. Su método `get_success_url()` ha sido reescrito mediante *polimorfismo* para agregar la lógica específica del negocio: revisa si el usuario logueado está atado a un modelo `Alumno` usando `getattr()`. Si es así, calcula la URL inversa dinámicamente con `reverse('panel_alumno', args=[...])` para mandarlo a su panel; caso contrario, lo tira al admin.
+
+## 4. Rutas (`urls.py`) - URL Dispatcher
+*   **Argumentos dinámicos en la URL (Path converters)**: Se declara `path('alumno/<int:alumno_id>/', ...)`. La porción `<int:alumno_id>` actúa como una expresión regular preconfigurada que atrapa un entero de la URL y se lo inyecta como keyword argument (`**kwargs`) a la función de `views.py`.
+*   **URL Reversing y Naming**: Todas las rutas tienen el atributo `name='...'`. Esto evita que las URLs se programen de forma estática (hardcoding) en los archivos HTML o en las views. Para referenciar una ruta, Django busca su nombre, haciendo el código tolerante a posibles refactorizaciones del string de la URL.
+
+## 5. Templates (Capa de Presentación)
+Se encuentran en `templates/UTN/`. Las views pasan *Context Variables* (diccionarios de Python) hacia el render engine (Django Templates Engine). Estos se combinan con código HTML inyectando data a través de tags lógicos (`{% if %}`, `{% for %}`) y tags de impresión (`{{ variable }}`). Las plantillas seguramente utilicen herencia (Template Inheritance) para evitar repetir el header y el footer, implementando tags como `{% extends 'base.html' %}` y `{% block content %}`.
