@@ -2,16 +2,14 @@
 from decimal import Decimal, InvalidOperation
 
 from django.contrib import messages
-from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.functional import cached_property
 from django.views.generic import TemplateView
 
 from .forms import ColumnaForm
 from .models import CambioCondicion, Condicion, Evaluacion, InstanciaEvaluacion, TipoEvaluacion
-from .roles import RolRequeridoMixin, ROL_DOCENTE
+from .roles import RolRequeridoMixin, obtener_rol, ROL_DOCENTE
 
 
 def a_int(valor):
@@ -39,44 +37,35 @@ class PanelDocenteView(RolRequeridoMixin, TemplateView):
     roles = (ROL_DOCENTE,)
     template_name = "panel_docente.html"
 
-    # --- Datos de la planilla (cada uno se calcula una sola vez por request) ---
-    @cached_property
-    def docente(self):
-        return self.request.user.docente
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and obtener_rol(request.user) == ROL_DOCENTE:
+            self.cargar_planilla()
+        return super().dispatch(request, *args, **kwargs)
 
-    @cached_property
-    def dictados(self):
-        return (self.docente.dictados
-                .select_related("materia", "curso__turno", "ciclo_lectivo")
-                .order_by("-ciclo_lectivo__anio", "materia__nombre"))  # solo SUS cursos
-
-    @cached_property
-    def dictado(self):
-        """El curso elegido. Si no se eligió ninguno, el primero."""
+    def cargar_planilla(self):
+        """Busca una sola vez, al empezar el pedido, todo lo que necesitan el GET y el POST."""
+        self.docente = self.request.user.docente
+        self.dictados = (self.docente.dictados  # solo SUS cursos
+                         .select_related("materia", "curso__turno", "ciclo_lectivo")
+                         .order_by("-ciclo_lectivo__anio", "materia__nombre"))
+        # El curso elegido. Si no se eligió ninguno, el primero.
         dictado_id = a_int(self.request.POST.get("dictado_id") or self.request.GET.get("dictado"))
-        return get_object_or_404(self.dictados, pk=dictado_id) if dictado_id else self.dictados.first()
-
-    @cached_property
-    def inscripciones(self):
-        return list(self.dictado.inscripciones
-                    .select_related("alumno")
-                    .prefetch_related("historial_condiciones")
-                    .order_by("alumno__nombre_completo"))
-
-    @cached_property
-    def columnas(self):
-        columnas = list(self.dictado.instancias_evaluacion.select_related("tipo_evaluacion").prefetch_related("inscripciones"))
-        for columna in columnas:
+        self.dictado = get_object_or_404(self.dictados, pk=dictado_id) if dictado_id else self.dictados.first()
+        self.inscripciones, self.columnas, self.notas = [], [], {}
+        if self.dictado is None:
+            return
+        self.inscripciones = list(self.dictado.inscripciones
+                                  .select_related("alumno")
+                                  .prefetch_related("historial_condiciones")
+                                  .order_by("alumno__nombre_completo"))
+        self.columnas = list(self.dictado.instancias_evaluacion.select_related("tipo_evaluacion").prefetch_related("inscripciones"))
+        for columna in self.columnas:
             columna.ids_alumnos = {i.id for i in columna.inscripciones.all()}
-        return columnas
+        # {(id de columna, id de inscripción): Evaluacion}
+        self.notas = {(e.instancia_id, e.inscripcion_id): e for e in Evaluacion.objects.filter(instancia__in=self.columnas)}
 
-    @cached_property
-    def notas(self):
-        """{(id de columna, id de inscripción): Evaluacion}"""
-        return {(e.instancia_id, e.inscripcion_id): e for e in Evaluacion.objects.filter(instancia__in=self.columnas)}
-
-    @staticmethod
-    def aplica(columna, inscripcion):
+    def aplica(self, columna, inscripcion):
+        """¿La columna corresponde a este alumno? (hay evaluaciones solo para algunos)"""
         return columna.para_todos or inscripcion.id in columna.ids_alumnos
 
     # --- GET: armar la planilla ---
@@ -110,13 +99,12 @@ class PanelDocenteView(RolRequeridoMixin, TemplateView):
             return redirect("utn:panel_docente")
         accion = request.POST.get("accion", "guardar")
 
-        with transaction.atomic():
-            notas_guardadas, errores = self.guardar_notas()  # siempre: así no se pierde lo que se tipeó
-            condiciones_cambiadas = self.guardar_condiciones()
-            if accion == "guardar_columna":
-                self.guardar_columna()
-            elif accion == "eliminar_columna":
-                self.eliminar_columna()
+        notas_guardadas, errores = self.guardar_notas()  # siempre: así no se pierde lo que se tipeó
+        condiciones_cambiadas = self.guardar_condiciones()
+        if accion == "guardar_columna":
+            self.guardar_columna()
+        elif accion == "eliminar_columna":
+            self.eliminar_columna()
 
         resumen = []
         if notas_guardadas:
@@ -160,19 +148,23 @@ class PanelDocenteView(RolRequeridoMixin, TemplateView):
 
     def guardar_condiciones(self):
         """Si el docente eligió otra condición, se agrega un cambio al historial (no se pisa el anterior)."""
-        validas = {c.id: c for c in Condicion.objects.all()}
+        condiciones = {c.id: c for c in Condicion.objects.all()}
         cambiadas = 0
         for insc in self.inscripciones:
             nueva = a_int(self.request.POST.get(f"condicion_{insc.id}"))
             actual = insc.ultimo_cambio.condicion_id if insc.ultimo_cambio else None
-            if nueva in validas and nueva != actual:
-                CambioCondicion.objects.create(inscripcion=insc, condicion=validas[nueva], docente=self.docente)
+            if nueva in condiciones and nueva != actual:
+                CambioCondicion.objects.create(inscripcion=insc, condicion=condiciones[nueva], docente=self.docente)
                 cambiadas += 1
         return cambiadas
 
     def columna_elegida(self):
+        """La columna que el docente tocó (viene en el POST como col_id), o None si es una nueva."""
         columna_id = a_int(self.request.POST.get("col_id"))
-        return next((c for c in self.columnas if c.id == columna_id), None)
+        for columna in self.columnas:
+            if columna.id == columna_id:
+                return columna
+        return None
 
     def guardar_columna(self):
         columna = self.columna_elegida()  # None = columna nueva
