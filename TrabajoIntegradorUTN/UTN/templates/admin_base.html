@@ -32,11 +32,15 @@
                 {% for grupo, items in menu.items %}
                     <div class="admin-nav-grupo">{{ grupo }}</div>
                     {% for item in items %}
-                        <a href="{% url 'utn:admin_lista' item.clave %}" class="admin-nav-link {% if seccion_activa == item.clave %}active{% endif %}">
-                            <i class="bi {{ item.icono }}"></i> {{ item.titulo }}
+                        <a href="{% url item.0 %}" class="admin-nav-link {% if seccion_activa == item.0 %}active{% endif %}">
+                            <i class="bi {{ item.2 }}"></i> {{ item.1 }}
                         </a>
                     {% endfor %}
                 {% endfor %}
+                <div class="admin-nav-grupo">Más</div>
+                <a href="{% url 'admin:index' %}" class="admin-nav-link">
+                    <i class="bi bi-database"></i> Otras tablas (Django admin)
+                </a>
             </nav>
             <div class="admin-sidebar-footer">
                 <a href="{% url 'utn:landing' %}" class="admin-nav-link"><i class="bi bi-house"></i> Ver sitio</a>

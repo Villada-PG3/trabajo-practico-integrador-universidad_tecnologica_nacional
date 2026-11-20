@@ -1,10 +1,10 @@
 {% extends 'admin_base.html' %}
 
-{% block title %}{% if instancia %}Editar{% else %}Nuevo{% endif %} {{ conf.singular }}{% endblock %}
+{% block title %}{% if instancia %}Editar{% else %}Nuevo{% endif %} {{ singular }}{% endblock %}
 
 {% block content %}
-<a href="{% url 'utn:admin_lista' entidad %}" class="btn btn-link text-decoration-none text-secondary p-0 mb-3">
-    <i class="bi bi-arrow-left"></i> Volver a {{ conf.titulo|lower }}
+<a href="{% url url_lista %}" class="btn btn-link text-decoration-none text-secondary p-0 mb-3">
+    <i class="bi bi-arrow-left"></i> Volver a {{ titulo|lower }}
 </a>
 
 <div class="row">
@@ -12,7 +12,7 @@
         <div class="card border-0 shadow-soft rounded-organic">
             <div class="card-body p-4 p-md-5">
                 <h2 class="fw-bold mb-1">
-                    {% if instancia %}Editar {{ conf.singular }}{% else %}Nuevo {{ conf.singular }}{% endif %}
+                    {% if instancia %}Editar {{ singular }}{% else %}Nuevo {{ singular }}{% endif %}
                 </h2>
                 <p class="text-secondary mb-4">
                     {% if instancia %}Estás modificando «{{ instancia }}».{% else %}Completá los datos y guardá.{% endif %}
@@ -68,7 +68,7 @@
                             Guardar y crear otro
                         </button>
                         {% endif %}
-                        <a href="{% url 'utn:admin_lista' entidad %}" class="btn btn-modern btn-link text-secondary">Cancelar</a>
+                        <a href="{% url url_lista %}" class="btn btn-modern btn-link text-secondary">Cancelar</a>
                     </div>
                 </form>
             </div>

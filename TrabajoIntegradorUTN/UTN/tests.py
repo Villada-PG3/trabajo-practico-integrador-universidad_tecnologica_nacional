@@ -28,15 +28,15 @@ class BaseTestCase(TestCase):
         cls.dictado_sis = DictadoMateria.objects.create(materia=cls.materia_sis, curso=curso_sis, ciclo_lectivo=ciclo)
         cls.dictado_civ = DictadoMateria.objects.create(materia=cls.materia_civ, curso=curso_civ, ciclo_lectivo=ciclo)
 
-        def usuario(nombre):
-            return User.objects.create_user(nombre, password="Clave12345")
+        def usuario(nombre, staff=False):
+            return User.objects.create_user(nombre, password="Clave12345", is_staff=staff)
 
         cls.alumno = Alumno.objects.create(usuario=usuario("ana"), carrera=cls.sistemas, nombre_completo="Ana Sis", documento=1, email="a@a.com")
         cls.otro_alumno = Alumno.objects.create(usuario=usuario("beto"), carrera=cls.civil, nombre_completo="Beto Civ", documento=2, email="b@a.com")
         cls.docente = Docente.objects.create(usuario=usuario("profe"), legajo="L1", nombre="Pía", apellido="Profe")
         cls.dictado_sis.docentes.add(cls.docente)
-        cls.director = Administrador.objects.create(usuario=usuario("dire"), nombre="Di", apellido="Rector", cargo=Administrador.DIRECTOR)
-        cls.ejecutivo = Administrador.objects.create(usuario=usuario("ejec"), nombre="Ej", apellido="Ecutivo", cargo=Administrador.EJECUTIVO)
+        cls.director = Administrador.objects.create(usuario=usuario("dire", staff=True), nombre="Di", apellido="Rector", cargo=Administrador.DIRECTOR)
+        cls.ejecutivo = Administrador.objects.create(usuario=usuario("ejec", staff=True), nombre="Ej", apellido="Ecutivo", cargo=Administrador.EJECUTIVO)
         cls.sin_rol = usuario("fantasma")
         cls.tipo = TipoEvaluacion.objects.create(nombre="Parcial")
         cls.regular = Condicion.objects.create(nombre="Regular")
@@ -99,7 +99,7 @@ class InscripcionTests(BaseTestCase):
 
     def test_el_panel_de_administracion_tambien_rechaza_otra_carrera(self):
         self.entrar("dire")
-        respuesta = self.client.post(reverse("utn:admin_crear", args=["inscripciones"]),
+        respuesta = self.client.post(reverse("utn:inscripcion_nuevo"),
                                      {"alumno": self.alumno.pk, "dictado_materia": self.dictado_civ.pk})
         self.assertEqual(respuesta.status_code, 200)  # vuelve al formulario con el error
         self.assertFalse(Inscripcion.objects.exists())
@@ -142,7 +142,7 @@ class RolesTests(BaseTestCase):
         self.assertRedirects(respuesta, f"{reverse('utn:login')}?next={reverse('utn:panel_docente')}")
 
     def test_solo_el_director_gestiona_administradores(self):
-        url = reverse("utn:admin_lista", args=["administradores"])
+        url = reverse("utn:administrador_lista")
         self.entrar("ejec")
         self.assertRedirects(self.client.get(url), reverse("utn:redireccion_panel"), fetch_redirect_response=False)
         self.client.logout()
@@ -195,28 +195,37 @@ class PanelAdministracionTests(BaseTestCase):
         self.entrar("dire")
 
     def test_crear_y_listar_una_carrera(self):
-        self.client.post(reverse("utn:admin_crear", args=["carreras"]), {"nombre": "Química", "sigla": "IQ"})
-        respuesta = self.client.get(reverse("utn:admin_lista", args=["carreras"]), {"q": "Quím"})
+        self.client.post(reverse("utn:carrera_nuevo"), {"nombre": "Química", "sigla": "IQ"})
+        respuesta = self.client.get(reverse("utn:carrera_lista"), {"q": "Quím"})
         self.assertContains(respuesta, "Química")
 
     def test_crear_alumno_crea_tambien_su_usuario(self):
-        self.client.post(reverse("utn:admin_crear", args=["alumnos"]), {
+        self.client.post(reverse("utn:alumno_nuevo"), {
             "nombre_completo": "Nuevo Alumno", "documento": 99, "email": "n@a.com", "carrera": self.sistemas.pk,
             "username": "nuevo", "password": "ClaveSegura2026"})
         self.assertTrue(User.objects.get(username="nuevo").check_password("ClaveSegura2026"))
         self.assertEqual(Alumno.objects.get(documento=99).usuario.username, "nuevo")
 
     def test_eliminar_alumno_elimina_su_usuario(self):
-        self.client.post(reverse("utn:admin_eliminar", args=["alumnos", self.otro_alumno.pk]))
+        self.client.post(reverse("utn:alumno_eliminar", args=[self.otro_alumno.pk]))
         self.assertFalse(User.objects.filter(username="beto").exists())
 
-    def test_no_se_elimina_lo_que_esta_en_uso(self):
-        turno = Turno.objects.get()  # lo usan los cursos (on_delete=PROTECT)
-        self.client.post(reverse("utn:admin_eliminar", args=["turnos", turno.pk]))
-        self.assertTrue(Turno.objects.filter(pk=turno.pk).exists())
+    def test_no_puede_eliminar_su_propio_usuario(self):
+        propio = Administrador.objects.get(usuario__username="dire")
+        self.client.post(reverse("utn:administrador_eliminar", args=[propio.pk]))
+        self.assertTrue(Administrador.objects.filter(pk=propio.pk).exists())
 
-    def test_seccion_inexistente_da_404(self):
-        self.assertEqual(self.client.get(reverse("utn:admin_lista", args=["nada"])).status_code, 404)
+    def test_el_menu_del_ejecutivo_no_muestra_administradores(self):
+        self.assertContains(self.client.get(reverse("utn:admin_dashboard")), "Administradores")
+        self.client.logout()
+        self.entrar("ejec")
+        self.assertNotContains(self.client.get(reverse("utn:admin_dashboard")), "Administradores")
+
+    def test_las_otras_tablas_se_gestionan_desde_el_admin_de_django(self):
+        self.assertEqual(self.client.get(reverse("admin:UTN_turno_changelist")).status_code, 200)
+        self.client.logout()
+        self.entrar("ana")
+        self.assertNotEqual(self.client.get(reverse("admin:UTN_turno_changelist")).status_code, 200)
 
 
 class MiCuentaTests(BaseTestCase):
@@ -272,7 +281,7 @@ class CorrelativasTests(BaseTestCase):
 
     def test_el_panel_de_administracion_tambien_lo_valida(self):
         self.entrar("dire")
-        self.client.post(reverse("utn:admin_crear", args=["inscripciones"]),
+        self.client.post(reverse("utn:inscripcion_nuevo"),
                          {"alumno": self.alumno.pk, "dictado_materia": self.dictado2.pk})
         self.assertFalse(Inscripcion.objects.exists())
 
@@ -385,7 +394,7 @@ class HorariosTests(BaseTestCase):
         self.horario(self.dictado3, "Lunes", self.m1)
         Inscripcion.objects.create(alumno=self.alumno, dictado_materia=self.dictado_sis)
         self.entrar("dire")
-        self.client.post(reverse("utn:admin_crear", args=["inscripciones"]),
+        self.client.post(reverse("utn:inscripcion_nuevo"),
                          {"alumno": self.alumno.pk, "dictado_materia": self.dictado3.pk})
         self.assertEqual(Inscripcion.objects.count(), 1)
 

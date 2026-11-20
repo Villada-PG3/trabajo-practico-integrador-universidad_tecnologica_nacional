@@ -8,10 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.exceptions import PermissionDenied, ValidationError
-from django.db import IntegrityError, transaction
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.utils.functional import cached_property
 from django.views.generic import DetailView, ListView, TemplateView, UpdateView
 
 from .forms import LoginForm, CuentaUsuarioForm, CambiarPasswordForm
@@ -20,7 +18,7 @@ from .roles import obtener_rol, RolRequeridoMixin, ROL_ADMIN, ROL_DOCENTE, ROL_A
 
 
 # ---------------------------------------------------------------------------
-# Landing (vista basada en función: no necesita nada de lo que ofrecen las genéricas)
+# Página de inicio
 # ---------------------------------------------------------------------------
 ICONOS_CARRERA = [
     ("sistemas", "bi-cpu"),
@@ -56,14 +54,24 @@ NOTICIAS = [
 ]
 
 
-def _icono_carrera(nombre):
+def icono_de(nombre):
+    """El ícono de la carrera según las palabras que tiene su nombre."""
     nombre = nombre.lower()
-    return next((icono for palabra, icono in ICONOS_CARRERA if palabra in nombre), "bi-mortarboard")
+    for palabra, icono in ICONOS_CARRERA:
+        if palabra in nombre:
+            return icono
+    return "bi-mortarboard"
 
 
-def landing(request):
-    carreras = [{"nombre": c.nombre, "icono": _icono_carrera(c.nombre)} for c in Carrera.objects.all()]
-    return render(request, "landing.html", {"carreras": carreras, "fotos": FOTOS, "noticias": NOTICIAS})
+class HomeView(TemplateView):
+    template_name = "landing.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["carreras"] = [{"nombre": c.nombre, "icono": icono_de(c.nombre)} for c in Carrera.objects.all()]
+        context["fotos"] = FOTOS
+        context["noticias"] = NOTICIAS
+        return context
 
 
 # ---------------------------------------------------------------------------
@@ -124,17 +132,18 @@ class AlumnoMixin(RolRequeridoMixin):
     """Vistas de un alumno: él ve solo lo suyo; el administrador puede ver a cualquiera."""
     roles = (ROL_ALUMNO, ROL_ADMIN)
 
-    @cached_property
-    def alumno(self):
-        alumno = get_object_or_404(Alumno.objects.select_related("carrera"), pk=self.kwargs["pk"])
-        if obtener_rol(self.request.user) != ROL_ADMIN and alumno.usuario_id != self.request.user.id:
-            raise PermissionDenied  # 403: es el panel de otro alumno
-        return alumno
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and obtener_rol(request.user) in self.roles:
+            self.alumno = get_object_or_404(Alumno.objects.select_related("carrera"), pk=kwargs["pk"])
+            if obtener_rol(request.user) != ROL_ADMIN and self.alumno.usuario_id != request.user.id:
+                raise PermissionDenied  # 403: es el panel de otro alumno
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         return super().get_context_data(alumno=self.alumno, **kwargs)
 
     def inscripciones(self):
+        # select_related / prefetch_related traen lo relacionado de una vez (evitan una consulta por fila)
         return (self.alumno.inscripciones
                 .select_related("dictado_materia__materia", "dictado_materia__curso", "dictado_materia__ciclo_lectivo")
                 .prefetch_related("evaluaciones__instancia__tipo_evaluacion", "historial_condiciones__condicion"))
@@ -149,16 +158,25 @@ class PanelAlumnoView(AlumnoMixin, DetailView):
 
     def armar_cronograma(self):
         """Grilla semanal: una fila por franja horaria y una columna por día, con las materias que cursa."""
-        celdas, materias = {}, []
+        celdas = {}     # (hora de inicio, hora de fin, día) -> lo que se dibuja en esa celda
+        materias = []   # las referencias de colores
         for n, inscripcion in enumerate(self.alumno.inscripciones_en_curso()):
-            dictado, color = inscripcion.dictado_materia, COLORES_CRONOGRAMA[n % len(COLORES_CRONOGRAMA)]
+            dictado = inscripcion.dictado_materia
+            color = COLORES_CRONOGRAMA[n % len(COLORES_CRONOGRAMA)]
             materias.append({"dictado": dictado, "color": color})
             for horario in dictado.horarios.all():
                 for modulo in horario.modulos.all():
                     celdas[(modulo.hora_inicio, modulo.hora_fin, horario.dia)] = {"sigla": dictado.materia.sigla, "color": color}
-        dias = [d for d in DIAS if d != "Sábado" or any(clave[2] == d for clave in celdas)]
-        franjas = sorted({(desde, hasta) for desde, hasta, _ in celdas})
-        filas = [{"desde": d, "hasta": h, "celdas": [celdas.get((d, h, dia)) for dia in dias]} for d, h in franjas]
+
+        dias = []
+        for dia in DIAS:
+            if dia != "Sábado" or any(clave[2] == "Sábado" for clave in celdas):  # el sábado solo si hay clases
+                dias.append(dia)
+
+        franjas = sorted({(desde, hasta) for desde, hasta, dia in celdas})
+        filas = []
+        for desde, hasta in franjas:
+            filas.append({"desde": desde, "hasta": hasta, "celdas": [celdas.get((desde, hasta, dia)) for dia in dias]})
         return {"dias": dias, "filas": filas, "materias": materias}
 
     def get_context_data(self, **kwargs):
@@ -184,31 +202,32 @@ class InscribirView(AlumnoMixin, ListView):
         inscriptas = set(self.alumno.inscripciones.values_list("dictado_materia_id", flat=True))
         cursando = {d.materia_id for d in en_curso}
         for dictado in contexto["dictados"]:
-            # El template muestra los motivos y bloquea el botón.
+            # Al dictado se le agregan los motivos por los que no puede inscribirse; el template los muestra.
             dictado.ya_inscripto = dictado.id in inscriptas
             dictado.ya_cumplida = dictado.materia_id in cumplidas  # Regular, Aprobación directa, etc.
             dictado.ya_cursando = dictado.materia_id in cursando and not dictado.ya_inscripto
-            libre = not (dictado.ya_inscripto or dictado.ya_cumplida or dictado.ya_cursando)
-            dictado.faltantes = dictado.materia.faltantes(cumplidas) if libre else []
+            dictado.faltantes = []
             dictado.choque = None
-            for otro in en_curso if libre else []:
-                par = dictado.choque_con(otro) if otro.ciclo_lectivo_id == dictado.ciclo_lectivo_id else None
-                if par:
-                    dictado.choque = f"{otro.materia.nombre} ({par[1].texto})"
-                    break
+            if dictado.ya_inscripto or dictado.ya_cumplida or dictado.ya_cursando:
+                continue  # ya tiene un motivo: no hace falta buscar más
+            dictado.faltantes = dictado.materia.faltantes(cumplidas)
+            for otro in en_curso:
+                if otro.ciclo_lectivo_id == dictado.ciclo_lectivo_id:
+                    par = dictado.choque_con(otro)
+                    if par:
+                        dictado.choque = f"{otro.materia.nombre} ({par[1].texto})"
+                        break
         return contexto
 
     def post(self, request, *args, **kwargs):
         dictado = get_object_or_404(self.get_queryset(), pk=request.POST.get("dictado_id"))
         inscripcion = Inscripcion(alumno=self.alumno, dictado_materia=dictado)
         try:
-            with transaction.atomic():
-                inscripcion.full_clean()  # valida carrera y duplicados (models.py)
-                inscripcion.save()
-        except (ValidationError, IntegrityError) as error:
-            mensaje = " ".join(error.messages) if isinstance(error, ValidationError) else "Ya estás inscripto en esta materia."
-            messages.warning(request, mensaje)
+            inscripcion.full_clean()  # corre las reglas de Inscripcion.clean() (models.py)
+        except ValidationError as error:
+            messages.warning(request, " ".join(error.messages))
             return redirect("utn:inscribir_materia", pk=self.alumno.pk)
+        inscripcion.save()
 
         messages.success(request, f"¡Inscripción exitosa! Tu código es: {inscripcion.codigo_inscripcion}")
         return redirect("utn:panel_alumno", pk=self.alumno.pk)
@@ -222,6 +241,11 @@ class ReporteRegularesView(AlumnoMixin, ListView):
         return [i for i in self.inscripciones() if i.condicion_actual == "Regular"]
 
 
+def por_nivel(materias):
+    """Las materias ordenadas de la más básica a la más avanzada (primero por nivel, después por nombre)."""
+    return sorted(materias, key=lambda materia: (materia.nivel, materia.nombre))
+
+
 class CorrelativasView(AlumnoMixin, TemplateView):
     """Árbol de la carrera: cada materia cuelga de la que hay que tener antes."""
     template_name = "correlativas.html"
@@ -231,7 +255,7 @@ class CorrelativasView(AlumnoMixin, TemplateView):
                 "cursando": "La estás cursando. Cuando quedes Regular se habilitan las que siguen.",
                 "habilitada": "Cumplís todas las correlativas. Ya podés inscribirte.",
                 "bloqueada": "Todavía no cumplís las correlativas."}
-    NOTAS = {"cursando": "La estás cursando", "habilitada": "Podés inscribirte ahora",
+    NOTAS = {"cumplida": "Ya la tenés", "cursando": "La estás cursando", "habilitada": "Podés inscribirte ahora",
              "bloqueada": "Primero necesitás sus correlativas"}
 
     def estado_de(self, materia):
@@ -239,28 +263,36 @@ class CorrelativasView(AlumnoMixin, TemplateView):
             return "cumplida"
         if materia.id in self.cursando:
             return "cursando"
-        return "bloqueada" if materia.faltantes(self.cumplidas) else "habilitada"
+        if materia.faltantes(self.cumplidas):
+            return "bloqueada"
+        return "habilitada"
 
     def previas_pendientes(self, materia):
-        """Todo lo que falta antes (directo e indirecto), de la materia más básica a la más avanzada."""
-        pendientes, vistas, por_ver = [], set(), list(materia.correlativas.all())
+        """Todo lo que falta antes (directo e indirecto) de una materia bloqueada."""
+        pendientes, por_ver = [], list(materia.correlativas.all())
         while por_ver:
-            previa = self.por_id[por_ver.pop().id]
-            if previa.id not in self.cumplidas and previa.id not in vistas:
-                vistas.add(previa.id)
+            previa = self.materias[por_ver.pop().id]  # la versión con las correlativas ya traídas
+            if previa.id not in self.cumplidas and previa not in pendientes:
                 pendientes.append(previa)
                 por_ver.extend(previa.correlativas.all())
-        return sorted(pendientes, key=lambda m: (m.nivel, m.nombre))
+        return por_nivel(pendientes)
 
     def armar_nodo(self, materia, camino=()):
+        """Un nodo del árbol: la materia, su estado y las materias que cuelgan de ella (recursivo)."""
         estado = self.estado_de(materia)
         color, texto = self.COLORES[estado]
-        pendientes = self.previas_pendientes(materia) if estado == "bloqueada" else []
-        hijos = [self.armar_nodo(h, camino + (materia.id,)) for h in self.hijos_de[materia.id] if h.id not in camino]
+        faltantes, pendientes = [], []
+        if estado == "bloqueada":
+            faltantes = materia.faltantes(self.cumplidas)
+            pendientes = self.previas_pendientes(materia)
+        hijos = []
+        for hija in self.hijos_de[materia.id]:
+            if hija.id not in camino:  # defensa contra ciclos
+                hijos.append(self.armar_nodo(hija, camino + (materia.id,)))
         return {
             "materia": materia, "color": color, "texto": texto, "hijos": hijos,
-            "faltantes": materia.faltantes(self.cumplidas) if estado == "bloqueada" else [],  # motivo solo si está bloqueada
-            "tambien": sorted(materia.correlativas.all(), key=lambda m: (m.nivel, m.nombre))[1:],
+            "faltantes": faltantes,
+            "tambien": por_nivel(materia.correlativas.all())[1:],  # las demás correlativas (la primera es de la que cuelga)
             "mensaje": self.MENSAJES[estado],
             # Lo que muestra el panel lateral: "Materia — nota" separado por "|"
             "pendientes": "|".join(f"{m.nombre} — {self.NOTAS[self.estado_de(m)]}" for m in pendientes),
@@ -269,14 +301,15 @@ class CorrelativasView(AlumnoMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         self.cumplidas = self.alumno.materias_cumplidas()
-        self.cursando = {i.dictado_materia.materia_id for i in self.inscripciones()
-                         if i.ultimo_cambio and not i.ultimo_cambio.condicion.es_condicion_final}
+        self.cursando = {i.dictado_materia.materia_id for i in self.alumno.inscripciones_en_curso()}
         materias = Materia.objects.filter(carrera=self.alumno.carrera).prefetch_related("correlativas").order_by("nivel", "nombre")
-        self.por_id = {m.id: m for m in materias}
-        self.hijos_de = {m.id: [] for m in materias}
+        self.materias = {m.id: m for m in materias}
+        self.hijos_de = {m.id: [] for m in materias}  # materia -> las que cuelgan de ella
+        raices = []
         for materia in materias:
-            correlativas = sorted(materia.correlativas.all(), key=lambda m: (m.nivel, m.nombre))
+            correlativas = por_nivel(materia.correlativas.all())
             if correlativas:  # cuelga de UNA sola (la más básica); las otras se avisan con "También requiere"
                 self.hijos_de[correlativas[0].id].append(materia)
-        raices = [m for m in materias if not m.correlativas.all()]
+            else:
+                raices.append(materia)
         return super().get_context_data(arbol=[self.armar_nodo(m) for m in raices], **kwargs)
