@@ -1,0 +1,28 @@
+{# Se incluye a sí mismo por cada hijo: así el árbol puede tener cualquier profundidad #}
+<details class="nodo-correlativa" open>
+    <summary class="d-flex flex-wrap align-items-center gap-2 py-2"
+             data-nombre="{{ nodo.materia.nombre }}" data-color="{{ nodo.color }}" data-texto="{{ nodo.texto }}"
+             data-mensaje="{{ nodo.mensaje }}" data-pendientes="{{ nodo.pendientes }}"
+             data-inscribir="{% if nodo.puede_inscribirse %}{% url 'utn:inscribir_materia' alumno.id %}{% endif %}">
+        {# Flecha solo si tiene materias para desplegar; si no, un espacio vacío #}
+        {% if nodo.hijos %}<i class="bi bi-chevron-right flecha" aria-hidden="true"></i>{% else %}<span class="flecha-vacia"></span>{% endif %}
+        <span class="fw-semibold">{{ nodo.materia.nombre }}</span>
+        <span class="text-secondary small">{{ nodo.materia.nivel }}° año</span>
+        <span class="badge text-bg-{{ nodo.color }}">{{ nodo.texto }}</span>
+        {% if nodo.tambien %}
+        <span class="text-secondary small">También requiere:
+            {% for materia in nodo.tambien %}{{ materia.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </span>
+        {% endif %}
+        {% if nodo.faltantes %}
+        <span class="text-danger small"><i class="bi bi-lock me-1"></i>Te falta:
+            {% for materia in nodo.faltantes %}{{ materia.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}
+        </span>
+        {% endif %}
+    </summary>
+    {% for hijo in nodo.hijos %}
+    <div class="ms-4 ps-3 border-start">
+        {% include "_nodo_correlativa.html" with nodo=hijo %}
+    </div>
+    {% endfor %}
+</details>

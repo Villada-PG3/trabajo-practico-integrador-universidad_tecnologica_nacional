@@ -13,6 +13,9 @@
     </a>
     <h2 class="text-primary-modern display-6 fw-bold">Nueva inscripción</h2>
     <p class="text-secondary">Selecciona la materia y comisión para sumarte a la cursada.</p>
+    <a href="{% url 'utn:correlativas' alumno.id %}" class="btn btn-modern btn-modern-ghost">
+        <i class="bi bi-diagram-3 me-1"></i> ¿Qué tengo que cursar antes?
+    </a>
 </div>
 
 <div class="row">
@@ -38,24 +41,50 @@
                     </div>
                     <ul class="list-unstyled mb-0 text-secondary small">
                         {% for horario in dictado.horarios.all %}
-                            <li><i class="bi bi-clock me-1"></i>{{ horario.dia }}: 
-                                {% for mod in horario.modulos.all %}
-                                    {{ mod.numero }}{% if not forloop.last %}-{% endif %}
-                                {% endfor %}
-                            </li>
+                            <li><i class="bi bi-clock me-1"></i>{{ horario.texto }}</li>
                         {% empty %}
                             <li class="fst-italic">Horarios a confirmar</li>
                         {% endfor %}
                     </ul>
+                    {% if dictado.ya_inscripto %}
+                    <p class="text-success small mt-2 mb-0"><i class="bi bi-check-circle me-1"></i>Ya estás inscripto en esta materia</p>
+                    {% endif %}
+                    {% if dictado.ya_cumplida and not dictado.ya_inscripto %}
+                    <p class="text-success small mt-2 mb-0"><i class="bi bi-patch-check me-1"></i>Ya cumpliste esta materia</p>
+                    {% endif %}
+                    {% if dictado.ya_cursando %}
+                    <p class="text-secondary small mt-2 mb-0"><i class="bi bi-info-circle me-1"></i>Ya estás cursando esta materia en otra comisión</p>
+                    {% endif %}
+                    {% if dictado.faltantes %}
+                    <p class="text-danger small mt-2 mb-0">
+                        <i class="bi bi-lock me-1"></i>Te falta:
+                        {% for materia in dictado.faltantes %}{{ materia.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                    </p>
+                    {% endif %}
+                    {% if dictado.choque %}
+                    <p class="text-danger small mt-2 mb-0">
+                        <i class="bi bi-calendar-x me-1"></i>Se superpone con {{ dictado.choque }}
+                    </p>
+                    {% endif %}
                 </div>
 
                 <div class="col-md-2 text-md-end mt-2 mt-md-0">
                     <form method="POST" action="">
                         {% csrf_token %}
                         <input type="hidden" name="dictado_id" value="{{ dictado.id }}">
+                        {% if dictado.ya_inscripto %}
+                        <button type="button" class="btn btn-success w-100" disabled>
+                            <i class="bi bi-check-lg me-1"></i> Inscripto
+                        </button>
+                        {% elif dictado.ya_cumplida or dictado.ya_cursando or dictado.faltantes or dictado.choque %}
+                        <button type="button" class="btn btn-secondary w-100" disabled>
+                            <i class="bi bi-lock me-1"></i> Bloqueada
+                        </button>
+                        {% else %}
                         <button type="submit" class="btn btn-modern btn-modern-primary w-100 shadow-soft">
                             Inscribirme
                         </button>
+                        {% endif %}
                     </form>
                 </div>
                 

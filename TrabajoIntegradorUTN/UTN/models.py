@@ -23,12 +23,41 @@ class Alumno(models.Model):
     def __str__(self):
         return f"{self.nombre_completo} - DNI: {self.documento}"
 
+    def inscripciones_en_curso(self):
+        """Las que todavía no tienen condición final: lo que el alumno está cursando."""
+        inscripciones = self.inscripciones.select_related(
+            "dictado_materia__materia", "dictado_materia__curso", "dictado_materia__ciclo_lectivo"
+        ).prefetch_related("historial_condiciones__condicion", "dictado_materia__horarios__modulos")
+        return [i for i in inscripciones if i.ultimo_cambio and not i.ultimo_cambio.condicion.es_condicion_final]
+
+    def materias_cumplidas(self):
+        """Ids de las materias donde el alumno quedó en una condición que habilita las siguientes."""
+        inscripciones = self.inscripciones.select_related("dictado_materia").prefetch_related("historial_condiciones__condicion")
+        return {i.dictado_materia.materia_id for i in inscripciones
+                if i.ultimo_cambio and i.ultimo_cambio.condicion.habilita_correlativas}
+
 
 class Materia(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, related_name="materias")
     nombre = models.CharField(max_length=100)
     sigla = models.CharField(max_length=20)
     nivel = models.IntegerField()
+    # Materias que hay que tener antes de cursar esta. "self" = relación de Materia con Materia.
+    correlativas = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="habilita")
+
+    def faltantes(self, cumplidas):
+        """Las correlativas de esta materia que el alumno todavía no cumple."""
+        return [m for m in self.correlativas.all() if m.id not in cumplidas]
+
+    def todas_las_correlativas(self):
+        """Ids de todo lo que hay que tener antes (directas e indirectas). Sirve para detectar ciclos."""
+        pendientes, vistas = list(self.correlativas.all()), set()
+        while pendientes:
+            materia = pendientes.pop()
+            if materia.id not in vistas:
+                vistas.add(materia.id)
+                pendientes.extend(materia.correlativas.all())
+        return vistas
 
     def __str__(self):
         return f"{self.nombre} ({self.sigla}) - Nivel {self.nivel}"
@@ -68,23 +97,54 @@ class DictadoMateria(models.Model):
     ciclo_lectivo = models.ForeignKey(CicloLectivo, on_delete=models.PROTECT, related_name="dictados")
     docentes = models.ManyToManyField("Docente", related_name="dictados", blank=True)
 
+    def choque_con(self, otro):
+        """El primer par de horarios (propio, ajeno) que se pisan con otro dictado, o None."""
+        for propio in self.horarios.all():
+            for ajeno in otro.horarios.all():
+                if propio.se_superpone_con(ajeno):
+                    return propio, ajeno
+        return None
+
     def __str__(self):
         return f"{self.materia.sigla} - {self.curso.nombre} ({self.ciclo_lectivo.anio})"
 
 
 class Modulo(models.Model):
+    """Una franja de clase de un turno: el módulo 3 de la mañana no es el módulo 3 de la noche."""
+    turno = models.ForeignKey(Turno, on_delete=models.PROTECT, related_name="modulos")
     numero = models.IntegerField()
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
 
     def __str__(self):
-        return f"Módulo {self.numero} ({self.hora_inicio.strftime('%H:%M')} a {self.hora_fin.strftime('%H:%M')})"
+        return f"{self.turno.nombre} · Módulo {self.numero} ({self.hora_inicio:%H:%M} a {self.hora_fin:%H:%M})"
+
+
+def franja_de(modulos):
+    """(desde, hasta) de un bloque de módulos: del comienzo del primero al final del último."""
+    modulos = list(modulos)
+    return (min(m.hora_inicio for m in modulos), max(m.hora_fin for m in modulos)) if modulos else None
 
 
 class Horario(models.Model):
     dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="horarios")
     dia = models.CharField(max_length=20)
     modulos = models.ManyToManyField(Modulo, related_name="horarios")
+
+    @property
+    def franja(self):
+        return franja_de(self.modulos.all())  # .all() aprovecha el prefetch_related
+
+    @property
+    def texto(self):
+        """Ej: "Lunes 08:00 a 10:15"."""
+        franja = self.franja
+        return f"{self.dia} {franja[0]:%H:%M} a {franja[1]:%H:%M}" if franja else self.dia
+
+    def se_superpone_con(self, otro):
+        """Mismo día y las horas se pisan (que uno termine justo cuando empieza el otro no cuenta)."""
+        a, b = self.franja, otro.franja
+        return bool(a and b and self.dia == otro.dia and a[0] < b[1] and b[0] < a[1])
 
     def __str__(self):
         return f"{self.dia} - {self.dictado_materia}"
@@ -124,6 +184,8 @@ class Condicion(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=150, blank=True, null=True)
     es_condicion_final = models.BooleanField(default=False)
+    habilita_correlativas = models.BooleanField(
+        default=False, help_text="Si el alumno queda así en una materia, puede cursar las que la tienen como correlativa")
 
     def __str__(self):
         return self.nombre
@@ -157,10 +219,25 @@ class Inscripcion(models.Model):
         ]
 
     def clean(self):
-        """Un alumno solo se inscribe en materias de su propia carrera."""
+        """Solo se inscribe en materias de su carrera que no cumplió ni está cursando, con las correlativas cumplidas y sin horarios superpuestos."""
         if self.alumno_id and self.dictado_materia_id:
-            if self.dictado_materia.materia.carrera_id != self.alumno.carrera_id:
+            materia = self.dictado_materia.materia
+            if materia.carrera_id != self.alumno.carrera_id:
                 raise ValidationError("Esa materia no pertenece a la carrera del alumno.")
+            cumplidas = self.alumno.materias_cumplidas()
+            if materia.id in cumplidas:
+                raise ValidationError(f"Ya cumpliste {materia.nombre}: no podés volver a inscribirte.")
+            en_curso = self.alumno.inscripciones_en_curso()
+            if any(i.dictado_materia.materia_id == materia.id and i.pk != self.pk for i in en_curso):
+                raise ValidationError(f"Ya estás cursando {materia.nombre}.")
+            faltantes = materia.faltantes(cumplidas)
+            if faltantes:
+                raise ValidationError("Te faltan las correlativas: " + ", ".join(m.nombre for m in faltantes) + ".")
+            for otra in en_curso:
+                mismo_ciclo = otra.dictado_materia.ciclo_lectivo_id == self.dictado_materia.ciclo_lectivo_id
+                choque = self.dictado_materia.choque_con(otra.dictado_materia) if mismo_ciclo and otra.pk != self.pk else None
+                if choque:
+                    raise ValidationError(f"Se superpone con {otra.dictado_materia.materia.nombre} ({choque[1].texto}).")
 
     def save(self, *args, **kwargs):
         es_nueva = self._state.adding
