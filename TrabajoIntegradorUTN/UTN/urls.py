@@ -23,6 +23,7 @@ urlpatterns = [
     # Panel del alumno
     path("alumno/<int:pk>/", views.PanelAlumnoView.as_view(), name="panel_alumno"),
     path("alumno/<int:pk>/inscribir/", views.InscribirView.as_view(), name="inscribir_materia"),
+    path("alumno/<int:pk>/correlativas/", views.CorrelativasView.as_view(), name="correlativas"),
     path("alumno/<int:pk>/reporte-regulares/", views.ReporteRegularesView.as_view(), name="reporte_regulares"),
 
     # Panel del docente

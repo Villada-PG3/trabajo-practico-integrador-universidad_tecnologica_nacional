@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
-from .models import Alumno, Docente, Administrador, Horario, InstanciaEvaluacion
+from .models import Alumno, Docente, Administrador, Horario, InstanciaEvaluacion, Materia, franja_de
 from .roles import obtener_rol
 
 
@@ -35,6 +35,25 @@ class EstiloBootstrapMixin:
 
 class ModeloForm(EstiloBootstrapMixin, forms.ModelForm):
     """Base de los formularios del panel de administración (también sirve con modelform_factory)."""
+
+
+class MateriaForm(ModeloForm):
+    """Materia con sus correlativas: deben ser de la misma carrera y no pueden formar un ciclo."""
+
+    class Meta:
+        model = Materia
+        fields = "__all__"
+
+    def clean(self):
+        datos = super().clean()
+        carrera = datos.get("carrera")
+        for correlativa in datos.get("correlativas", []):
+            if carrera and correlativa.carrera_id != carrera.id:
+                self.add_error("correlativas", f"«{correlativa.nombre}» es de otra carrera.")
+            elif self.instance.pk and (correlativa.pk == self.instance.pk
+                                       or self.instance.pk in correlativa.todas_las_correlativas()):
+                self.add_error("correlativas", f"«{correlativa.nombre}» no puede ser correlativa (sería un ciclo).")
+        return datos
 
 
 # ---------------------------------------------------------------------------
@@ -124,6 +143,25 @@ class HorarioForm(ModeloForm):
     class Meta:
         model = Horario
         fields = ["dictado_materia", "dia", "modulos"]
+
+    def clean(self):
+        datos = super().clean()
+        dictado, dia, modulos = datos.get("dictado_materia"), datos.get("dia"), datos.get("modulos")
+        if not (dictado and dia and modulos):
+            return datos
+        turno = dictado.curso.turno
+        if any(m.turno_id != turno.id for m in modulos):
+            self.add_error("modulos", f"Los módulos tienen que ser del turno del curso ({turno.nombre}).")
+            return datos
+        # Dos materias del mismo curso no pueden dictarse a la misma hora.
+        desde, hasta = franja_de(modulos)
+        mismos = Horario.objects.filter(dia=dia, dictado_materia__curso=dictado.curso,
+                                        dictado_materia__ciclo_lectivo=dictado.ciclo_lectivo)
+        for otro in mismos.exclude(pk=self.instance.pk).prefetch_related("modulos"):
+            if desde < otro.franja[1] and otro.franja[0] < hasta:
+                self.add_error("modulos", f"Se superpone con {otro.dictado_materia.materia.nombre} ({otro.texto}).")
+                break
+        return datos
 
 
 # ---------------------------------------------------------------------------

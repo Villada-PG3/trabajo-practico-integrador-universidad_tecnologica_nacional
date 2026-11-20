@@ -5,7 +5,7 @@ Cada entrada describe un modelo: qué columnas mostrar, por qué campos buscar y
 qué formulario usar. Las mismas 4 vistas genéricas (views_admin.py) sirven para todas.
 En `columnas`, la ruta acepta puntos: "carrera.sigla".
 """
-from .forms import AlumnoForm, DocenteForm, AdministradorForm, HorarioForm
+from .forms import AlumnoForm, DocenteForm, AdministradorForm, HorarioForm, MateriaForm
 from .models import (
     Carrera, Alumno, Materia, Turno, Curso, CicloLectivo, DictadoMateria,
     Modulo, Horario, Docente, Administrador, Condicion, TipoEvaluacion,
@@ -47,8 +47,10 @@ ENTIDADES = {
     },
     "materias": {
         "modelo": Materia, "grupo": ESTRUCTURA, "icono": "bi-book", "titulo": "Materias", "singular": "materia",
-        "columnas": [("nombre", "Nombre"), ("sigla", "Sigla"), ("nivel", "Nivel"), ("carrera.sigla", "Carrera")],
+        "columnas": [("nombre", "Nombre"), ("sigla", "Sigla"), ("nivel", "Nivel"), ("carrera.sigla", "Carrera"),
+                     ("correlativas", "Correlativas")],
         "busqueda": ["nombre", "sigla", "carrera__nombre"],
+        "form": MateriaForm,
     },
     "turnos": {
         "modelo": Turno, "grupo": ESTRUCTURA, "icono": "bi-sun", "titulo": "Turnos", "singular": "turno",
@@ -76,8 +78,8 @@ ENTIDADES = {
     },
     "modulos": {
         "modelo": Modulo, "grupo": CURSADO, "icono": "bi-clock", "titulo": "Módulos horarios", "singular": "módulo",
-        "columnas": [("numero", "Número"), ("hora_inicio", "Desde"), ("hora_fin", "Hasta")],
-        "busqueda": ["numero"],
+        "columnas": [("turno", "Turno"), ("numero", "Número"), ("hora_inicio", "Desde"), ("hora_fin", "Hasta")],
+        "busqueda": ["numero", "turno__nombre"],
     },
     "horarios": {
         "modelo": Horario, "grupo": CURSADO, "icono": "bi-calendar-week", "titulo": "Horarios", "singular": "horario",
