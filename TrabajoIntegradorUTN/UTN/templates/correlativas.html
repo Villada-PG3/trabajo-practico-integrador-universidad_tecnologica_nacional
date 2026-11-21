@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mapa de correlativas{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'utn:panel_alumno' alumno.id %}" class="btn btn-link text-decoration-none text-secondary p-0 mb-3 fs-6">
+        <i class="bi bi-arrow-left"></i> Volver a Autogestión
+    </a>
+    <h2 class="text-primary-modern display-6 fw-bold">¿Qué tengo que cursar antes?</h2>
+    <p class="text-secondary">{{ alumno.carrera.nombre }}. Cada materia cuelga de la que necesitás tener antes.
+        La flecha <i class="bi bi-chevron-right"></i> indica que se puede desplegar; sin flecha, no hay nada más abajo.
+        Tocá una materia para ver el detalle.</p>
+    <div class="d-flex flex-wrap gap-2">
+        <span class="badge text-bg-success">Cumplida</span>
+        <span class="badge text-bg-primary">Cursando</span>
+        <span class="badge text-bg-warning">Podés inscribirte</span>
+        <span class="badge text-bg-secondary">Bloqueada</span>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-soft rounded-organic-sm p-3 p-md-4">
+            {% for nodo in arbol %}
+                {% include "_nodo_correlativa.html" %}
+            {% empty %}
+                <p class="text-secondary mb-0">Tu carrera todavía no tiene materias cargadas.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <aside class="col-lg-4">
+        <div class="card border-0 shadow-soft rounded-organic-sm p-4 sticky-lg-top" style="top: 1rem" aria-live="polite">
+            <p id="detalle-vacio" class="text-secondary mb-0">Tocá una materia para ver qué necesitás para cursarla.</p>
+            <div id="detalle" hidden>
+                <h5 id="detalle-nombre" class="fw-bold mb-2"></h5>
+                <span id="detalle-estado" class="badge"></span>
+                <p id="detalle-mensaje" class="mt-3 mb-3"></p>
+                <div id="detalle-pendientes-bloque" hidden>
+                    <p class="fw-semibold small mb-2">Para cursarla, en este orden:</p>
+                    <ol id="detalle-pendientes" class="ps-3 mb-3"></ol>
+                </div>
+                <a id="detalle-boton" href="#" class="btn btn-modern btn-modern-primary w-100 shadow-soft" hidden>
+                    <i class="bi bi-plus-circle me-1"></i> Ir a inscribirme
+                </a>
+            </div>
+        </div>
+    </aside>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/correlativas.js' %}"></script>
+{% endblock %}

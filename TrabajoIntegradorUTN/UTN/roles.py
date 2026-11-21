@@ -7,7 +7,7 @@ Un mismo login sirve para todos. El rol se deduce del usuario:
   - Con perfil Alumno                        -> "alumno"
 """
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 
 ROL_ADMIN = "admin"
@@ -33,23 +33,23 @@ def es_director(user):
         return False
     if user.is_superuser:
         return True
-    admin = getattr(user, "administrador", None)
-    return admin is not None and admin.cargo == "DIRECTOR"
+    return hasattr(user, "administrador") and user.administrador.cargo == "DIRECTOR"
 
 
-class RolRequeridoMixin(LoginRequiredMixin, UserPassesTestMixin):
+class RolRequeridoMixin(LoginRequiredMixin):
     """
-    Es un LoginRequiredMixin con una condición más: el rol del usuario tiene que
-    estar en `roles`. Se usa así:  class MiVista(RolRequeridoMixin, TemplateView): roles = (ROL_DOCENTE,)
+    Es un LoginRequiredMixin con una condición más: el rol del usuario tiene que estar en `roles`.
+    Se usa así:  class MiVista(RolRequeridoMixin, TemplateView): roles = (ROL_DOCENTE,)
+    Con `solo_director = True` además tiene que ser director.
     """
     roles = ()
+    solo_director = False
     mensaje_denegado = "No tenés permiso para acceder a esa sección."
 
-    def test_func(self):
-        return obtener_rol(self.request.user) in self.roles
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:  # logueado pero con otro rol: vuelve a su panel
-            messages.error(self.request, self.mensaje_denegado)
-            return redirect("utn:redireccion_panel")
-        return super().handle_no_permission()  # sin login: va al login
+    def dispatch(self, request, *args, **kwargs):
+        usuario = request.user
+        if usuario.is_authenticated:
+            if obtener_rol(usuario) not in self.roles or (self.solo_director and not es_director(usuario)):
+                messages.error(request, self.mensaje_denegado)
+                return redirect("utn:redireccion_panel")  # vuelve a su propio panel
+        return super().dispatch(request, *args, **kwargs)  # sin login: LoginRequiredMixin lo manda al login

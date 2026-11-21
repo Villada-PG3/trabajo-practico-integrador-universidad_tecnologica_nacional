@@ -23,12 +23,54 @@ class Alumno(models.Model):
     def __str__(self):
         return f"{self.nombre_completo} - DNI: {self.documento}"
 
+    def inscripciones_en_curso(self):
+        """Las que todavía no tienen condición final: lo que el alumno está cursando."""
+        inscripciones = self.inscripciones.select_related(
+            "dictado_materia__materia", "dictado_materia__curso", "dictado_materia__ciclo_lectivo"
+        ).prefetch_related("historial_condiciones__condicion", "dictado_materia__horarios__modulos")
+        en_curso = []
+        for inscripcion in inscripciones:
+            ultimo = inscripcion.ultimo_cambio
+            if ultimo and not ultimo.condicion.es_condicion_final:
+                en_curso.append(inscripcion)
+        return en_curso
+
+    def materias_cumplidas(self):
+        """Ids de las materias donde el alumno quedó en una condición que habilita las siguientes."""
+        inscripciones = self.inscripciones.select_related("dictado_materia").prefetch_related("historial_condiciones__condicion")
+        cumplidas = set()
+        for inscripcion in inscripciones:
+            ultimo = inscripcion.ultimo_cambio
+            if ultimo and ultimo.condicion.habilita_correlativas:
+                cumplidas.add(inscripcion.dictado_materia.materia_id)
+        return cumplidas
+
 
 class Materia(models.Model):
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, related_name="materias")
     nombre = models.CharField(max_length=100)
     sigla = models.CharField(max_length=20)
     nivel = models.IntegerField()
+    # Materias que hay que tener antes de cursar esta. "self" = relación de Materia con Materia.
+    correlativas = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="habilita")
+
+    def faltantes(self, cumplidas):
+        """Las correlativas de esta materia que el alumno todavía no cumple."""
+        faltantes = []
+        for correlativa in self.correlativas.all():
+            if correlativa.id not in cumplidas:
+                faltantes.append(correlativa)
+        return faltantes
+
+    def todas_las_correlativas(self):
+        """Ids de todo lo que hay que tener antes (directas e indirectas). Sirve para detectar ciclos."""
+        por_revisar, vistas = list(self.correlativas.all()), set()
+        while por_revisar:
+            materia = por_revisar.pop()
+            if materia.id not in vistas:
+                vistas.add(materia.id)
+                por_revisar.extend(materia.correlativas.all())
+        return vistas
 
     def __str__(self):
         return f"{self.nombre} ({self.sigla}) - Nivel {self.nivel}"
@@ -68,23 +110,62 @@ class DictadoMateria(models.Model):
     ciclo_lectivo = models.ForeignKey(CicloLectivo, on_delete=models.PROTECT, related_name="dictados")
     docentes = models.ManyToManyField("Docente", related_name="dictados", blank=True)
 
+    def choque_con(self, otro):
+        """El primer par de horarios (propio, ajeno) que se pisan con otro dictado, o None."""
+        for propio in self.horarios.all():
+            for ajeno in otro.horarios.all():
+                if propio.se_superpone_con(ajeno):
+                    return propio, ajeno
+        return None
+
     def __str__(self):
         return f"{self.materia.sigla} - {self.curso.nombre} ({self.ciclo_lectivo.anio})"
 
 
 class Modulo(models.Model):
+    """Una franja de clase de un turno: el módulo 3 de la mañana no es el módulo 3 de la noche."""
+    turno = models.ForeignKey(Turno, on_delete=models.PROTECT, related_name="modulos")
     numero = models.IntegerField()
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
 
     def __str__(self):
-        return f"Módulo {self.numero} ({self.hora_inicio.strftime('%H:%M')} a {self.hora_fin.strftime('%H:%M')})"
+        return f"{self.turno.nombre} · Módulo {self.numero} ({self.hora_inicio:%H:%M} a {self.hora_fin:%H:%M})"
+
+
+def franja_de(modulos):
+    """(desde, hasta) de un bloque de módulos: del comienzo del primero al final del último."""
+    modulos = list(modulos)
+    if not modulos:
+        return None
+    return min(m.hora_inicio for m in modulos), max(m.hora_fin for m in modulos)
 
 
 class Horario(models.Model):
     dictado_materia = models.ForeignKey(DictadoMateria, on_delete=models.CASCADE, related_name="horarios")
     dia = models.CharField(max_length=20)
     modulos = models.ManyToManyField(Modulo, related_name="horarios")
+
+    @property
+    def franja(self):
+        return franja_de(self.modulos.all())  # .all() aprovecha el prefetch_related
+
+    @property
+    def texto(self):
+        """Ej: "Lunes 08:00 a 10:15"."""
+        franja = self.franja
+        if franja is None:
+            return self.dia
+        return f"{self.dia} {franja[0]:%H:%M} a {franja[1]:%H:%M}"
+
+    def se_superpone_con(self, otro):
+        """Mismo día y las horas se pisan (que uno termine justo cuando empieza el otro no cuenta)."""
+        if self.dia != otro.dia:
+            return False
+        a, b = self.franja, otro.franja
+        if a is None or b is None:
+            return False
+        return a[0] < b[1] and b[0] < a[1]
 
     def __str__(self):
         return f"{self.dia} - {self.dictado_materia}"
@@ -124,6 +205,8 @@ class Condicion(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=150, blank=True, null=True)
     es_condicion_final = models.BooleanField(default=False)
+    habilita_correlativas = models.BooleanField(
+        default=False, help_text="Si el alumno queda así en una materia, puede cursar las que la tienen como correlativa")
 
     def __str__(self):
         return self.nombre
@@ -157,10 +240,35 @@ class Inscripcion(models.Model):
         ]
 
     def clean(self):
-        """Un alumno solo se inscribe en materias de su propia carrera."""
-        if self.alumno_id and self.dictado_materia_id:
-            if self.dictado_materia.materia.carrera_id != self.alumno.carrera_id:
-                raise ValidationError("Esa materia no pertenece a la carrera del alumno.")
+        """Reglas para inscribirse: materia de su carrera, no cumplida ni en curso, con correlativas y sin choque de horarios."""
+        if not (self.alumno_id and self.dictado_materia_id):
+            return
+        alumno, dictado = self.alumno, self.dictado_materia
+        materia = dictado.materia
+        cumplidas = alumno.materias_cumplidas()
+        en_curso = alumno.inscripciones_en_curso()
+
+        # 1. Tiene que ser de su carrera
+        if materia.carrera_id != alumno.carrera_id:
+            raise ValidationError("Esa materia no pertenece a la carrera del alumno.")
+        # 2. No puede volver a cursar una materia que ya cumplió
+        if materia.id in cumplidas:
+            raise ValidationError(f"Ya cumpliste {materia.nombre}: no podés volver a inscribirte.")
+        # 3. Ni cursarla dos veces a la vez (por ejemplo, en otra comisión)
+        for otra in en_curso:
+            if otra.dictado_materia.materia_id == materia.id and otra.pk != self.pk:
+                raise ValidationError(f"Ya estás cursando {materia.nombre}.")
+        # 4. Tiene que tener cumplidas las correlativas
+        faltantes = materia.faltantes(cumplidas)
+        if faltantes:
+            raise ValidationError("Te faltan las correlativas: " + ", ".join(m.nombre for m in faltantes) + ".")
+        # 5. No puede tener otra materia en el mismo horario (del mismo ciclo lectivo)
+        for otra in en_curso:
+            if otra.dictado_materia.ciclo_lectivo_id != dictado.ciclo_lectivo_id or otra.pk == self.pk:
+                continue
+            choque = dictado.choque_con(otra.dictado_materia)
+            if choque:
+                raise ValidationError(f"Se superpone con {otra.dictado_materia.materia.nombre} ({choque[1].texto}).")
 
     def save(self, *args, **kwargs):
         es_nueva = self._state.adding
@@ -173,8 +281,12 @@ class Inscripcion(models.Model):
 
     @property
     def ultimo_cambio(self):
-        # max() sobre .all() aprovecha el prefetch_related (no hace una consulta por inscripción)
-        return max(self.historial_condiciones.all(), key=lambda c: (c.fecha_hora, c.id), default=None)
+        # Se recorre .all() (y no .order_by) para aprovechar el prefetch_related: así no hace una consulta por inscripción
+        ultimo = None
+        for cambio in self.historial_condiciones.all():
+            if ultimo is None or (cambio.fecha_hora, cambio.id) > (ultimo.fecha_hora, ultimo.id):
+                ultimo = cambio
+        return ultimo
 
     @property
     def condicion_actual(self):

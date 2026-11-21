@@ -3,38 +3,74 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 
-from .models import Alumno, Docente, Administrador, Horario, InstanciaEvaluacion
+from .models import (Administrador, Alumno, Carrera, Curso, DictadoMateria, Docente, Horario, Inscripcion,
+                     InstanciaEvaluacion, Materia, franja_de)
 from .roles import obtener_rol
 
 
 class EstiloBootstrapMixin:
-    """Le pone a cada campo la clase de Bootstrap que corresponde y usa inputs nativos de fecha/hora."""
+    """Le pone a cada campo la clase de Bootstrap que corresponde."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for campo in self.fields.values():
-            widget = campo.widget
-            if isinstance(campo, forms.DateTimeField):
-                campo.widget = widget = forms.DateTimeInput(attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M")
-            elif isinstance(campo, forms.DateField):
-                campo.widget = widget = forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d")
-            elif isinstance(campo, forms.TimeField):
-                campo.widget = widget = forms.TimeInput(attrs={"type": "time"}, format="%H:%M")
-            elif isinstance(campo, forms.ModelMultipleChoiceField):
-                campo.widget = widget = forms.CheckboxSelectMultiple()
-            if isinstance(widget, (forms.CheckboxSelectMultiple, forms.RadioSelect)):
-                continue
-            if isinstance(widget, forms.CheckboxInput):
-                clase = "form-check-input"
-            elif isinstance(widget, forms.Select):
-                clase = "form-select"
+            if isinstance(campo.widget, forms.CheckboxSelectMultiple):
+                continue  # las casillas múltiples se dibujan en el template
+            if isinstance(campo.widget, forms.CheckboxInput):
+                campo.widget.attrs["class"] = "form-check-input"
+            elif isinstance(campo.widget, forms.Select):
+                campo.widget.attrs["class"] = "form-select"
             else:
-                clase = "form-control"
-            widget.attrs["class"] = f"{widget.attrs.get('class', '')} {clase}".strip()
+                campo.widget.attrs["class"] = "form-control"
 
 
 class ModeloForm(EstiloBootstrapMixin, forms.ModelForm):
-    """Base de los formularios del panel de administración (también sirve con modelform_factory)."""
+    """Base de los formularios del panel de administración."""
+
+
+class MateriaForm(ModeloForm):
+    """Materia con sus correlativas: deben ser de la misma carrera y no pueden formar un ciclo."""
+
+    class Meta:
+        model = Materia
+        fields = "__all__"
+        widgets = {"correlativas": forms.CheckboxSelectMultiple()}
+
+    def clean(self):
+        datos = super().clean()
+        carrera = datos.get("carrera")
+        for correlativa in datos.get("correlativas", []):
+            if carrera and correlativa.carrera_id != carrera.id:
+                self.add_error("correlativas", f"«{correlativa.nombre}» es de otra carrera.")
+            elif self.instance.pk and (correlativa.pk == self.instance.pk
+                                       or self.instance.pk in correlativa.todas_las_correlativas()):
+                self.add_error("correlativas", f"«{correlativa.nombre}» no puede ser correlativa (sería un ciclo).")
+        return datos
+
+
+class CarreraForm(ModeloForm):
+    class Meta:
+        model = Carrera
+        fields = "__all__"
+
+
+class CursoForm(ModeloForm):
+    class Meta:
+        model = Curso
+        fields = "__all__"
+
+
+class DictadoForm(ModeloForm):
+    class Meta:
+        model = DictadoMateria
+        fields = "__all__"
+        widgets = {"docentes": forms.CheckboxSelectMultiple()}
+
+
+class InscripcionForm(ModeloForm):
+    class Meta:
+        model = Inscripcion
+        fields = ["alumno", "dictado_materia"]  # el código y la fecha los pone el sistema
 
 
 # ---------------------------------------------------------------------------
@@ -62,6 +98,7 @@ class LoginForm(EstiloBootstrapMixin, AuthenticationForm):
 # Personas: además del perfil, crean/editan la cuenta de usuario (usuario + contraseña)
 # ---------------------------------------------------------------------------
 class ConUsuarioForm(ModeloForm):
+    es_staff = False  # los administradores pueden entrar también al /admin/ de Django
     username = forms.CharField(label="Usuario para iniciar sesión", max_length=150)
     password = forms.CharField(label="Contraseña", required=False, widget=forms.PasswordInput)
 
@@ -89,8 +126,9 @@ class ConUsuarioForm(ModeloForm):
 
     def save(self, commit=True):
         perfil = super().save(commit=False)
-        usuario = perfil.usuario if perfil.usuario_id else User()
+        usuario = perfil.usuario or User()
         usuario.username = self.cleaned_data["username"]
+        usuario.is_staff = self.es_staff
         if self.cleaned_data["password"]:
             usuario.set_password(self.cleaned_data["password"])
         usuario.save()
@@ -113,6 +151,8 @@ class DocenteForm(ConUsuarioForm):
 
 
 class AdministradorForm(ConUsuarioForm):
+    es_staff = True
+
     class Meta:
         model = Administrador
         fields = ["nombre", "apellido", "cargo"]
@@ -124,6 +164,26 @@ class HorarioForm(ModeloForm):
     class Meta:
         model = Horario
         fields = ["dictado_materia", "dia", "modulos"]
+        widgets = {"modulos": forms.CheckboxSelectMultiple()}
+
+    def clean(self):
+        datos = super().clean()
+        dictado, dia, modulos = datos.get("dictado_materia"), datos.get("dia"), datos.get("modulos")
+        if not (dictado and dia and modulos):
+            return datos
+        turno = dictado.curso.turno
+        if any(m.turno_id != turno.id for m in modulos):
+            self.add_error("modulos", f"Los módulos tienen que ser del turno del curso ({turno.nombre}).")
+            return datos
+        # Dos materias del mismo curso no pueden dictarse a la misma hora.
+        desde, hasta = franja_de(modulos)
+        mismos = Horario.objects.filter(dia=dia, dictado_materia__curso=dictado.curso,
+                                        dictado_materia__ciclo_lectivo=dictado.ciclo_lectivo)
+        for otro in mismos.exclude(pk=self.instance.pk).prefetch_related("modulos"):
+            if desde < otro.franja[1] and otro.franja[0] < hasta:
+                self.add_error("modulos", f"Se superpone con {otro.dictado_materia.materia.nombre} ({otro.texto}).")
+                break
+        return datos
 
 
 # ---------------------------------------------------------------------------
