@@ -47,11 +47,15 @@ class Alumno(models.Model):
 
 
 class Materia(models.Model):
+    REGIMENES = [
+        ("ANUAL", "Anual"),
+        ("CUATRIMESTRAL", "Cuatrimestral"),
+    ]
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE, related_name="materias")
     nombre = models.CharField(max_length=100)
     sigla = models.CharField(max_length=20)
     nivel = models.IntegerField()
-    # Materias que hay que tener antes de cursar esta. "self" = relación de Materia con Materia.
+    regimen = models.CharField(max_length=15, choices=REGIMENES, default="ANUAL")
     correlativas = models.ManyToManyField("self", symmetrical=False, blank=True, related_name="habilita")
 
     def faltantes(self, cumplidas):
@@ -152,11 +156,13 @@ class Horario(models.Model):
 
     @property
     def texto(self):
-        """Ej: "Lunes 08:00 a 10:15"."""
-        franja = self.franja
-        if franja is None:
+        """Ej: "Miércoles · Módulos 4-5-6 (14:00 a 16:15)"."""
+        modulos = sorted(self.modulos.all(), key=lambda m: m.numero)
+        if not modulos:
             return self.dia
-        return f"{self.dia} {franja[0]:%H:%M} a {franja[1]:%H:%M}"
+        nums = "-".join(str(m.numero) for m in modulos)
+        desde, hasta = franja_de(modulos)
+        return f"{self.dia} · Módulos {nums} ({desde:%H:%M} a {hasta:%H:%M})"
 
     def se_superpone_con(self, otro):
         """Mismo día y las horas se pisan (que uno termine justo cuando empieza el otro no cuenta)."""

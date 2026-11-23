@@ -3025,7 +3025,7 @@
       "anio": 2026,
       "descripcion": "Ciclo Lectivo 2026",
       "fecha_inicio": "2026-03-09",
-      "fecha_fin": "2026-11-28"
+      "fecha_fin": "2026-12-31"
     }
   },
   {
@@ -16999,6 +16999,186 @@
       "instancia": 109,
       "docente": 6,
       "valor": "6.00"
+    }
+  },
+  {
+    "model": "UTN.curso",
+    "pk": 41,
+    "fields": {
+      "carrera": 1,
+      "turno": 2,
+      "nombre": "1K2",
+      "nivel": 1
+    }
+  },
+  {
+    "model": "UTN.curso",
+    "pk": 42,
+    "fields": {
+      "carrera": 1,
+      "turno": 2,
+      "nombre": "2K7",
+      "nivel": 2
+    }
+  },
+  {
+    "model": "UTN.curso",
+    "pk": 43,
+    "fields": {
+      "carrera": 1,
+      "turno": 3,
+      "nombre": "2K9",
+      "nivel": 2
+    }
+  },
+  {
+    "model": "UTN.curso",
+    "pk": 44,
+    "fields": {
+      "carrera": 1,
+      "turno": 3,
+      "nombre": "3K17",
+      "nivel": 3
+    }
+  },
+  {
+    "model": "UTN.dictadomateria",
+    "pk": 193,
+    "fields": {
+      "materia": 1,
+      "curso": 41,
+      "ciclo_lectivo": 3,
+      "docentes": [2]
+    }
+  },
+  {
+    "model": "UTN.dictadomateria",
+    "pk": 194,
+    "fields": {
+      "materia": 2,
+      "curso": 41,
+      "ciclo_lectivo": 3,
+      "docentes": [5]
+    }
+  },
+  {
+    "model": "UTN.dictadomateria",
+    "pk": 195,
+    "fields": {
+      "materia": 4,
+      "curso": 42,
+      "ciclo_lectivo": 3,
+      "docentes": [4]
+    }
+  },
+  {
+    "model": "UTN.dictadomateria",
+    "pk": 196,
+    "fields": {
+      "materia": 4,
+      "curso": 43,
+      "ciclo_lectivo": 3,
+      "docentes": [7]
+    }
+  },
+  {
+    "model": "UTN.dictadomateria",
+    "pk": 197,
+    "fields": {
+      "materia": 8,
+      "curso": 44,
+      "ciclo_lectivo": 3,
+      "docentes": [9]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 385,
+    "fields": {
+      "dictado_materia": 193,
+      "dia": "Miércoles",
+      "modulos": [7, 8, 9]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 386,
+    "fields": {
+      "dictado_materia": 193,
+      "dia": "Viernes",
+      "modulos": [7, 8, 9]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 387,
+    "fields": {
+      "dictado_materia": 194,
+      "dia": "Lunes",
+      "modulos": [10, 11, 12]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 388,
+    "fields": {
+      "dictado_materia": 194,
+      "dia": "Jueves",
+      "modulos": [10, 11, 12]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 389,
+    "fields": {
+      "dictado_materia": 195,
+      "dia": "Miércoles",
+      "modulos": [10, 11, 12]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 390,
+    "fields": {
+      "dictado_materia": 195,
+      "dia": "Viernes",
+      "modulos": [10, 11, 12]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 391,
+    "fields": {
+      "dictado_materia": 196,
+      "dia": "Lunes",
+      "modulos": [13, 14, 15]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 392,
+    "fields": {
+      "dictado_materia": 196,
+      "dia": "Jueves",
+      "modulos": [16, 17, 18]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 393,
+    "fields": {
+      "dictado_materia": 197,
+      "dia": "Jueves",
+      "modulos": [13, 14, 15]
+    }
+  },
+  {
+    "model": "UTN.horario",
+    "pk": 394,
+    "fields": {
+      "dictado_materia": 197,
+      "dia": "Viernes",
+      "modulos": [13, 14, 15]
     }
   }
 ]

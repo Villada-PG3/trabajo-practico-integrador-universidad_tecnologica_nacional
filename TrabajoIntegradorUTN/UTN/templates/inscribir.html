@@ -17,7 +17,38 @@
         <i class="bi bi-diagram-3 me-1"></i> ¿Qué tengo que cursar antes?
     </a>
 </div>
-
+<div class="card border-0 shadow-soft rounded-organic-sm p-3 mb-4">
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-md-5">
+            <label for="filtroMateria" class="form-label small fw-bold text-secondary">Materia</label>
+            <select name="materia" id="filtroMateria" class="form-select" onchange="this.form.submit()">
+                <option value="">Todas las materias</option>
+                {% for m in materias %}
+                    <option value="{{ m.id }}" {% if materia_sel == m.id|stringformat:"s" %}selected{% endif %}>
+                        {{ m.nivel }}° · {{ m.nombre }} ({{ m.sigla }})
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="filtroTurno" class="form-label small fw-bold text-secondary">Turno</label>
+            <select name="turno" id="filtroTurno" class="form-select" onchange="this.form.submit()">
+                <option value="">Todos los turnos</option>
+                {% for t in turnos %}
+                    <option value="{{ t.id }}" {% if turno_sel == t.id|stringformat:"s" %}selected{% endif %}>
+                        {{ t.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-modern btn-modern-primary w-100">Filtrar</button>
+            {% if materia_sel or turno_sel %}
+                <a href="{% url 'utn:inscribir_materia' alumno.id %}" class="btn btn-modern btn-modern-ghost">Limpiar</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
 <div class="row">
     {% for dictado in dictados %}
     <div class="col-12 mb-3">
@@ -30,7 +61,7 @@
                     </div>
                     <div>
                         <h5 class="fw-bold mb-1">{{ dictado.materia.nombre }}</h5>
-                        <p class="text-muted small mb-0">{{ dictado.materia.sigla }}</p>
+                        <p class="text-muted small mb-0">{{ dictado.materia.sigla }} · {{ dictado.materia.get_regimen_display }}</p>
                     </div>
                 </div>
 

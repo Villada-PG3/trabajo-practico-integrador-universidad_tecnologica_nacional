@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, TemplateView, UpdateView
 
 from .forms import LoginForm, CuentaUsuarioForm, CambiarPasswordForm
-from .models import Alumno, Carrera, DictadoMateria, Inscripcion, Materia
+from .models import Alumno, Carrera, DictadoMateria, Inscripcion, Materia, Turno
 from .roles import obtener_rol, RolRequeridoMixin, ROL_ADMIN, ROL_DOCENTE, ROL_ALUMNO
 
 
@@ -98,11 +98,61 @@ def redireccion_panel(request):
     messages.error(request, "Tu usuario no tiene un perfil asignado. Contactá a administración.")
     return redirect("utn:login")
 
+# ---------------------------------------------------------------------------
+# Cronograma compartido (alumnos y docentes)
+# ---------------------------------------------------------------------------
+DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+COLORES_CRONOGRAMA = ["primary", "success", "warning", "info", "danger", "secondary"]  # clases text-bg-* de Bootstrap
 
+
+def armar_cronograma(dictados):
+    """Grilla semanal a partir de una lista de DictadoMateria (sirve para alumnos y docentes)."""
+    celdas = {}     # (hora de inicio, hora de fin, día) -> lo que se dibuja en esa celda
+    materias = []   # las referencias de colores
+    for n, dictado in enumerate(dictados):
+        color = COLORES_CRONOGRAMA[n % len(COLORES_CRONOGRAMA)]
+        materias.append({"dictado": dictado, "color": color})
+        for horario in dictado.horarios.all():
+            for modulo in horario.modulos.all():
+                celdas[(modulo.hora_inicio, modulo.hora_fin, horario.dia)] = {
+                    "sigla": dictado.materia.sigla,
+                    "curso": dictado.curso.nombre,
+                    "color": color,
+                }
+
+    dias = []
+    for dia in DIAS:
+        if dia != "Sábado" or any(clave[2] == "Sábado" for clave in celdas):  # el sábado solo si hay clases
+            dias.append(dia)
+
+    franjas = sorted({(desde, hasta) for desde, hasta, dia in celdas})
+    filas = []
+    for desde, hasta in franjas:
+        filas.append({"desde": desde, "hasta": hasta, "celdas": [celdas.get((desde, hasta, dia)) for dia in dias]})
+    return {"dias": dias, "filas": filas, "materias": materias}
+
+
+class CronogramaCuentaMixin:
+    """Inyecta el cronograma en Mi Cuenta tanto para alumnos como para docentes."""
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        rol = obtener_rol(self.request.user)
+        if rol == ROL_ALUMNO:
+            dictados = [i.dictado_materia for i in self.request.user.alumno.inscripciones_en_curso()]
+            context["cronograma"] = armar_cronograma(dictados)
+        elif rol == ROL_DOCENTE:
+            dictados = (
+                self.request.user.docente.dictados
+                .select_related("materia", "curso", "ciclo_lectivo")
+                .prefetch_related("horarios__modulos")
+            )
+            context["cronograma"] = armar_cronograma(dictados)
+        return context
+    
 # ---------------------------------------------------------------------------
 # Mi cuenta: cambiar usuario y contraseña (alumnos, docentes y administradores)
 # ---------------------------------------------------------------------------
-class CuentaUsuarioView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class CuentaUsuarioView(LoginRequiredMixin, CronogramaCuentaMixin, SuccessMessageMixin, UpdateView):
     model = User
     form_class = CuentaUsuarioForm
     template_name = "mi_cuenta.html"
@@ -113,7 +163,7 @@ class CuentaUsuarioView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return self.request.user  # siempre edita al usuario logueado, nunca a otro
 
 
-class CuentaPasswordView(SuccessMessageMixin, PasswordChangeView):
+class CuentaPasswordView(CronogramaCuentaMixin, SuccessMessageMixin, PasswordChangeView):
     """PasswordChangeView ya viene hecha por Django: exige login, valida la clave actual y no cierra la sesión."""
     form_class = CambiarPasswordForm
     template_name = "mi_cuenta.html"
@@ -156,60 +206,53 @@ class PanelAlumnoView(AlumnoMixin, DetailView):
     def get_object(self, queryset=None):
         return self.alumno
 
-    def armar_cronograma(self):
-        """Grilla semanal: una fila por franja horaria y una columna por día, con las materias que cursa."""
-        celdas = {}     # (hora de inicio, hora de fin, día) -> lo que se dibuja en esa celda
-        materias = []   # las referencias de colores
-        for n, inscripcion in enumerate(self.alumno.inscripciones_en_curso()):
-            dictado = inscripcion.dictado_materia
-            color = COLORES_CRONOGRAMA[n % len(COLORES_CRONOGRAMA)]
-            materias.append({"dictado": dictado, "color": color})
-            for horario in dictado.horarios.all():
-                for modulo in horario.modulos.all():
-                    celdas[(modulo.hora_inicio, modulo.hora_fin, horario.dia)] = {"sigla": dictado.materia.sigla, "color": color}
-
-        dias = []
-        for dia in DIAS:
-            if dia != "Sábado" or any(clave[2] == "Sábado" for clave in celdas):  # el sábado solo si hay clases
-                dias.append(dia)
-
-        franjas = sorted({(desde, hasta) for desde, hasta, dia in celdas})
-        filas = []
-        for desde, hasta in franjas:
-            filas.append({"desde": desde, "hasta": hasta, "celdas": [celdas.get((desde, hasta, dia)) for dia in dias]})
-        return {"dias": dias, "filas": filas, "materias": materias}
-
     def get_context_data(self, **kwargs):
-        return super().get_context_data(inscripciones=self.inscripciones(), cronograma=self.armar_cronograma(), **kwargs)
+        dictados = [i.dictado_materia for i in self.alumno.inscripciones_en_curso()]
+        return super().get_context_data(
+            inscripciones=self.inscripciones(),
+            cronograma=armar_cronograma(dictados),
+            **kwargs
+        )
 
 
 class InscribirView(AlumnoMixin, ListView):
-    """GET: muestra los dictados de la carrera del alumno. POST: lo inscribe en el elegido."""
+    """GET: muestra los dictados de la carrera del alumno (filtrables por materia y turno). POST: lo inscribe."""
     context_object_name = "dictados"
     template_name = "inscribir.html"
 
     def get_queryset(self):
-        return (DictadoMateria.objects
-                .filter(materia__carrera=self.alumno.carrera,  # solo materias de SU carrera
-                        ciclo_lectivo__fecha_fin__gte=date.today())  # y de ciclos que no terminaron
-                .select_related("materia", "curso__turno", "ciclo_lectivo")
-                .prefetch_related("horarios__modulos", "materia__correlativas"))
+        qs = (DictadoMateria.objects
+              .filter(materia__carrera=self.alumno.carrera,
+                      ciclo_lectivo__fecha_fin__gte=date.today())
+              .select_related("materia", "curso__turno", "ciclo_lectivo")
+              .prefetch_related("horarios__modulos", "materia__correlativas"))
+        materia_id = self.request.GET.get("materia")
+        turno_id = self.request.GET.get("turno")
+        if materia_id and materia_id.isdigit():
+            qs = qs.filter(materia_id=materia_id)
+        if turno_id and turno_id.isdigit():
+            qs = qs.filter(curso__turno_id=turno_id)
+        return qs
 
     def get_context_data(self, **kwargs):
         contexto = super().get_context_data(**kwargs)
+        contexto["materias"] = Materia.objects.filter(carrera=self.alumno.carrera).order_by("nivel", "nombre")
+        contexto["turnos"] = Turno.objects.all()
+        contexto["materia_sel"] = self.request.GET.get("materia", "")
+        contexto["turno_sel"] = self.request.GET.get("turno", "")
+
         cumplidas = self.alumno.materias_cumplidas()
         en_curso = [i.dictado_materia for i in self.alumno.inscripciones_en_curso()]
         inscriptas = set(self.alumno.inscripciones.values_list("dictado_materia_id", flat=True))
         cursando = {d.materia_id for d in en_curso}
         for dictado in contexto["dictados"]:
-            # Al dictado se le agregan los motivos por los que no puede inscribirse; el template los muestra.
             dictado.ya_inscripto = dictado.id in inscriptas
-            dictado.ya_cumplida = dictado.materia_id in cumplidas  # Regular, Aprobación directa, etc.
+            dictado.ya_cumplida = dictado.materia_id in cumplidas
             dictado.ya_cursando = dictado.materia_id in cursando and not dictado.ya_inscripto
             dictado.faltantes = []
             dictado.choque = None
             if dictado.ya_inscripto or dictado.ya_cumplida or dictado.ya_cursando:
-                continue  # ya tiene un motivo: no hace falta buscar más
+                continue
             dictado.faltantes = dictado.materia.faltantes(cumplidas)
             for otro in en_curso:
                 if otro.ciclo_lectivo_id == dictado.ciclo_lectivo_id:

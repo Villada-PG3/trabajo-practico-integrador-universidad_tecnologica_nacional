@@ -31,10 +31,12 @@
                             {% for evaluacion in inscripcion.evaluaciones.all %}
                                 <li class="list-group-item d-flex justify-content-between align-items-center px-2">
                                     <div>
-                                        <strong>{{ evaluacion.instancia.titulo }}</strong>
+                                        <strong>{{ evaluacion.instancia.tipo_evaluacion.nombre }}</strong>
+                                        {% if evaluacion.instancia.nombre %}
+                                            <span class="text-secondary">· {{ evaluacion.instancia.nombre }}</span>
+                                        {% endif %}
                                         <br><small class="text-muted"><i class="bi bi-calendar3"></i> {{ evaluacion.instancia.fecha|date:"d/m/Y" }}</small>
                                     </div>
-                                    <span class="badge bg-secondary rounded-pill fs-6">{{ evaluacion.valor }}</span>
                                 </li>
                             {% endfor %}
                             </ul>

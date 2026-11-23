@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 from .forms import ColumnaForm
 from .models import CambioCondicion, Condicion, Evaluacion, InstanciaEvaluacion, TipoEvaluacion
 from .roles import RolRequeridoMixin, obtener_rol, ROL_DOCENTE
-
+from .views import armar_cronograma
 
 def a_int(valor):
     return int(valor) if valor and valor.isdigit() else None
@@ -47,6 +47,7 @@ class PanelDocenteView(RolRequeridoMixin, TemplateView):
         self.docente = self.request.user.docente
         self.dictados = (self.docente.dictados  # solo SUS cursos
                          .select_related("materia", "curso__turno", "ciclo_lectivo")
+                         .prefetch_related("horarios__modulos")
                          .order_by("-ciclo_lectivo__anio", "materia__nombre"))
         # El curso elegido. Si no se eligió ninguno, el primero.
         dictado_id = a_int(self.request.POST.get("dictado_id") or self.request.GET.get("dictado"))
@@ -72,7 +73,8 @@ class PanelDocenteView(RolRequeridoMixin, TemplateView):
     def get_context_data(self, **kwargs):
         contexto = super().get_context_data(
             docente=self.docente, dictados=self.dictados, dictado=self.dictado, hoy=timezone.localdate(),
-            tipos=TipoEvaluacion.objects.all(), condiciones=Condicion.objects.order_by("id"), **kwargs,
+            tipos=TipoEvaluacion.objects.all(), condiciones=Condicion.objects.order_by("id"),
+            cronograma=armar_cronograma(self.dictados), **kwargs,
         )
         if self.dictado is None:
             return contexto
